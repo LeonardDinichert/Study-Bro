@@ -1,3 +1,10 @@
+//
+//  StudySessionModel.swift
+//  SchoolAssisstant
+//
+//  Created by Léonard Dinichert on 26.07.2025.
+//
+
 import Foundation
 import FirebaseFirestore
 

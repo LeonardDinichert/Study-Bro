@@ -227,6 +227,8 @@ final class UserManager: ObservableObject {
             "studied_subject": studiedSubject
         ]
         
+        print("userid 2: \(userId)")
+        
         try await userDocument(userId: userId).collection("work_sessions").addDocument(data: data)
     }
 
@@ -401,3 +403,6 @@ final class userManagerViewModel: ObservableObject {
     }
 }
 
+extension DBUser: Identifiable {
+    public var id: String { userId }
+}

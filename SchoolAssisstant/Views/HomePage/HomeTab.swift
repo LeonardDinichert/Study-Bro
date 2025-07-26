@@ -21,10 +21,6 @@ struct HomeTab: View {
                 ScrollView {
                     if let user = viewModel.user {
                         VStack(alignment: .leading, spacing: 24) {
-                            Text("Hello \(user.username ?? "No user"), let's work !")
-                                .font(.largeTitle)
-                                .fontWeight(.semibold)
-                                .padding(.horizontal)
 
                             Text(statsModel.streak > 0 ? "\(statsModel.streak) day streak! Keep it up!" : "Start building your streak!")
                                 .font(.title2)
@@ -32,25 +28,51 @@ struct HomeTab: View {
                                 .multilineTextAlignment(.center)
                                 .frame(maxWidth: .infinity)
                                 .padding(.horizontal)
+                            Text(statsModel.streak > 0 ? "" : "You can begin building your work streak by finishing a minium of one study session.")
+                                .padding(.horizontal)
 
-//                            if !statsModel.dailyTotals.isEmpty {
-//                                Chart {
-//                                    ForEach(statsModel.dailyTotals, id: \.day) { entry in
-//                                        BarMark(
-//                                            x: .value("Day", entry.day, unit: .day),
-//                                            y: .value("Minutes", entry.minutes)
-//                                        )
-//                                        .foregroundStyle(AppTheme.primaryColor)
-//                                    }
-//                                }
-//                                .chartXAxisLabel("Day")
-//                                .chartYAxisLabel("Minutes")
-//                                .frame(height: 200)
-//                                .padding(.horizontal)
-//                            }
                             
-                            SocialView()
+                            let totalDays = statsModel.dailyTotals.count
+                            let daysWithData = statsModel.dailyTotals.filter { $0.minutes > 0 }.count
+
+                            if totalDays >= 10 && daysWithData >= 7 {
+                                Chart(statsModel.dailyTotals, id: \.day) { entry in
+                                    LineMark(
+                                        x: .value("Day", entry.day, unit: .day),
+                                        y: .value("Minutes", entry.minutes)
+                                    )
+                                    PointMark(
+                                        x: .value("Day", entry.day, unit: .day),
+                                        y: .value("Minutes", entry.minutes)
+                                    )
+                                }
+                                .chartXAxisLabel("Day")
+                                .chartYAxisLabel("Minutes")
+                                .chartLegend(position: .bottom) {
+                                    Text("Minutes studied per day")
+                                }
+                                .frame(height: 200)
+                                .padding(.horizontal)
+                            } else {
+                                VStack(alignment: .leading, spacing: 8) {
+                                    Text("To display your study graph, log at least one study session per day for 7 days within a 10-day span.")
+                                    Text("• Open the app daily and complete a study session to record your time.")
+                                    Text("• Once 7 days have data out of your last 10 days, your graph will appear here.")
+                                }
+                                .font(.footnote)
+                                .foregroundColor(.secondary)
+                                .padding(.horizontal)
+                            }
+                            
+                            Text("Your friends : ")
+                                .padding(.horizontal)
+                                .font(.subheadline)
+                                .fontWeight(.semibold)
+                            
+                            FriendsView()
                         }
+                        .navigationTitle("Hi \(user.username ?? "No user"), let's work !")
+                        .navigationBarTitleDisplayMode(.large)
                         .frame(maxWidth: .infinity, alignment: .leading)
                     } else {
                         VStack(spacing: 16) {
@@ -63,14 +85,13 @@ struct HomeTab: View {
                         .padding()
                     }
                 }
-                .backgroundExtensionEffect()
-                Button {
-                    selectedTab = .studySession
-                } label: {
-                    Text("Start a study session")
-                }
-                .buttonStyle(.borderedProminent)
-                .padding()
+//                Button {
+//                    selectedTab = .studySession
+//                } label: {
+//                    Text("Start a study session")
+//                }
+//                .buttonStyle(.borderedProminent)
+//                .padding()
             }
         }
         .onAppear {

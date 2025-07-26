@@ -6,6 +6,10 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseFirestore
+import FirebaseStorage
+import PhotosUI
 
 struct StudySessionView: View {
     
@@ -15,6 +19,13 @@ struct StudySessionView: View {
     @State var openMeditationView: Bool = false
     @State var startSession: Bool = false
     @State var userId: String = ""
+    @State private var errorMessage: String? = nil
+    @FocusState private var focusedField: Field?
+    
+    enum Field: Hashable {
+        case studysubject
+
+    }
     
     var body: some View {
         NavigationStack {
@@ -26,11 +37,10 @@ struct StudySessionView: View {
                             .font(.title)
                             .fontWeight(.semibold)
                         
-                        TextField("Eg. Math", text: $userWillStudy)
-                            .padding(.leading, 30)
-                            .frame(height: 40)
+                        CustomTextField(text: $userWillStudy, placeholder: "Eg. Math")
+                            .focused($focusedField, equals: .studysubject)
                             .cardStyle()
-                            .padding()
+                            .padding(.horizontal)
                         
                         
                         Button {
@@ -61,8 +71,19 @@ struct StudySessionView: View {
                         
                         Spacer()
                         
+                        if let errorMessage = errorMessage {
+                            Text(errorMessage)
+                                .foregroundColor(.red)
+                                .fontWeight(.semibold)
+                                .padding(.horizontal)
+                        }
+                        
                         Button {
-                            
+                            if userWillStudy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                errorMessage = "Please enter what you will study before starting the timer."
+                                return
+                            }
+                            errorMessage = nil
                             userId = user.userId
                             startSession = true
 
@@ -93,7 +114,7 @@ struct StudySessionView: View {
             MeditationPreWorkView(openMeditationView: $openMeditationView)
         })
         .fullScreenCover(isPresented: $startSession, content: {
-            PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: userId)
+            PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId)
         })
         
         .task {

@@ -1,56 +1,82 @@
 import SwiftUI
+import UserNotifications
 
-struct SocialView: View {
-    @StateObject private var viewModel = SocialViewModel()
-    private let columns = [GridItem(.flexible()), GridItem(.flexible())]
-    
+struct FriendsView: View {
+    @StateObject private var viewModel = FriendsViewModel()
+    @State private var showFriendDiscovery = false
+    @State private var lastNotifiedRequests: Set<String> = [] // userIds of last notified
+
     var body: some View {
-        NavigationStack {
-            ScrollView {
-                VStack(alignment: .leading, spacing: 16) {
-                    if viewModel.userMinutesToday > 0 {
-                        Text("You've studied \(viewModel.userMinutesToday) min today")
-                            .font(.headline)
-                    }
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(viewModel.friends) { friend in
-                            FriendCard(friend: friend) {
-                                viewModel.nudge(friend: friend.user)
+        VStack {
+
+            if !viewModel.incomingRequests.isEmpty {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Friend Requests")
+                        .font(.headline)
+                    ForEach(viewModel.incomingRequests, id: \.id) { user in
+                        HStack {
+                            Text(user.username ?? "no username")
+                            Spacer()
+                            Button("Accept") {
+                                Task {
+                                    try await viewModel.acceptFriendRequest(from: user)
+                                }
                             }
+                            .buttonStyle(.borderedProminent)
+                            Button("Decline") {
+                                Task {
+                                    try await viewModel.declineFriendRequest(from: user)
+                                }
+                            }
+                            .buttonStyle(.bordered)
                         }
                     }
                 }
                 .padding()
+                .background(Color(.systemGray6))
+                .cornerRadius(8)
+            }
+
+            Button("Find Friends") {
+                showFriendDiscovery = true
+            }
+
+            if showFriendDiscovery {
+                FriendDiscoveryView()
+            }
+
+            LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
+                ForEach(viewModel.friends, id: \.id) { friend in
+                    VStack {
+                        Text(friend.username ?? "no username")
+                    }
+                    .padding()
+                    .background(Color(.systemBlue).opacity(0.2))
+                    .cornerRadius(8)
+                }
             }
         }
-        .task { await viewModel.load() }
-    }
-}
-
-struct FriendCard: View {
-    let friend: FriendStats
-    var nudgeAction: () -> Void
-
-    var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text(friend.user.username ?? "Unknown")
-                .font(.headline)
-            Text(friend.lastLoginText)
-                .font(.caption)
-                .foregroundColor(.secondary)
-            Text("Streak: \(friend.streak) d")
-                .font(.caption)
-            Text("Today: \(friend.minutesToday) min")
-                .font(.caption)
-            if friend.daysSinceLastLogin >= 2 {
-                Button("Nudge", action: nudgeAction)
-                    .buttonStyle(.borderedProminent)
+        .padding()
+        .task {
+            Task {
+                await viewModel.load()
+                await viewModel.loadPendingRequests()
+                
+                // Check for new incoming friend requests and show local notifications for new ones
+                let currentSet = Set(viewModel.incomingRequests.map { $0.id })
+                let newRequests = currentSet.subtracting(lastNotifiedRequests)
+                for userId in newRequests {
+                    if let user = viewModel.incomingRequests.first(where: { $0.id == userId }) {
+                        let content = UNMutableNotificationContent()
+                        content.title = "New Friend Request"
+                        content.body = "You received a friend request from \(user.username ?? "no username")"
+                        content.sound = .default
+                        let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+                        try await UNUserNotificationCenter.current().add(request)
+                    }
+                }
+                lastNotifiedRequests = currentSet
             }
         }
-        .cardStyle()
     }
-}
-
-#Preview {
-    SocialView()
 }

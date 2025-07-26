@@ -103,7 +103,9 @@ class AppleSignInViewModel: NSObject, ObservableObject, ASAuthorizationControlle
     }
     
     func signUpWithApple() {
+        
         startSignInWithAppleFlow()
+        
     }
 }
 

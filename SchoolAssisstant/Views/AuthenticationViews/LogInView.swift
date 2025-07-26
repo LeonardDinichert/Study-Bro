@@ -150,9 +150,7 @@ struct LogInView: View {
     }
     
     func signUpWithApple() async {
-        
         appleVM.signUpWithApple()
-        showSignInView = false
     }
 }
 

@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "" : {
+
+    },
     "%lld day streak! Keep it up!" : {
 
     },
@@ -14,6 +17,12 @@
         }
       }
     },
+    "• Once 7 days have data out of your last 10 days, your graph will appear here." : {
+
+    },
+    "• Open the app daily and complete a study session to record your time." : {
+
+    },
     "🎉 Great job! 🎉" : {
 
     },
@@ -26,6 +35,9 @@
           }
         }
       }
+    },
+    "Accept" : {
+
     },
     "Account" : {
       "localizations" : {
@@ -162,6 +174,9 @@
     "Day" : {
 
     },
+    "Decline" : {
+
+    },
     "Delete" : {
 
     },
@@ -189,9 +204,6 @@
     "Edit Profile" : {
 
     },
-    "Eg. Math" : {
-
-    },
     "Email adress :" : {
 
     },
@@ -204,6 +216,9 @@
     "Etes-vous sur de vouloir vous déconnecter?" : {
 
     },
+    "Find Friends" : {
+
+    },
     "Finish" : {
 
     },
@@ -213,10 +228,16 @@
     "Forgot your Password?" : {
 
     },
+    "Friend Discovery" : {
+
+    },
+    "Friend Requests" : {
+
+    },
     "Friends" : {
 
     },
-    "Hello %@, let's work !" : {
+    "Hi %@, let's work !" : {
 
     },
     "History" : {
@@ -276,6 +297,9 @@
     "Minutes" : {
 
     },
+    "Minutes studied per day" : {
+
+    },
     "Modify my password" : {
 
     },
@@ -315,9 +339,6 @@
 
     },
     "Non" : {
-
-    },
-    "Nudge" : {
 
     },
     "OK" : {
@@ -411,9 +432,6 @@
     "Sign up with Google" : {
 
     },
-    "Start a study session" : {
-
-    },
     "Start building your streak!" : {
 
     },
@@ -421,9 +439,6 @@
 
     },
     "Streak: %lld" : {
-
-    },
-    "Streak: %lld d" : {
 
     },
     "Study" : {
@@ -447,10 +462,13 @@
     "Terms of Use" : {
 
     },
+    "This is a placeholder for finding and adding new friends." : {
+
+    },
     "Title" : {
 
     },
-    "Today: %lld min" : {
+    "To display your study graph, log at least one study session per day for 7 days within a 10-day span." : {
 
     },
     "Username" : {
@@ -468,7 +486,7 @@
     "Welcome Back to Jobb" : {
 
     },
-    "Welcome to Jobb" : {
+    "Welcome to StuddyBuddy" : {
 
     },
     "What did you learn?" : {
@@ -483,10 +501,13 @@
     "Yes" : {
 
     },
+    "You can begin building your work streak by finishing a minium of one study session." : {
+
+    },
     "You’ve completed four sessions." : {
 
     },
-    "You've studied %lld min today" : {
+    "Your friends : " : {
 
     },
     "Your Notes" : {

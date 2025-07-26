@@ -27,7 +27,7 @@ struct SignUpView: View {
                 VStack(spacing: 32) {
                     // Welcoming Header
                     VStack(spacing: 12) {
-                        Text("Welcome to Jobb")
+                        Text("Welcome to StuddyBuddy")
                             .font(.system(size: 36, weight: .bold))
                             .foregroundColor(.primary)
                             .multilineTextAlignment(.center)
@@ -115,6 +115,10 @@ struct SignUpView: View {
                     }
                     .frame(height: 50)
                     .padding(.horizontal)
+                    .onChange(of: appleVM.didSignInWithApple) { _, newValue in
+                        if newValue { signUpSuccessful = true }
+                    }
+                    
                     
                     // Already Have an Account?
                     NavigationLink(destination: LogInView().navigationBarBackButtonHidden()) {
@@ -160,11 +164,9 @@ struct SignUpView: View {
     }
     
     func signUpWithApple() async {
-        do {
-            appleVM.signUpWithApple()
-            signUpSuccessful = true
-
-        }
+        appleVM.signUpWithApple()
+        
+        
     }
 }
 

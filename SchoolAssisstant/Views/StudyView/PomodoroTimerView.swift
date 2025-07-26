@@ -14,6 +14,7 @@ struct PomodoroTimerView: View {
 
     // Durations
     private let workSec = 25 * 60
+
     private let shortSec = 5 * 60
     private let longSec  = 20 * 60
     private let totalWorkSessions = 4
@@ -35,7 +36,7 @@ struct PomodoroTimerView: View {
 
     @Binding var startSession: Bool
     @Binding var userWillStudy: String
-    let userId: String
+    @Binding var userId: String
 
     private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -77,6 +78,7 @@ struct PomodoroTimerView: View {
             .onReceive(ticker) { tick in
                 now = tick
                 if isRunning && elapsedSeconds >= currentDuration {
+                    print("userid 0 \(userId)")
                     completePhase()
                 }
             }
@@ -235,6 +237,7 @@ struct PomodoroTimerView: View {
                                         HistoryRow(session: s)
                                     }
                                 }
+                                .cardStyle()
                                 .padding(.horizontal)
                             }
                         }
@@ -307,6 +310,8 @@ struct PomodoroTimerView: View {
             )
             let end = now
             Task {
+                
+                print("UserId 1 is \(userId)")
                
                 try await UserManager
                   .shared
@@ -324,6 +329,7 @@ struct PomodoroTimerView: View {
         case .shortBreak:
             phase = .work
         case .congratulations:
+            isRunning = false
             showCongrats = true
         case .longBreak:
             workCount = 0
@@ -385,7 +391,6 @@ private struct HistoryRow: View {
         }
         .padding()
         .glassEffect()
-        .clipShape(RoundedRectangle(cornerRadius: 12))
     }
 }
 
@@ -400,16 +405,5 @@ private struct CongratsView: View {
                 .buttonStyle(.borderedProminent)
         }
         .padding(40)
-    }
-}
-
-// Preview
-struct PomodoroTimerView_Previews: PreviewProvider {
-    static var previews: some View {
-        PomodoroTimerView(
-            startSession: .constant(true),
-            userWillStudy: .constant("Math"),
-            userId: "user123"
-        )
     }
 }

@@ -1,6 +1,6 @@
 //
 //  CollectInformationView.swift
-//  Jobb
+//  StuddyBuddy
 //
 //  Created by Léonard Dinichert on 11.04.2025.
 //
@@ -202,4 +202,8 @@ struct UserInfosCreation: View {
         let age = ageComponents.year ?? 0
         return max(age, 0)
     }
+}
+
+#Preview {
+    UserInfosCreation()
 }

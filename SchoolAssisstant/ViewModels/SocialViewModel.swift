@@ -1,94 +1,87 @@
-import Foundation
 import SwiftUI
 import FirebaseAuth
+import FirebaseFirestore
 
-struct FriendStats: Identifiable {
-    let user: DBUser
-    let streak: Int
-    let minutesToday: Int
-    var id: String { user.userId }
-    
-    var daysSinceLastLogin: Int {
-        guard let last = user.lastConnection else { return 0 }
-        return Calendar.current.dateComponents([.day], from: last, to: Date()).day ?? 0
-    }
-    
-    var lastLoginText: String {
-        guard let last = user.lastConnection else { return "No data" }
-        if Calendar.current.isDateInToday(last) {
-            let formatter = DateFormatter()
-            formatter.timeStyle = .short
-            return "Today at \(formatter.string(from: last))"
-        }
-        let days = daysSinceLastLogin
-        return days == 1 ? "1 day ago" : "\(days) days ago"
-    }
-}
+class FriendsViewModel: ObservableObject {
+    @Published var friends: [DBUser] = []
+    @Published var incomingRequests: [DBUser] = []
 
-@MainActor
-final class SocialViewModel: ObservableObject {
-    @Published var currentUser: DBUser?
-    @Published var friends: [FriendStats] = []
-    @Published var userMinutesToday: Int = 0
-    
+    @MainActor
     func load() async {
-        guard let uid = Auth.auth().currentUser?.uid else { return }
+        guard let currentId = Auth.auth().currentUser?.uid else { return }
         do {
-            currentUser = try await UserManager.shared.getUser(userId: uid)
-            let userSessions = try await UserManager.shared.fetchStudySessions(userId: uid)
-            userMinutesToday = Int(Self.minutesToday(from: userSessions))
-            let users = try await UserManager.shared.getAllUsers()
-            var temp: [FriendStats] = []
-            for friend in users where friend.userId != uid {
-                let sessions = try await UserManager.shared.fetchStudySessions(userId: friend.userId)
-                let st = Self.streak(from: sessions)
-                let min = Int(Self.minutesToday(from: sessions))
-                temp.append(FriendStats(user: friend, streak: st, minutesToday: min))
+            let allUsers = try await UserManager.shared.getAllUsers()
+            let me = allUsers.first(where: { $0.userId == currentId })
+            guard let friendIds = me?.dictionary["friends"] as? [String] else {
+                self.friends = []
+                await loadPendingRequests()
+                return
             }
-            friends = temp
+            let loadedFriends = allUsers.filter { friendIds.contains($0.userId) }
+            self.friends = loadedFriends
+            await loadPendingRequests()
         } catch {
-            print("Failed to load social data: \(error)")
+            print("Failed to load friends: \(error)")
+            self.friends = []
+            await loadPendingRequests()
         }
     }
-    
-    func nudge(friend: DBUser) {
-        guard let token = friend.fcmToken else { return }
-        sendNotificationRequest(title: "Time to study!", body: "Let's work together", token: token)
-    }
-    
-    private func sendNotificationRequest(title: String, body: String, token: String) {
-        guard let url = URL(string: "https://us-central1-jobb-8f5e7.cloudfunctions.net/sendPushNotification") else { return }
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        let bodyData: [String: Any] = ["token": token, "title": title, "body": body]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: bodyData)
-        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        let task = URLSession.shared.dataTask(with: request)
-        task.resume()
-    }
-    
-    private static func minutesToday(from sessions: [StudySession]) -> Double {
-        let cal = Calendar.current
-        return sessions.filter { cal.isDateInToday($0.session_start) }
-            .reduce(0) { $0 + $1.duration / 60 }
-    }
-    
-    private static func streak(from sessions: [StudySession]) -> Int {
-        let cal = Calendar.current
-        let days = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted(by: >)
-        guard let first = days.first else { return 0 }
-        var count = 1
-        var prev = first
-        for day in days.dropFirst() {
-            if cal.dateComponents([.day], from: day, to: prev).day == 1 {
-                count += 1
-                prev = day
-            } else if day == prev {
-                continue
-            } else {
-                break
+
+    @MainActor
+    func loadPendingRequests() async {
+        guard let currentId = Auth.auth().currentUser?.uid else { return }
+        do {
+            let allUsers = try await UserManager.shared.getAllUsers()
+            let me = allUsers.first(where: { $0.userId == currentId })
+            guard let pendingIds = me?.dictionary["pendingFriends"] as? [String] else {
+                self.incomingRequests = []
+                return
             }
+            let requests = allUsers.filter { pendingIds.contains($0.userId) }
+            self.incomingRequests = requests
+        } catch {
+            print("Failed to load pending requests: \(error)")
+            self.incomingRequests = []
         }
-        return count
+    }
+
+    @MainActor
+    func acceptFriendRequest(from user: DBUser) async throws {
+        guard let currentId = Auth.auth().currentUser?.uid else { return }
+        let myDoc = UserManager.shared.userDocument(userId: currentId)
+        let theirDoc = UserManager.shared.userDocument(userId: user.userId)
+        try await myDoc.updateData([
+            "pendingFriends": FieldValue.arrayRemove([user.userId]),
+            "friends": FieldValue.arrayUnion([user.userId])
+        ])
+        try await theirDoc.updateData([
+            "friends": FieldValue.arrayUnion([currentId])
+        ])
+        await load()
+        await loadPendingRequests()
+    }
+
+    @MainActor
+    func declineFriendRequest(from user: DBUser) async throws {
+        guard let currentId = Auth.auth().currentUser?.uid else { return }
+        let myDoc = UserManager.shared.userDocument(userId: currentId)
+        try await myDoc.updateData([
+            "pendingFriends": FieldValue.arrayRemove([user.userId])
+        ])
+        await loadPendingRequests()
+    }
+
+    @MainActor
+    func addFriend(user: DBUser) {
+        guard let currentUser = UserManager.shared.currentUser else { return }
+        let theirDoc = UserManager.shared.userDocument(userId: user.userId)
+        theirDoc.updateData([
+            "pendingFriends": FieldValue.arrayUnion([currentUser.userId])
+        ])
+        sendNotificationRequest(title: "New Friend Request", body: "You have a new friend request from \(currentUser.username ?? "someone")!", token: user.fcmToken ?? "no token")
+    }
+
+    func sendNotificationRequest(title: String, body: String, token: String) {
+        // Implementation of notification sending
     }
 }
