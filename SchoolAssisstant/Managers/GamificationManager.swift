@@ -2,6 +2,7 @@ import Foundation
 import SwiftUI
 import Combine
 import UserNotifications
+import FirebaseAuth
 
 // MARK: - Models
 struct Lesson: Identifiable, Codable {
@@ -71,21 +72,20 @@ final class GamificationManager: ObservableObject {
     private var streakKey = "streakCount"
 
     /// Call when the user launches the app or completes a lesson.
-    func updateStreak() {
-        let now = Date()
-        let last = defaults.object(forKey: lastActiveKey) as? Date ?? now
-        let cal = Calendar.current
-        if cal.isDateInYesterday(last) {
-            streak += 1
-        } else if !cal.isDateInToday(last) {
-            streak = 1
+    func updateStreak() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            let value = try await UserManager.shared.calculateStreak(userId: userId)
+            await MainActor.run {
+                self.streak = value
+                self.defaults.set(value, forKey: self.streakKey)
+            }
+            bonusGemsForStreak()
+            checkAchievements()
+            resetLeaderboardIfNeeded()
+        } catch {
+            print("Failed to update streak: \(error)")
         }
-        defaults.set(now, forKey: lastActiveKey)
-        defaults.set(streak, forKey: streakKey)
-        bonusGemsForStreak()
-        checkAchievements()
-        resetLeaderboardIfNeeded()
-        // TODO: update streak on server
     }
 
     // MARK: - XP

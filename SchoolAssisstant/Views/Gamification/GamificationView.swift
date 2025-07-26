@@ -23,7 +23,9 @@ struct GamificationView: View {
             }
             .navigationTitle("Progress")
             .onAppear {
-                manager.updateStreak()
+                Task {
+                    await manager.updateStreak()
+                }
                 manager.sortLeaderboard()
                 manager.scheduleDailyReminder()
             }
