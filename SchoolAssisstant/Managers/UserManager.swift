@@ -47,7 +47,6 @@ struct DBUser: Codable {
         email: String? = nil,
         age: Int? = nil,
         username: String? = nil,
-        preferences: [String]? = nil,
         firstName: String? = nil,
         lastName: String? = nil,
         profileImagePathUrl: String? = nil,

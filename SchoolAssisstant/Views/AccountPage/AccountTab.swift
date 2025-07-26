@@ -17,134 +17,7 @@ struct AccountTab: View {
 
         NavigationStack {
             if let user = viewModel.user {
-                ScrollView(.vertical, showsIndicators: false) {
-                    
-                    // MARK: - Page Title
-                    Text("Profile")
-                        .font(.largeTitle)
-                        .fontWeight(.bold)
-                        .padding(.top, 20)
-                        .padding(.horizontal)
-                        .frame(maxWidth: .infinity, alignment: .leading)
-                    
-                    // MARK: - Profile Card
-                    
-                    NavigationLink {
-                        SettingsView(userId: user.userId, user: user)
-                    } label: {
-                        VStack(spacing: 12) {
-                            HStack(spacing: 16) {
-                                // Profile Image
-                                if let urlString = user.profileImagePathUrl,
-                                   let url = URL(string: urlString) {
-                                    AsyncImage(url: url) { image in
-                                        image
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fill)
-                                            .frame(width: 70, height: 70)
-                                            .clipShape(Circle())
-                                    } placeholder: {
-                                        ProgressView()
-                                    }
-                                    .frame(width: 70, height: 70)
-                                } else {
-                                    // Fallback circle
-                                    Circle()
-                                        .fill(Color.gray.opacity(0.3))
-                                        .frame(width: 70, height: 70)
-                                }
-                                
-                                // Username & subtitle
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(user.username ?? "Error fetching your username")
-                                        .font(.headline)
-                                        .foregroundColor(.primary)
-                                    
-                                    Text("More about my profile")
-                                        .font(.subheadline)
-                                        .foregroundColor(.gray)
-                                }
-                                Spacer()
-                                
-                                Image(systemName: "chevron.right")
-                                    .font(.system(size: 20, weight: .semibold))
-                                    .foregroundColor(.black.opacity(0.8))
-                                
-                            }
-                            .padding()
-                        }
-                        .cardStyle()
-                        .padding(.horizontal)
-                        .padding(.top, 10)
-                    }
-                    
-                    // MARK: - Divider / Section Break
-                    Divider()
-                        .padding()
-
-                    
-                    HStack {
-                        VStack (alignment: .leading) {
-                            
-                            Text("Settings")
-                                .font(.title2)
-                                .fontWeight(.semibold)
-                                .padding(.bottom)
-                            
-                            NavigationLink {
-                                PrivacyView()
-                            } label: {
-                                HStack {
-
-                                    Text("Security and privacy")
-                                        .font(.headline)
-                                        .foregroundStyle(.black)
-
-                                    Spacer()
-
-                                    Image(systemName: "chevron.right")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.black)
-
-                                }
-                            }
-                            .padding(.bottom)
-
-                            NavigationLink {
-                                LegalView()
-                            } label: {
-                                HStack {
-                                    Text("Legal")
-                                        .font(.headline)
-                                        .foregroundStyle(.black)
-                                    Spacer()
-                                    Image(systemName: "chevron.right")
-                                        .font(.subheadline)
-                                        .foregroundStyle(.black)
-                                }
-                            }
-                            .padding(.bottom)
-
-                        }
-                        
-                        Spacer()
-                    }
-                    .padding()
-                    
-                    Divider()
-                        .padding()
-                    
-                    HStack {
-                        logOutButton()
-                            .foregroundColor(.black)
-                            .font(.headline)
-                            .fontWeight(.semibold)
-                        Spacer()
-                    }
-                    .padding()
-                    
-                } // end ScrollView
-                .backgroundExtensionEffect()
+                AccountViewSub(user: user)
                 
             } else {
                 // MARK: - Loading / Not Logged In
@@ -184,7 +57,7 @@ struct AccountTab: View {
 }
 
 #Preview {
-    AccountTab()
+    AccountViewSub(user: DBUser(userId: "dummy", email: "test", age: 23, username: "testkug", firstName: "monsiuer", lastName: "mister", profileImagePathUrl: "jh", biography: "tres gentiwe", fcmToken: "khk", lastConnection: Date()))
 }
 
 struct logOutButton: View {
@@ -213,4 +86,142 @@ struct logOutButton: View {
             Button("Non", role: .cancel) { }
         }
     }
+}
+
+struct AccountViewSub: View {
+    
+    let user: DBUser
+    
+    
+    var body: some View {
+        ScrollView(.vertical, showsIndicators: false) {
+            
+            // MARK: - Page Title
+            Text("Profile")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .padding(.top, 20)
+                .padding(.horizontal)
+                .frame(maxWidth: .infinity, alignment: .leading)
+            
+            // MARK: - Profile Card
+            
+            NavigationLink {
+                SettingsView(userId: user.userId, user: user)
+            } label: {
+                VStack(spacing: 12) {
+                    HStack(spacing: 16) {
+                        // Profile Image
+                        if let urlString = user.profileImagePathUrl,
+                           let url = URL(string: urlString) {
+                            AsyncImage(url: url) { image in
+                                image
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 70, height: 70)
+                                    .clipShape(Circle())
+                            } placeholder: {
+                                ProgressView()
+                            }
+                            .frame(width: 70, height: 70)
+                        } else {
+                            // Fallback circle
+                            Circle()
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(width: 70, height: 70)
+                        }
+                        
+                        // Username & subtitle
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(user.username ?? "Error fetching your username")
+                                .font(.headline)
+                                .foregroundColor(.primary)
+                            
+                            Text("More about my profile")
+                                .font(.subheadline)
+                                .foregroundColor(.gray)
+                        }
+                        Spacer()
+                        
+                        Image(systemName: "chevron.right")
+                            .font(.system(size: 20, weight: .semibold))
+                            .foregroundColor(.black.opacity(0.8))
+                        
+                    }
+                    .padding()
+                }
+                //.cardStyle()
+                .padding(.horizontal)
+                .padding(.top, 10)
+            }
+            
+            // MARK: - Divider / Section Break
+            Divider()
+                .padding()
+
+            
+            HStack {
+                VStack (alignment: .leading) {
+                    
+                    Text("Settings")
+                        .font(.title2)
+                        .fontWeight(.semibold)
+                        .padding(.bottom)
+                    
+                    NavigationLink {
+                        PrivacyView()
+                    } label: {
+                        HStack {
+
+                            Text("Security and privacy")
+                                .font(.headline)
+                                .foregroundStyle(.black)
+
+                            Spacer()
+
+                            Image(systemName: "chevron.right")
+                                .font(.subheadline)
+                                .foregroundStyle(.black)
+
+                        }
+                    }
+                    .padding(.bottom)
+
+                    NavigationLink {
+                        LegalView()
+                    } label: {
+                        HStack {
+                            Text("Legal")
+                                .font(.headline)
+                                .foregroundStyle(.black)
+                            Spacer()
+                            Image(systemName: "chevron.right")
+                                .font(.subheadline)
+                                .foregroundStyle(.black)
+                        }
+                    }
+                    .padding(.bottom)
+
+                }
+                
+                Spacer()
+            }
+            .padding()
+            
+            Divider()
+                .padding()
+            
+            HStack {
+                logOutButton()
+                    .foregroundColor(.black)
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                Spacer()
+            }
+            .padding()
+            
+        } // end ScrollView
+        .backgroundExtensionEffect()
+    }
+    
 }
