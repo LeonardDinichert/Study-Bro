@@ -1,0 +1,500 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "%lld day streak! Keep it up!" : {
+
+    },
+    "%lld min" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "%lld min"
+          }
+        }
+      }
+    },
+    "🎉 Great job! 🎉" : {
+
+    },
+    "🔥%lld  %lld XP" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "🔥%1$lld  %2$lld XP"
+          }
+        }
+      }
+    },
+    "Account" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Profil"
+          }
+        }
+      }
+    },
+    "Add" : {
+
+    },
+    "Add a profile picture" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Ajouter une photo de profil"
+          }
+        }
+      }
+    },
+    "Add friend" : {
+
+    },
+    "Add New Info" : {
+
+    },
+    "Already have an account?" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vous possédez déjà un compte ?"
+          }
+        }
+      }
+    },
+    "Are you sure you want to delete your account? You cannot undo it" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Êtes-vous sûrs de vouloir supprimer votre compte ? Cette action est définitive"
+          }
+        }
+      }
+    },
+    "Begin the pomodoro timer" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Commencer le timer Pomodoro"
+          }
+        }
+      }
+    },
+    "Birthdate" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Date d’anniversaire"
+          }
+        }
+      }
+    },
+    "Break" : {
+
+    },
+    "By resting a few minutes before working, you will be able to concentrate better" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "En reposant vos esprits quelques minutes avant de travailler, vous serez capable de mieux travailler"
+          }
+        }
+      }
+    },
+    "By using SchoolAssisstant you agree to use the app for personal study only. We do not guarantee the accuracy of provided data and reserve the right to modify the service at any time." : {
+
+    },
+    "Cancel" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Annuler"
+          }
+        }
+      }
+    },
+    "Category" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Categorie"
+          }
+        }
+      }
+    },
+    "Change my email adress" : {
+
+    },
+    "Connect with friends to see their progress" : {
+
+    },
+    "Contact" : {
+
+    },
+    "Continue" : {
+
+    },
+    "Create an Account" : {
+
+    },
+    "Create an account or log in to start exploring amazing opportunities." : {
+
+    },
+    "Current streak: %lld days" : {
+
+    },
+    "Dark Mode" : {
+
+    },
+    "Data Deletion" : {
+
+    },
+    "Day" : {
+
+    },
+    "Delete" : {
+
+    },
+    "Delete my account" : {
+
+    },
+    "Deleting your account permanently removes your notes, study history and any personal information from our servers." : {
+
+    },
+    "Describe it here" : {
+
+    },
+    "Did you learn something new?" : {
+
+    },
+    "Don't have an account yet?" : {
+
+    },
+    "Done" : {
+
+    },
+    "Due Date" : {
+
+    },
+    "Edit Profile" : {
+
+    },
+    "Eg. Math" : {
+
+    },
+    "Email adress :" : {
+
+    },
+    "Enter a category" : {
+
+    },
+    "Enter your email" : {
+
+    },
+    "Etes-vous sur de vouloir vous déconnecter?" : {
+
+    },
+    "Finish" : {
+
+    },
+    "Finish Registration" : {
+
+    },
+    "Forgot your Password?" : {
+
+    },
+    "Friends" : {
+
+    },
+    "Hello %@, let's work !" : {
+
+    },
+    "History" : {
+
+    },
+    "Home" : {
+
+    },
+    "I learned something new" : {
+
+    },
+    "I want to revise" : {
+
+    },
+    "If you are not logged in, you can log in below:" : {
+
+    },
+    "Importance" : {
+
+    },
+    "Informations manquantes" : {
+
+    },
+    "Key" : {
+      "extractionState" : "manual"
+    },
+    "Learn" : {
+
+    },
+    "Legal" : {
+
+    },
+    "Legal Information" : {
+
+    },
+    "Loading..." : {
+
+    },
+    "Log in" : {
+
+    },
+    "Log In" : {
+
+    },
+    "Log in to access your account." : {
+
+    },
+    "Log in with Google" : {
+
+    },
+    "Long Break" : {
+
+    },
+    "Me déconnecter" : {
+
+    },
+    "Minutes" : {
+
+    },
+    "Modify my password" : {
+
+    },
+    "More about my profile" : {
+
+    },
+    "My account" : {
+
+    },
+    "New Task" : {
+
+    },
+    "Next" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Suivant"
+          }
+        }
+      }
+    },
+    "No" : {
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Non"
+          }
+        }
+      }
+    },
+    "No sessions yet" : {
+
+    },
+    "No sessions yet." : {
+
+    },
+    "Non" : {
+
+    },
+    "Nudge" : {
+
+    },
+    "OK" : {
+
+    },
+    "OR" : {
+
+    },
+    "Oui" : {
+
+    },
+    "Password reset" : {
+
+    },
+    "Please complete the information below to finish your registration" : {
+
+    },
+    "Prepare yourself better for working ?" : {
+
+    },
+    "Privacy Policy" : {
+
+    },
+    "Profile" : {
+
+    },
+    "Progress" : {
+
+    },
+    "Questions or concerns? Email support@schoolassistant.app." : {
+
+    },
+    "Quit" : {
+
+    },
+    "Quit session" : {
+
+    },
+    "Quit session?" : {
+
+    },
+    "Registration" : {
+
+    },
+    "Reset" : {
+
+    },
+    "Reset my password" : {
+
+    },
+    "Reset Password" : {
+
+    },
+    "Reset Timer?" : {
+
+    },
+    "Save" : {
+
+    },
+    "Save Note" : {
+
+    },
+    "Security and privacy" : {
+
+    },
+    "Session %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Session %1$lld of %2$lld"
+          }
+        }
+      }
+    },
+    "Settings" : {
+
+    },
+    "Short Break" : {
+
+    },
+    "Sign in / Create an account" : {
+
+    },
+    "Sign up" : {
+
+    },
+    "Sign up using your email to get started" : {
+
+    },
+    "Sign up with Google" : {
+
+    },
+    "Start a study session" : {
+
+    },
+    "Start building your streak!" : {
+
+    },
+    "Stats" : {
+
+    },
+    "Streak: %lld" : {
+
+    },
+    "Streak: %lld d" : {
+
+    },
+    "Study" : {
+
+    },
+    "Study Minutes by Day" : {
+
+    },
+    "Study Session" : {
+
+    },
+    "Study Timer" : {
+
+    },
+    "Take 20 min break" : {
+
+    },
+    "Tasks" : {
+
+    },
+    "Terms of Use" : {
+
+    },
+    "Title" : {
+
+    },
+    "Today: %lld min" : {
+
+    },
+    "Username" : {
+
+    },
+    "Veuillez remplir toutes les informations demandées." : {
+
+    },
+    "We'll send you an email with instructions on how to reset it." : {
+
+    },
+    "Welcome" : {
+
+    },
+    "Welcome Back to Jobb" : {
+
+    },
+    "Welcome to Jobb" : {
+
+    },
+    "What did you learn?" : {
+
+    },
+    "What will you study %@ ? " : {
+
+    },
+    "Work" : {
+
+    },
+    "Yes" : {
+
+    },
+    "You’ve completed four sessions." : {
+
+    },
+    "You've studied %lld min today" : {
+
+    },
+    "Your Notes" : {
+
+    },
+    "Your study sessions and profile details are stored securely in your iCloud account. They are not shared with third parties. You may remove all data by deleting your account." : {
+
+    }
+  },
+  "version" : "1.0"
+}
