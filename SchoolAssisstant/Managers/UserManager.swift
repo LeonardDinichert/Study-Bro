@@ -237,6 +237,40 @@ final class UserManager: ObservableObject {
             StudySession(document: document)
         }
     }
+
+    func fetchRecentSessions(userId: String, days: Int) async throws -> [StudySession] {
+        let cal = Calendar.current
+        guard let cutoffDate = cal.date(byAdding: .day, value: -days, to: Date()) else {
+            return []
+        }
+        let snapshot = try await userDocument(userId: userId)
+            .collection("work_sessions")
+            .whereField("session_start", isGreaterThanOrEqualTo: cutoffDate)
+            .order(by: "session_start", descending: true)
+            .getDocuments()
+
+        return snapshot.documents.compactMap { StudySession(document: $0) }
+    }
+
+    func calculateStreak(userId: String, days: Int = 30) async throws -> Int {
+        let sessions = try await fetchRecentSessions(userId: userId, days: days)
+        let cal = Calendar.current
+        let dayStarts = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted(by: >)
+        guard let first = dayStarts.first else { return 0 }
+        var count = 1
+        var prev = first
+        for day in dayStarts.dropFirst() {
+            if cal.dateComponents([.day], from: day, to: prev).day == 1 {
+                count += 1
+                prev = day
+            } else if day == prev {
+                continue
+            } else {
+                break
+            }
+        }
+        return count
+    }
     
 
     
