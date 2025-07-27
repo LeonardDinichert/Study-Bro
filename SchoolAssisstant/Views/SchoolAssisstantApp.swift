@@ -7,6 +7,9 @@
 
 import SwiftUI
 import FirebaseCore
+import FirebaseMessaging
+import FirebaseAuth
+import UserNotifications
 
 @main
 struct SchoolAssisstantApp: App {
@@ -33,11 +36,33 @@ struct HasSeenWelcomingMessage: View {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate {
+class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
     func application(_ application: UIApplication,
                      didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
         FirebaseApp.configure()
+
+        UNUserNotificationCenter.current().delegate = self
+        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
+        application.registerForRemoteNotifications()
+
+        Messaging.messaging().delegate = self
+        Messaging.messaging().token { token, error in
+            guard let token = token, error == nil else { return }
+            if let uid = Auth.auth().currentUser?.uid {
+                UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)
+            }
+        }
+
         return true
+    }
+
+    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
+        Messaging.messaging().apnsToken = deviceToken
+    }
+
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        guard let token = fcmToken, let uid = Auth.auth().currentUser?.uid else { return }
+        UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)
     }
 }
 

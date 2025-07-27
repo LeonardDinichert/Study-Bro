@@ -77,7 +77,8 @@ struct DBUser: Codable {
         case lastName = "last_name"
         case profileImagePathUrl = "profile_image_path_url"
         case biography = "biography"
-        case fcmToken = "fcmToken" // Coding Key for FCM Token
+        // Store the FCM token under "fcm_token" in Firestore
+        case fcmToken = "fcm_token"
         case lastConnection = "last_connection"
     }
     
@@ -294,7 +295,7 @@ final class UserManager: ObservableObject {
         
         print("FCM Token: \(token)")
         self.userDocument(userId: userId).updateData([
-            "fcmToken": token
+            DBUser.CodingKeys.fcmToken.rawValue: token
         ]) { error in
             if let error = error {
                 print("Error saving FCM token to Firestore: \(error)")
