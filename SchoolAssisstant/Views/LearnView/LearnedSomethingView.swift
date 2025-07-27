@@ -16,7 +16,8 @@ struct LearnedSomethingView: View {
     var body: some View {
         ZStack {
             // Full-screen background
-            Color(UIColor.systemBackground)
+            Rectangle()
+                .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
 
             VStack(spacing: 24) {
@@ -55,27 +56,34 @@ struct LearnedSomethingView: View {
                             Label("I learned something new", systemImage: "lightbulb.fill")
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.accentColor)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                )
+                                .foregroundColor(.accentColor)
                         }
 
                         Button(action: { userWantsToRevise = true }) {
                             Label("I want to revise", systemImage: "book.fill")
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(Color.gray.opacity(0.2))
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                )
                                 .foregroundColor(.primary)
-                                .cornerRadius(10)
                         }
                     }
                 }
                 .padding(.horizontal, 32)
                 .padding(.vertical, 16)
                 .background(
-                    RoundedRectangle(cornerRadius: 12)
-                        .fill(Color(UIColor.secondarySystemBackground))
-                        .shadow(radius: 4)
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(.thinMaterial)
+                        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
+                        .blur(radius: 0.3)
                 )
                 .padding(.horizontal)
 
@@ -86,9 +94,11 @@ struct LearnedSomethingView: View {
         // Modals
         .fullScreenCover(isPresented: $userWantsAddInfo) {
             AddNoteView(isPresented: $userWantsAddInfo)
+                .background(.regularMaterial)
         }
         .fullScreenCover(isPresented: $userWantsToRevise) {
             UserWantsToReviseView().onDisappear { userWantsToRevise = false }
+                .background(.regularMaterial)
         }
         .task { await viewModel.loadNotes() }
     }

@@ -150,50 +150,65 @@ struct UserInfosCreation: View {
     
     // Function to finish registration
     func finishRegistration() async {
-        
         if firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil {
             self.displayNotFilledAlert = true
             return
         }
-        
-        Task {
 
+        do {
             let userId = try AuthService.shared.getAuthenticatedUser().uid
-            
-            
+            var profileImageURL: String? = nil
+
+            // Attempt to upload profile image and retrieve URL
             if let profileImageData = profileImageData {
-                print(profileImageData)
                 do {
-                    try await viewModel.saveProfileImage(data: profileImageData, userId: userId)
+                    let (path, _) = try await StorageManager.shared.saveImage(data: profileImageData, userId: userId)
+                    let url = try await StorageManager.shared.getUrlForImage(path: path)
+                    profileImageURL = url.absoluteString
                 } catch {
-                    print(error)
+                    print("Failed to upload profile image: \(error)")
+                    self.displayNotFilledAlert = true
+                    return
                 }
             }
-            
+
             let currentDate = Date()
             let age = calculateAge(birthDate: self.birthDate, currentDate: currentDate)
-            
+
             // Ensure age is not negative or invalid
             if age <= 0 {
                 print("age is invalid")
                 self.displayNotFilledAlert = true
                 return
             }
-            
-            try await UserManager.shared.updateUserInfo(
-                userId: userId,
-                firstName: firstName,
-                lastName: lastName,
-                birthDate: birthDate,
-                username: username,
-            )
-            
-            
-            print("Informations registred successfully")
-            
+
+            // Batch user information (with age and profileImageURL)
+            var data: [String: Any] = [
+                "first_name": firstName,
+                "last_name": lastName,
+                "username": username,
+                "birthdate": birthDate,
+                "age": age,
+                "user_id": userId
+            ]
+            if let profileImageURL = profileImageURL {
+                data["profile_image_path_url"] = profileImageURL
+            }
+
+            do {
+                try await UserManager.shared.userDocument(userId: userId).setData(data, merge: true)
+            } catch {
+                print("Failed to save user info: \(error)")
+                self.displayNotFilledAlert = true
+                return
+            }
+
+            print("Informations registered successfully")
             showSignInView = false
+        } catch {
+            print("Unexpected error: \(error)")
+            self.displayNotFilledAlert = true
         }
-        
     }
     
     func calculateAge(birthDate: Date, currentDate: Date) -> Int {

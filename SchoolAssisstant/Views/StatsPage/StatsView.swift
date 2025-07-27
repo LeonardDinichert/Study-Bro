@@ -6,10 +6,14 @@ import FirebaseAuth
 final class StatsViewModel: ObservableObject {
     @Published var sessions: [StudySession] = []
     
+    private static var hasLoadedThisSession = false
+    
     func load() async {
+        guard !Self.hasLoadedThisSession else { return }
         guard let userId = Auth.auth().currentUser?.uid else { return }
         do {
             sessions = try await UserManager.shared.fetchStudySessions(userId: userId)
+            Self.hasLoadedThisSession = true
         } catch {
             print("Failed to load sessions: \(error)")
         }
@@ -78,7 +82,9 @@ struct StatsView: View {
             }
             .padding()
             .navigationTitle("Stats")
-            .onAppear { Task { await viewModel.load() } }
+        }
+        .task {
+            await viewModel.load()
         }
     }
 }

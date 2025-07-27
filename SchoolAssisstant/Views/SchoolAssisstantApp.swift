@@ -36,35 +36,85 @@ struct HasSeenWelcomingMessage: View {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate, UNUserNotificationCenterDelegate, MessagingDelegate {
-    func application(_ application: UIApplication,
-                     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil) -> Bool {
-        FirebaseApp.configure()
+class AppDelegate: NSObject, UIApplicationDelegate,
+                   UNUserNotificationCenterDelegate,
+                   MessagingDelegate {
 
-        UNUserNotificationCenter.current().delegate = self
-        UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
-        application.registerForRemoteNotifications()
+    func application(
+        _ application: UIApplication,
+        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
+    ) -> Bool {
+        // Configure Firebase
+        FirebaseApp.configure()  // :contentReference[oaicite:4]{index=4}
 
-        Messaging.messaging().delegate = self
+        // Notification center delegate
+        UNUserNotificationCenter.current().delegate = self  // :contentReference[oaicite:5]{index=5}
+        UNUserNotificationCenter.current()
+            .requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }  // :contentReference[oaicite:6]{index=6}
+        application.registerForRemoteNotifications()  // :contentReference[oaicite:7]{index=7}
+
+        // FCM delegate & initial token fetch
+        Messaging.messaging().delegate = self  // :contentReference[oaicite:8]{index=8}
         Messaging.messaging().token { token, error in
             guard let token = token, error == nil else { return }
             if let uid = Auth.auth().currentUser?.uid {
                 UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)
             }
-        }
+        }  // :contentReference[oaicite:9]{index=9}
 
         return true
     }
 
-    func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
-        Messaging.messaging().apnsToken = deviceToken
+    // MARK: - APNs Registration
+
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        // Link APNs token with FCM
+        Messaging.messaging().apnsToken = deviceToken  // :contentReference[oaicite:10]{index=10}
     }
 
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        // Log any registration errors
+        print("APNs registration failed: \(error)")  // :contentReference[oaicite:11]{index=11}
+    }
+
+    // MARK: - UNUserNotificationCenterDelegate
+
+    // Handle notifications when app is in foreground
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        willPresent notification: UNNotification,
+        withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void
+    ) {
+        // Show alert, badge, sound even in foreground
+        completionHandler([.banner, .list, .badge, .sound])  // :contentReference[oaicite:12]{index=12}
+    }
+
+    // Handle user interaction with the notification
+    func userNotificationCenter(
+        _ center: UNUserNotificationCenter,
+        didReceive response: UNNotificationResponse,
+        withCompletionHandler completionHandler: @escaping () -> Void
+    ) {
+        let userInfo = response.notification.request.content.userInfo
+        print("Tapped notification with userInfo:", userInfo)  // :contentReference[oaicite:13]{index=13}
+        completionHandler()
+    }
+
+    // MARK: - MessagingDelegate
+
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
-        guard let token = fcmToken, let uid = Auth.auth().currentUser?.uid else { return }
-        UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)
+        guard let token = fcmToken,
+              let uid = Auth.auth().currentUser?.uid else { return }
+        UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)  // :contentReference[oaicite:14]{index=14}
     }
 }
+
 
 struct MainInterfaceView: View {
 

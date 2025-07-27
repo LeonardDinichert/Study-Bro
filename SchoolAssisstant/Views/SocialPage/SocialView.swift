@@ -36,11 +36,11 @@ struct FriendsView: View {
                 .cornerRadius(8)
             }
 
-            if viewModel.friends.isEmpty {
-                NavigationLink("Find Friends") {
-                    FriendDiscoveryView(userId: userId)
-                }
-            }
+//            if viewModel.friends.isEmpty {
+//                NavigationLink("Find Friends") {
+//                    FriendDiscoveryView(userId: userId)
+//                }
+//            }
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
                 ForEach(viewModel.friends, id: \.id) { friend in

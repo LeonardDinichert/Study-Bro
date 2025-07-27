@@ -1,9 +1,6 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
-    "" : {
-
-    },
     "%lld day streak! Keep it up!" : {
 
     },
@@ -50,6 +47,9 @@
       }
     },
     "Add" : {
+
+    },
+    "Add a new friend" : {
 
     },
     "Add a profile picture" : {
@@ -226,9 +226,6 @@
 
     },
     "Forgot your Password?" : {
-
-    },
-    "Friend Discovery" : {
 
     },
     "Friend Requests" : {
@@ -435,6 +432,9 @@
     "Start building your streak!" : {
 
     },
+    "Start Studying!" : {
+
+    },
     "Stats" : {
 
     },
@@ -504,10 +504,13 @@
     "You’ve completed four sessions." : {
 
     },
-    "Your friends : " : {
+    "Your friends :" : {
 
     },
     "Your Notes" : {
+
+    },
+    "Your study data will appear here." : {
 
     },
     "Your study sessions and profile details are stored securely in your iCloud account. They are not shared with third parties. You may remove all data by deleting your account." : {
