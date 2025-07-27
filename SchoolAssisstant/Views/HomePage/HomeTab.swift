@@ -14,6 +14,8 @@ struct HomeTab: View {
     @StateObject private var notesViewModel = NotesViewModel()
     @StateObject private var statsModel = StatsViewModel()
     @Binding var selectedTab: Tab
+    @AppStorage("showSignInView") private var showSignInView: Bool = true
+
 
     var body: some View {
         NavigationStack {
@@ -69,7 +71,7 @@ struct HomeTab: View {
                                 .font(.subheadline)
                                 .fontWeight(.semibold)
                             
-                            FriendsView()
+                            FriendsView(userId: user.userId)
                         }
                         .navigationTitle("Hi \(user.username ?? "No user"), let's work !")
                         .navigationBarTitleDisplayMode(.large)
@@ -94,7 +96,6 @@ struct HomeTab: View {
                                 Text("Sign in / Create an account")
                                     .fontWeight(.semibold)
                                     .padding()
-                                    .foregroundColor(.white)
                                     .cornerRadius(8)
                             }
                         }

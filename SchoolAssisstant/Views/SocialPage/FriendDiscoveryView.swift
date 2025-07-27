@@ -2,6 +2,7 @@ import SwiftUI
 
 struct FriendDiscoveryView: View {
     @StateObject private var viewModel = FriendDiscoveryViewModel()
+    let userId: String
 
     var body: some View {
         List {
@@ -10,7 +11,7 @@ struct FriendDiscoveryView: View {
                     Text(user.username ?? "no username")
                     Spacer()
                     Button("Add") {
-                        viewModel.sendRequest(to: user)
+                        viewModel.sendRequest(to: user, userId: userId)
                     }
                     .buttonStyle(.borderedProminent)
                 }
@@ -25,5 +26,5 @@ struct FriendDiscoveryView: View {
 }
 
 #Preview {
-    FriendDiscoveryView()
+    FriendDiscoveryView(userId: "")
 }

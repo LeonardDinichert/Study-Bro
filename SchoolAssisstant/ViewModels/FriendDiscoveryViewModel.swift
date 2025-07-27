@@ -26,11 +26,34 @@ final class FriendDiscoveryViewModel: ObservableObject {
         }
     }
 
-    func sendRequest(to user: DBUser) {
-        guard let currentUser = UserManager.shared.currentUser else { return }
+    func sendRequest(
+        to user: DBUser, userId: String,
+        completion: @escaping (Result<Void, Error>) -> Void = { _ in }
+    ) {
+
+
+        let db = Firestore.firestore()
         let theirDoc = UserManager.shared.userDocument(userId: user.userId)
-        theirDoc.updateData([
-            "pendingFriends": FieldValue.arrayUnion([currentUser.userId])
-        ])
+        let myDoc    = UserManager.shared.userDocument(userId: userId)
+
+        // 2. Batch both updates together
+        let batch = db.batch()
+        batch.updateData([
+            "pendingFriends": FieldValue.arrayUnion([userId])
+        ], forDocument: theirDoc)
+        batch.updateData([
+            "sentFriendRequests": FieldValue.arrayUnion([user.userId])
+        ], forDocument: myDoc)
+
+        // 3. Commit
+        batch.commit { error in
+            if let error = error {
+                print("❌ Failed to send friend request:", error.localizedDescription)
+                completion(.failure(error))
+            } else {
+                print("✅ Friend request sent!")
+                completion(.success(()))
+            }
+        }
     }
 }

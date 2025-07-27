@@ -4,7 +4,7 @@ import UserNotifications
 struct FriendsView: View {
     @StateObject private var viewModel = FriendsViewModel()
     @State private var lastNotifiedRequests: Set<String> = [] // userIds of last notified
-
+    let userId: String
     var body: some View {
         VStack {
 
@@ -38,7 +38,7 @@ struct FriendsView: View {
 
             if viewModel.friends.isEmpty {
                 NavigationLink("Find Friends") {
-                    FriendDiscoveryView()
+                    FriendDiscoveryView(userId: userId)
                 }
             }
 
