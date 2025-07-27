@@ -33,7 +33,7 @@ struct StudySessionView: View {
                 if let user = viewModel.user {
                     VStack {
 
-                        Text("What will you study \(user.firstName ?? "no name") ? ")
+                        Text("What will you study \(user.firstName ?? "no name")? ")
                             .font(.title)
                             .fontWeight(.semibold)
                         
