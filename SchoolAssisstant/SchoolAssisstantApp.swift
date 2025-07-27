@@ -143,14 +143,16 @@ struct MainInterfaceView: View {
 //                GamificationView()
 //                    .tabItem { Label("Progress", systemImage: "star.fill") }
 //                    .tag(Tab.progress)
+                ChatBotView()
+                    .tabItem { Label("Chat", systemImage: "message.fill") }
+                    .tag(Tab.chatbot)
+                
 
                 LearnedSomethingView()
                     .tabItem { Label("Learn", systemImage: "graduationcap.fill") }
                     .tag(Tab.learnedSomething)
 
-                ChatBotView()
-                    .tabItem { Label("Chat", systemImage: "message.fill") }
-                    .tag(Tab.chatbot)
+                
 
                 AccountTab()
                     .tabItem { Label("Account", systemImage: "person.fill") }

@@ -147,6 +147,12 @@
     "Change my email adress" : {
 
     },
+    "Chat" : {
+
+    },
+    "Chatbot" : {
+
+    },
     "Connect with friends to see their progress" : {
 
     },
@@ -353,7 +359,7 @@
     "Please complete the information below to finish your registration" : {
 
     },
-    "Prepare yourself better for working ?" : {
+    "Prepare yourself better for working?" : {
 
     },
     "Privacy Policy" : {
@@ -432,9 +438,6 @@
     "Start building your streak!" : {
 
     },
-    "Start Studying!" : {
-
-    },
     "Stats" : {
 
     },
@@ -448,6 +451,9 @@
 
     },
     "Study Session" : {
+
+    },
+    "Study Subject" : {
 
     },
     "Study Timer" : {
@@ -489,7 +495,7 @@
     "What did you learn?" : {
 
     },
-    "What will you study %@? " : {
+    "What will you study %@?" : {
 
     },
     "Work" : {

@@ -24,107 +24,149 @@ struct StudySessionView: View {
     
     enum Field: Hashable {
         case studysubject
-
     }
     
     var body: some View {
         NavigationStack {
             ScrollView {
                 if let user = viewModel.user {
-                    VStack {
-
-                        Text("What will you study \(user.firstName ?? "no name")? ")
-                            .font(.title)
-                            .fontWeight(.semibold)
-                        
-                        CustomTextField(text: $userWillStudy, placeholder: "Eg. Math")
-                            .focused($focusedField, equals: .studysubject)
-                            .cardStyle()
-                            .padding(.horizontal)
-                        
-                        
-                        Button {
-                            openMeditationView = true
-                        } label: {
-                            ZStack {
-                                RoundedRectangle(cornerSize: CGSize(width: 15, height: 15))
-                                    .frame(height: 100)
-                                    .padding(.horizontal)
-                                    .foregroundStyle(.orange).opacity(0.2)
-                                VStack {
-                                    
-                                    Text("Prepare yourself better for working ?")
-                                        .foregroundStyle(.black)
-                                        .font(.subheadline)
-                                        .fontWeight(.semibold)
-                                        .padding(.top)
-                                    
-                                    Text("By resting a few minutes before working, you will be able to concentrate better")
-                                        .foregroundStyle(.black)
-                                        .font(.footnote)
-                                        .padding(.bottom)
-                                }
-                                .padding()
-                            }
-                            .padding()
-                        }
-                        
-                        Spacer()
-                        
-                        if let errorMessage = errorMessage {
-                            Text(errorMessage)
-                                .foregroundColor(.red)
-                                .fontWeight(.semibold)
-                                .padding(.horizontal)
-                        }
-                        
-                        Button {
-                            if userWillStudy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                errorMessage = "Please enter what you will study before starting the timer."
-                                return
-                            }
-                            errorMessage = nil
-                            userId = user.userId
-                            startSession = true
-
-                        } label: {
-                            Text("Begin the pomodoro timer")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .padding(.horizontal)
-                    }
-                    
+                    StudySessionSubview(user: user)
                 } else {
-                    // MARK: - Loading / Not Logged In
                     VStack(spacing: 16) {
                         Text("Loading...")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
-                        
+                            .font(.largeTitle.weight(.bold))
+                            .foregroundColor(.secondary)
                         ProgressView()
-                            .font(.title)
+                            .progressViewStyle(.circular)
                     }
-                    .padding()
+                    .padding(24)
+                    .frame(maxWidth: 300)
+                    .background(.ultraThinMaterial)
+                    .cornerRadius(24)
+                    .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
+                    .padding(.vertical, 40)
                 }
             }
-        }
-        .navigationTitle("Study Session")
-        .navigationBarTitleDisplayMode(.large)
-        .fullScreenCover(isPresented: $openMeditationView, content: {
-            MeditationPreWorkView(openMeditationView: $openMeditationView)
-        })
-        .fullScreenCover(isPresented: $startSession, content: {
-            PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId)
-        })
-        
-        .task {
-            Task {
-                try await viewModel.loadCurrentUser()
+            .padding(.horizontal)
+            .navigationTitle("Study Session")
+            .navigationBarTitleDisplayMode(.large)
+            .sheet(isPresented: $openMeditationView) {
+                MeditationPreWorkView(openMeditationView: $openMeditationView)
+            }
+            .sheet(isPresented: $startSession) {
+                PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId)
+            }
+            .task {
+                Task {
+                    try await viewModel.loadCurrentUser()
+                }
             }
         }
     }
 }
 
 #Preview {
-    StudySessionView()
+    StudySessionSubview(user: DBUser(userId: "preview-id", email: "preview@example.com", firstName: "Preview", lastName: "User"))
 }
+
+struct StudySessionSubview: View {
+    
+    @State var userWillStudy: String = ""
+    @State var openMeditationView: Bool = false
+    @State var startSession: Bool = false
+    @State var userId: String = ""
+    @State private var errorMessage: String? = nil
+    @FocusState private var focusedField: Field?
+    
+    enum Field: Hashable {
+        case studysubject
+    }
+    
+    let user: DBUser
+    
+    var body: some View {
+        VStack(spacing: 24) {
+            VStack(alignment: .center, spacing: 16) {
+                Text("What will you study \(user.firstName ?? "no name")?")
+                    .font(.title2.weight(.semibold))
+                    .foregroundColor(.primary)
+                    .padding(.vertical)
+                
+                Text("Study Subject")
+                    .font(.headline.weight(.semibold))
+                    .foregroundColor(.secondary)
+                    .padding(.vertical)
+                
+                CustomTextField(text: $userWillStudy, placeholder: "Eg. Math")
+                    .focused($focusedField, equals: .studysubject)
+                    .padding(.vertical, 12)
+                    .padding(.horizontal)
+                    .background(Color(.systemBackground).opacity(0.9))
+                    .cornerRadius(18)
+                    .frame(maxWidth: .infinity)
+                
+                Button {
+                    openMeditationView = true
+                } label: {
+            
+                        Text("Prepare yourself better for working?")
+                            .font(.subheadline.weight(.semibold))
+                            .foregroundColor(.primary)
+                            .padding(.horizontal, 50)
+                            .padding(.vertical, 20)
+                        
+                }
+                .buttonStyle(.glassProminent)
+                .padding(.vertical)
+                
+                Text("By resting a few minutes before working, you will be able to concentrate better")
+                    .font(.footnote)
+                    .foregroundColor(.secondary)
+                    .multilineTextAlignment(.center)
+                    .padding(.horizontal, 10)
+               
+                
+                if let errorMessage = errorMessage {
+                    Text(errorMessage)
+                        .foregroundColor(.red)
+                        .fontWeight(.semibold)
+                        .padding()
+                        .background(Color.red.opacity(0.1))
+                        .cornerRadius(16)
+                        .frame(maxWidth: .infinity)
+                        .transition(.opacity)
+                        .animation(.easeInOut, value: errorMessage)
+                        .padding(.vertical)
+                }
+                    
+                
+                Button {
+                    if userWillStudy.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        errorMessage = "Please enter what you will study before starting the timer."
+                        return
+                    }
+                    errorMessage = nil
+                    userId = user.userId
+                    startSession = true
+                } label: {
+                    Text("Begin the pomodoro timer")
+                        .font(.subheadline.weight(.semibold))
+                        .foregroundColor(.primary)
+                        .padding(.horizontal, 50)
+                        .padding(.vertical, 20)
+
+                }
+                .padding(.vertical)
+                .buttonStyle(.glassProminent)
+            }
+            .padding(24)
+            .background(.ultraThinMaterial)
+            .cornerRadius(24)
+            .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
+            .frame(maxWidth: 600)
+            .padding(.horizontal, 20)
+        }
+        .padding(.vertical, 40)
+    }
+}
+
