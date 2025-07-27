@@ -359,7 +359,7 @@
     "Please complete the information below to finish your registration" : {
 
     },
-    "Prepare yourself better for working?" : {
+    "Prepare yourself to work ?" : {
 
     },
     "Privacy Policy" : {
@@ -499,6 +499,9 @@
 
     },
     "Work" : {
+
+    },
+    "yes" : {
 
     },
     "Yes" : {

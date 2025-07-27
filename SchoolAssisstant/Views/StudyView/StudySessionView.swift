@@ -45,9 +45,10 @@ struct StudySessionView: View {
                     .cornerRadius(24)
                     .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
                     .padding(.vertical, 40)
+                    .padding(.horizontal)
+
                 }
             }
-            .padding(.horizontal)
             .navigationTitle("Study Session")
             .navigationBarTitleDisplayMode(.large)
             .sheet(isPresented: $openMeditationView) {
@@ -99,21 +100,20 @@ struct StudySessionSubview: View {
                 
                 CustomTextField(text: $userWillStudy, placeholder: "Eg. Math")
                     .focused($focusedField, equals: .studysubject)
-                    .padding(.vertical, 12)
                     .padding(.horizontal)
-                    .background(Color(.systemBackground).opacity(0.9))
                     .cornerRadius(18)
-                    .frame(maxWidth: .infinity)
+                    .glassEffect()
+                    .frame(height: 50)
                 
                 Button {
                     openMeditationView = true
                 } label: {
             
-                        Text("Prepare yourself better for working?")
+                        Text("Prepare yourself to work ?")
                             .font(.subheadline.weight(.semibold))
                             .foregroundColor(.primary)
                             .padding(.horizontal, 50)
-                            .padding(.vertical, 20)
+                            .padding(.vertical, 10)
                         
                 }
                 .buttonStyle(.glassProminent)
@@ -153,7 +153,7 @@ struct StudySessionSubview: View {
                         .font(.subheadline.weight(.semibold))
                         .foregroundColor(.primary)
                         .padding(.horizontal, 50)
-                        .padding(.vertical, 20)
+                        .padding(.vertical, 10)
 
                 }
                 .padding(.vertical)
@@ -166,7 +166,8 @@ struct StudySessionSubview: View {
             .frame(maxWidth: 600)
             .padding(.horizontal, 20)
         }
-        .padding(.vertical, 40)
+        .padding(1)
+
     }
 }
 

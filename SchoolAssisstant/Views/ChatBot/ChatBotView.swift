@@ -2,12 +2,19 @@ import SwiftUI
 import Foundation
 
 struct ChatBotView: View {
-    @StateObject private var viewModel = ChatBotViewModel()
+    @StateObject private var viewModel: ChatBotViewModel
+    
+    init() {
+        let welcome = ChatMessageModel(text: "Welcome to ChatBot! How can I assist you today?", isUser: false)
+        _viewModel = StateObject(wrappedValue: ChatBotViewModel())
+        _viewModel.wrappedValue.messages.append(welcome)
+    }
+    
     @FocusState private var isInputFocused: Bool
 
     var body: some View {
         ZStack {
-            // Glass background
+            // Liquid‐glass background
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .ignoresSafeArea()
@@ -23,43 +30,62 @@ struct ChatBotView: View {
                                         Text(msg.text)
                                             .foregroundColor(msg.isUser ? .white : .primary)
                                             .padding(10)
-                                            .background(msg.isUser ? AppTheme.primaryTint.opacity(0.7) : Color(.secondarySystemBackground).opacity(0.6))
+                                            .background(
+                                                msg.isUser
+                                                    ? AppTheme.primaryTint.opacity(0.7)
+                                                    : Color(.secondarySystemBackground).opacity(0.6)
+                                            )
                                             .glassEffect()
                                             .clipShape(RoundedRectangle(cornerRadius: 12))
                                         if !msg.isUser { Spacer() }
                                     }
-                                    .frame(maxWidth: .infinity, alignment: msg.isUser ? .trailing : .leading)
+                                    .frame(maxWidth: .infinity,
+                                           alignment: msg.isUser ? .trailing : .leading)
                                     .id(msg.id)
                                     .padding(.horizontal)
                                 }
                             }
                         }
-                        .onChange(of: viewModel.messages.count) {
+                        .onChange(of: viewModel.messages.count) { _, _ in
                             if let last = viewModel.messages.last {
-                                withAnimation { proxy.scrollTo(last.id, anchor: .bottom) }
+                                withAnimation {
+                                    proxy.scrollTo(last.id, anchor: .bottom)
+                                }
                             }
                         }
                     }
                     .padding(.top, 16)
 
-                    // Input area with glass and clean style
+                    // Input area
                     HStack(spacing: 8) {
-                        GrowingTextEditor(text: $viewModel.inputText)
-                            .frame(minHeight: 36)
-                            .padding(8)
-                            .background(Color(.secondarySystemBackground).opacity(0.5))
-                            .clipShape(RoundedRectangle(cornerRadius: 8))
-                            .focused($isInputFocused)
+                        ZStack(alignment: .leading) {
+                            if viewModel.inputText.isEmpty {
+                                Text("yes")
+                                    .foregroundColor(.secondary)
+                                    .padding(.horizontal, 12)
+                            }
+                            CustomTextField(text: $viewModel.inputText, placeholder: "Write something to AI")
+                                .focused($isInputFocused)
+                                .padding(.horizontal)
+                                .cornerRadius(18)
+                                .glassEffect()
+                                .frame(height: 50)
+ 
+                        }
+
                         Button {
                             isInputFocused = false
                             Task { await viewModel.sendMessage() }
                         } label: {
                             Image(systemName: "paperplane.fill")
-                                .foregroundStyle(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty ? .gray : AppTheme.primaryColor)
+                                .foregroundStyle(
+                                    viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                        ? .gray
+                                        : AppTheme.primaryColor
+                                )
                         }
                         .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
-                        // Hide Keyboard Button
                         if isInputFocused {
                             Button(action: { isInputFocused = false }) {
                                 Image(systemName: "keyboard.chevron.compact.down")
