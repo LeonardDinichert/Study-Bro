@@ -148,6 +148,10 @@ struct MainInterfaceView: View {
                     .tabItem { Label("Learn", systemImage: "graduationcap.fill") }
                     .tag(Tab.learnedSomething)
 
+                ChatBotView()
+                    .tabItem { Label("Chat", systemImage: "message.fill") }
+                    .tag(Tab.chatbot)
+
                 AccountTab()
                     .tabItem { Label("Account", systemImage: "person.fill") }
                     .tag(Tab.account)
@@ -166,6 +170,7 @@ enum Tab {
     case studySession
     case social
     case learnedSomething
+    case chatbot
     case tasks
     case progress
 }
