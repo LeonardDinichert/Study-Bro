@@ -79,8 +79,24 @@ struct HomeTab: View {
                             Text("Loading...")
                                 .font(.largeTitle)
                                 .fontWeight(.bold)
+                            
                             ProgressView()
                                 .font(.title)
+                            
+                            Text("If you are not logged in, you can log in below:")
+                                .multilineTextAlignment(.center)
+                                .foregroundColor(.gray)
+                                .padding(.horizontal, 40)
+                            
+                            Button {
+                                showSignInView = true
+                            } label: {
+                                Text("Sign in / Create an account")
+                                    .fontWeight(.semibold)
+                                    .padding()
+                                    .foregroundColor(.white)
+                                    .cornerRadius(8)
+                            }
                         }
                         .padding()
                     }
