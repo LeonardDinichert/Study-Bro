@@ -65,9 +65,9 @@ struct MainInterfaceView: View {
 //                    .tabItem { Label("Tasks", systemImage: "list.bullet") }
 //                    .tag(Tab.tasks)
 
-                GamificationView()
-                    .tabItem { Label("Progress", systemImage: "star.fill") }
-                    .tag(Tab.progress)
+//                GamificationView()
+//                    .tabItem { Label("Progress", systemImage: "star.fill") }
+//                    .tag(Tab.progress)
 
                 LearnedSomethingView()
                     .tabItem { Label("Learn", systemImage: "graduationcap.fill") }
