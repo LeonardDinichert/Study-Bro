@@ -3,7 +3,6 @@ import UserNotifications
 
 struct FriendsView: View {
     @StateObject private var viewModel = FriendsViewModel()
-    @State private var showFriendDiscovery = false
     @State private var lastNotifiedRequests: Set<String> = [] // userIds of last notified
 
     var body: some View {
@@ -37,12 +36,10 @@ struct FriendsView: View {
                 .cornerRadius(8)
             }
 
-            Button("Find Friends") {
-                showFriendDiscovery = true
-            }
-
-            if showFriendDiscovery {
-                FriendDiscoveryView()
+            if viewModel.friends.isEmpty {
+                NavigationLink("Find Friends") {
+                    FriendDiscoveryView()
+                }
             }
 
             LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))]) {
