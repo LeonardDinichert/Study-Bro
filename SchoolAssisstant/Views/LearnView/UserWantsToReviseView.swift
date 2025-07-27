@@ -17,12 +17,13 @@ struct UserWantsToReviseView: View {
                             .font(.caption)
                             .foregroundColor(.gray)
                     }
+                    .listRowBackground(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(.thinMaterial)
+                    )
+                    .padding(.vertical, 4)
+                    .animation(.smooth, value: viewModel.dueNotes.count)
                     .swipeActions {
-//                        Button {
-//                            Task { await viewModel.markReviewed(note: note) }
-//                        } label: {
-//                            Label("Done", systemImage: "checkmark")
-//                        }
                         Button(role: .destructive) {
                             Task { await viewModel.delete(note: note) }
                         } label: {
@@ -31,12 +32,19 @@ struct UserWantsToReviseView: View {
                     }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+            .shadow(color: .black.opacity(0.12), radius: 10, x: 0, y: 6)
+            .padding(.vertical, 16)
+            .padding(.horizontal, 12)
+            .animation(.smooth, value: viewModel.dueNotes.count)
             .navigationTitle("Your Notes")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     Button("Done") { dismiss() }
                 }
             }
+            .background(.ultraThinMaterial)
             .onAppear {
                 Task { await viewModel.loadNotes() }
             }

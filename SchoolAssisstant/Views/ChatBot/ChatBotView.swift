@@ -2,14 +2,8 @@ import SwiftUI
 import Foundation
 
 struct ChatBotView: View {
-    @StateObject private var viewModel: ChatBotViewModel
     
-    init() {
-        let welcome = ChatMessageModel(text: "Welcome to ChatBot! How can I assist you today?", isUser: false)
-        _viewModel = StateObject(wrappedValue: ChatBotViewModel())
-        _viewModel.wrappedValue.messages.append(welcome)
-    }
-    
+    @StateObject private var viewModel = ChatBotViewModel()
     @FocusState private var isInputFocused: Bool
 
     var body: some View {
@@ -28,15 +22,15 @@ struct ChatBotView: View {
                                     HStack {
                                         if msg.isUser { Spacer() }
                                         Text(msg.text)
-                                            .foregroundColor(msg.isUser ? .white : .primary)
-                                            .padding(10)
-                                            .background(
-                                                msg.isUser
-                                                    ? AppTheme.primaryTint.opacity(0.7)
-                                                    : Color(.secondarySystemBackground).opacity(0.6)
-                                            )
+                                            .foregroundColor(msg.isUser ? .primary : .primary)
+                                            .padding()
+//                                            .background(
+//                                                msg.isUser
+//                                                    ? AppTheme.primaryTint.opacity(0.7)
+//                                                    : Color(.secondarySystemBackground).opacity(0.6)
+//                                            )
                                             .glassEffect()
-                                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                                            
                                         if !msg.isUser { Spacer() }
                                     }
                                     .frame(maxWidth: .infinity,
@@ -105,8 +99,4 @@ struct ChatBotView: View {
             .padding(.horizontal, 6)
         }
     }
-}
-
-#Preview {
-    ChatBotView()
 }

@@ -15,10 +15,9 @@ struct LearnedSomethingView: View {
 
     var body: some View {
         ZStack {
-            // Full-screen background
-            Rectangle()
-                .fill(.ultraThinMaterial)
+            Color.clear
                 .ignoresSafeArea()
+                .background(.ultraThinMaterial)
 
             VStack(spacing: 24) {
                 Spacer()
@@ -56,40 +55,31 @@ struct LearnedSomethingView: View {
                             Label("I learned something new", systemImage: "lightbulb.fill")
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                        .fill(.ultraThinMaterial)
-                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-                                )
-                                .foregroundColor(.accentColor)
+                                .glassEffect()
+                                .tint(.accentColor)
                         }
 
                         Button(action: { userWantsToRevise = true }) {
                             Label("I want to revise", systemImage: "book.fill")
                                 .frame(maxWidth: .infinity)
                                 .padding()
-                                .background(
-                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
-                                        .fill(.ultraThinMaterial)
-                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
-                                )
-                                .foregroundColor(.primary)
+                                .glassEffect()
+                                .tint(.primary)
                         }
                     }
                 }
-                .padding(.horizontal, 32)
-                .padding(.vertical, 16)
+                .padding(.horizontal, 24)
+                .padding(.vertical, 24)
                 .background(
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(.thinMaterial)
-                        .shadow(color: .black.opacity(0.08), radius: 12, x: 0, y: 4)
-                        .blur(radius: 0.3)
+                    RoundedRectangle(cornerRadius: 24, style: .continuous)
+                        .foregroundStyle(.black.opacity(0.1))
                 )
-                .padding(.horizontal)
+                .padding(.horizontal, 20)
 
                 Spacer()
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
+            .animation(.smooth, value: userWantsAddInfo || userWantsToRevise)
         }
         // Modals
         .fullScreenCover(isPresented: $userWantsAddInfo) {
@@ -107,3 +97,4 @@ struct LearnedSomethingView: View {
 #Preview {
     LearnedSomethingView()
 }
+
