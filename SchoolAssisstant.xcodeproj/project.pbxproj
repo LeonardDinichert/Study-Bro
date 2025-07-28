@@ -75,7 +75,8 @@
 		E39C60B02E0DBAB2006B4C39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E39C604A2E0DBAB2006B4C39 /* GoogleService-Info.plist */; };
 		E3C94B822E34E157004D8262 /* StudySessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B812E34E157004D8262 /* StudySessionModel.swift */; };
 		E3C94B842E34E22A004D8262 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C94B832E34E22A004D8262 /* Media.xcassets */; };
-		E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+                E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+                DB523C44F55745E3BF8F4A54 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98E5DCC7F5B543CD88415296 /* NotificationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,7 +139,8 @@
 		E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchoolAssisstant.entitlements; sourceTree = "<group>"; };
 		E3C94B812E34E157004D8262 /* StudySessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionModel.swift; sourceTree = "<group>"; };
 		E3C94B832E34E22A004D8262 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                98E5DCC7F5B543CD88415296 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,12 +310,13 @@
 		E39C60722E0DBAB2006B4C39 /* SocialPage */ = {
 			isa = PBXGroup;
 			children = (
-				E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
-				E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
-			);
-			path = SocialPage;
-			sourceTree = "<group>";
-		};
+                                E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
+                                E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
+                                98E5DCC7F5B543CD88415296 /* NotificationsView.swift */,
+                        );
+                        path = SocialPage;
+                        sourceTree = "<group>";
+                };
 		E39C60742E0DBAB2006B4C39 /* StatsPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -498,8 +501,9 @@
 				E39C609B2E0DBAB2006B4C39 /* TaskItem.swift in Sources */,
 				E39C609C2E0DBAB2006B4C39 /* IntroPagesView.swift in Sources */,
 				E39C609D2E0DBAB2006B4C39 /* TextManager.swift in Sources */,
-				E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */,
-				6B5BB6B07029239DCEFEF2DF /* FriendDiscoveryViewModel.swift in Sources */,
+                                E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */,
+                                DB523C44F55745E3BF8F4A54 /* NotificationsView.swift in Sources */,
+                                6B5BB6B07029239DCEFEF2DF /* FriendDiscoveryViewModel.swift in Sources */,
 				E39C609E2E0DBAB2006B4C39 /* NotesManager.swift in Sources */,
 				E39C609F2E0DBAB2006B4C39 /* UserManager.swift in Sources */,
 				E39C60A02E0DBAB2006B4C39 /* Utilities.swift in Sources */,
