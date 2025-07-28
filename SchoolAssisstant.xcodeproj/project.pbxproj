@@ -11,6 +11,7 @@
 		6B5BB6B07029239DCEFEF2DF /* FriendDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */; };
 		72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */; };
 		A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C8ED5EBAD496CB5D8CFA0 /* ChatMessage.swift */; };
+		E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */; };
 		E3405F282DA80F7900216E57 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F272DA80F7900216E57 /* FirebaseAppDistribution-Beta */; };
 		E3405F2A2DA80F7900216E57 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F292DA80F7900216E57 /* FirebaseAuth */; };
 		E3405F2C2DA80F7900216E57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F2B2DA80F7900216E57 /* FirebaseFirestore */; };
@@ -82,6 +83,7 @@
 		260C8ED5EBAD496CB5D8CFA0 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
 		A282BA3CAB414928BD2CDE16 /* ChatBotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotView.swift; sourceTree = "<group>"; };
 		D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryViewModel.swift; sourceTree = "<group>"; };
+		E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoteView.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -298,6 +300,7 @@
 				E39C606D2E0DBAB2006B4C39 /* LearnedSomethingView.swift */,
 				E39C606E2E0DBAB2006B4C39 /* UserWantsToAddInfoView.swift */,
 				E39C606F2E0DBAB2006B4C39 /* UserWantsToReviseView.swift */,
+				E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */,
 			);
 			path = LearnView;
 			sourceTree = "<group>";
@@ -476,6 +479,7 @@
 				E39C60892E0DBAB2006B4C39 /* TasksTab.swift in Sources */,
 				E39C608A2E0DBAB2006B4C39 /* SignUpEmailViewModel.swift in Sources */,
 				E39C608B2E0DBAB2006B4C39 /* ShowPasswordView.swift in Sources */,
+				E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */,
 				E39C608C2E0DBAB2006B4C39 /* TasksViewModel.swift in Sources */,
 				E39C608D2E0DBAB2006B4C39 /* AppTheme.swift in Sources */,
 				E39C608E2E0DBAB2006B4C39 /* LogInView.swift in Sources */,

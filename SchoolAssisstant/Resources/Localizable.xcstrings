@@ -228,7 +228,7 @@
     "Finish" : {
 
     },
-    "Finish Registration" : {
+    "Finish registration" : {
 
     },
     "Forgot your Password?" : {
@@ -247,6 +247,12 @@
 
     },
     "Home" : {
+
+    },
+    "How did you discover StuddyBuddy?" : {
+
+    },
+    "How did you discover the app?" : {
 
     },
     "I learned something new" : {
@@ -274,6 +280,9 @@
 
     },
     "Legal Information" : {
+
+    },
+    "Load more" : {
 
     },
     "Loading..." : {
@@ -356,7 +365,7 @@
     "Password reset" : {
 
     },
-    "Please complete the information below to finish your registration" : {
+    "Please complete the information below to continue your registration" : {
 
     },
     "Prepare yourself to work ?" : {
@@ -383,9 +392,6 @@
     "Quit session?" : {
 
     },
-    "Registration" : {
-
-    },
     "Reset" : {
 
     },
@@ -407,6 +413,9 @@
     "Security and privacy" : {
 
     },
+    "See past sessions" : {
+
+    },
     "Session %lld of %lld" : {
       "localizations" : {
         "en" : {
@@ -416,6 +425,9 @@
           }
         }
       }
+    },
+    "Session History" : {
+
     },
     "Settings" : {
 
@@ -468,6 +480,9 @@
     "Terms of Use" : {
 
     },
+    "Thank you for using StuddyBuddy !" : {
+
+    },
     "Title" : {
 
     },
@@ -490,6 +505,9 @@
 
     },
     "Welcome to StuddyBuddy" : {
+
+    },
+    "What are you using StuddyBuddy for?" : {
 
     },
     "What did you learn?" : {

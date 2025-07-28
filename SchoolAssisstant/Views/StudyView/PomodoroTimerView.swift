@@ -38,6 +38,7 @@ struct PomodoroTimerView: View {
     @State private var showQuit = false
     @State private var showCongrats = false
     @State private var isFocusMode = false
+    @State private var showHistoryFullScreen = false
 
     @Binding var startSession: Bool
     @Binding var userWillStudy: String
@@ -45,7 +46,7 @@ struct PomodoroTimerView: View {
 
     private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
-    struct Session: Identifiable {
+    struct Session: Identifiable, Hashable {
         let id = UUID()
         let date: Date
         let duration: Int
@@ -130,6 +131,16 @@ struct PomodoroTimerView: View {
             }
             // Removed background with systemBackground; liquid glass container background used instead
         }
+        .fullScreenCover(isPresented: $showHistoryFullScreen) {
+            HistoryFullScreenView(
+                history: history,
+                hasMore: hasMore,
+                onLoadMore: {
+                    Task { await fetchSessions(initial: false) }
+                },
+                onClose: { showHistoryFullScreen = false }
+            )
+        }
     }
 
     // MARK: – Computed
@@ -193,6 +204,8 @@ struct PomodoroTimerView: View {
                         }
                         .frame(width: geo.size.width * 0.45)
                         
+                        Spacer()
+                        
                         Divider()
                         
                         // History column
@@ -204,22 +217,9 @@ struct PomodoroTimerView: View {
                                     .foregroundColor(.secondary)
                                     .padding()
                             } else {
-                                ScrollView {
-                                    LazyVStack(spacing: 12) {
-                                        ForEach(history.reversed()) { s in
-                                            HistoryRow(session: s)
-                                        }
-                                        if hasMore {
-                                            Button("Load more") {
-                                                Task {
-                                                    await fetchSessions(initial: false)
-                                                }
-                                            }
-                                            .padding(.vertical, 8)
-                                        }
-                                    }
-                                    .padding(.trailing)
-                                }
+                                HistoryListView(history: history, hasMore: hasMore, onLoadMore: {
+                                    Task { await fetchSessions(initial: false) }
+                                })
                             }
                             Spacer()
                         }
@@ -245,33 +245,16 @@ struct PomodoroTimerView: View {
                             .glassEffect()
                         
                         Divider().padding(.vertical, 8)
-                        Text("History")
-                            .font(.headline)
-                            .frame(maxWidth: .infinity, alignment: .leading)
-                            .padding(.horizontal)
-                        if history.isEmpty {
-                            Text("No sessions yet.")
-                                .foregroundColor(.secondary)
+                        
+                        Button(action: { showHistoryFullScreen = true }) {
+                            Text("See past sessions")
+                                .font(.headline)
+                                .frame(maxWidth: .infinity)
                                 .padding()
-                        } else {
-                            ScrollView {
-                                LazyVStack(spacing: 12) {
-                                    ForEach(history.reversed()) { s in
-                                        HistoryRow(session: s)
-                                    }
-                                    if hasMore {
-                                        Button("Load more") {
-                                            Task {
-                                                await fetchSessions(initial: false)
-                                            }
-                                        }
-                                        .padding(.vertical, 8)
-                                    }
-                                }
-                                .cardStyle()
-                                .padding(.horizontal)
-                            }
                         }
+                        .glassEffect()
+                        .padding(.horizontal)
+
                         Spacer()
                     }
                     .padding(.top)
@@ -310,7 +293,7 @@ struct PomodoroTimerView: View {
                 }
                 
                 Text(userWillStudy)
-                    .font(.caption)
+                    .fontWeight(.semibold)
             }
             .padding(48)
         }
@@ -417,6 +400,7 @@ struct PomodoroTimerView: View {
             }
             lastFetchedDoc = snap.documents.last
             history += newSessions
+            history = Array(Set(history)).sorted { $0.date > $1.date }
             hasMore = snap.documents.count == 10
         } catch {
             print("Error fetching sessions: \(error)")
@@ -452,18 +436,69 @@ private struct HistoryRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(session.type == .work ? "Work" : "Break")
+                Text(session.subject)
                     .font(.subheadline).bold()
                 Text(fmt.string(from: session.date))
                     .font(.caption).foregroundColor(.secondary)
-                Text(session.subject)
-                    .font(.caption2).foregroundColor(.secondary)
             }
             Spacer()
             Text("\(session.duration/60) min")
                 .font(.subheadline)
         }
         .padding()
+    }
+}
+
+private struct HistoryListView: View {
+    let history: [PomodoroTimerView.Session]
+    let hasMore: Bool
+    let onLoadMore: () -> Void
+    var body: some View {
+        ScrollView {
+            LazyVStack(spacing: 12) {
+                ForEach(history.reversed()) { s in
+                    HistoryRow(session: s)
+                        .glassEffect()
+                }
+                if hasMore {
+                    Divider()
+                    Button("Load more") {
+                        onLoadMore()
+                    }
+                    .padding(.vertical, 8)
+                    .frame(maxWidth: .infinity)
+                }
+            }
+            .padding()
+        }
+    }
+}
+
+private struct HistoryFullScreenView: View {
+    let history: [PomodoroTimerView.Session]
+    let hasMore: Bool
+    let onLoadMore: () -> Void
+    let onClose: () -> Void
+    var body: some View {
+        NavigationStack {
+            VStack {
+                HStack {
+                    Spacer()
+                    Button(action: onClose) {
+                        Image(systemName: "xmark.circle.fill")
+                            .font(.largeTitle)
+                            .foregroundColor(.secondary)
+                    }
+                    .padding()
+                }
+                Text("Session History")
+                    .font(.largeTitle).bold()
+                    .padding(.bottom)
+                HistoryListView(history: history, hasMore: hasMore, onLoadMore: onLoadMore)
+                Spacer()
+            }
+            .background(Color(.systemBackground))
+        }
     }
 }
 
@@ -481,12 +516,4 @@ private struct CongratsView: View {
         .glassEffect()
         .padding(40)
     }
-}
-
-#Preview {
-    PomodoroTimerView(
-        startSession: .constant(false),
-        userWillStudy: .constant("Sample Subject"),
-        userId: .constant("preview-user-id")
-    )
 }

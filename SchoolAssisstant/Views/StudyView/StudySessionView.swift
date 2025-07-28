@@ -67,6 +67,7 @@ struct StudySessionView: View {
             .task {
                 Task {
                     try await viewModel.loadCurrentUser()
+                    userWillStudy = ""
                 }
             }
         }

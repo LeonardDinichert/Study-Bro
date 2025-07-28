@@ -24,35 +24,69 @@ struct LearnedSomethingView: View {
 
                 // Header card
                 VStack(spacing: 8) {
-                    Text("Did you learn something new?")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.center)
+                    
+                    HStack {
+                        Text("Your notes : ")
+                            .font(.title3)
+                            .fontWeight(.semibold)
+                            .multilineTextAlignment(.leading)
+                        
+                        Spacer()
+                    }
+                    
+                    
                     
                     ForEach(viewModel.dueNotes) { note in
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(note.category)
-                                .font(.headline)
-                            Text(note.text)
-                            Text(note.importance)
-                                .font(.caption)
-                                .foregroundColor(.gray)
-                        }
-                        .listRowBackground(
-                            RoundedRectangle(cornerRadius: 16, style: .continuous)
-                                .fill(.thinMaterial)
-                        )
-                        .padding(.vertical, 4)
-                        .animation(.smooth, value: viewModel.dueNotes.count)
-                        .swipeActions {
-                            Button(role: .destructive) {
-                                Task { await viewModel.delete(note: note) }
-                            } label: {
-                                Label("Delete", systemImage: "trash")
+                        
+                        NavigationLink {
+                           DetailNoteView(note: note)
+                        } label: {
+                            HStack(alignment: .top, spacing: 12) {
+                                // Intensity Icon
+                                let iconColor: Color = {
+                                    switch note.importance.lowercased() {
+                                    case "high": return .red
+                                    case "medium": return .orange
+                                    default: return .green
+                                    }
+                                }()
+                                Image(systemName: "flame.circle.fill")
+                                    .font(.system(size: 28))
+                                    .foregroundColor(iconColor)
+                                    .shadow(color: iconColor.opacity(0.3), radius: 6, x: 0, y: 2)
+                                    .padding(.top, 3)
+
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(note.category)
+                                        .font(.headline)
+                                    Text(note.text)
+                                    Text(note.importance.capitalized)
+                                        .font(.caption)
+                                        .foregroundColor(iconColor)
+                                }
+                                Spacer()
+                            }
+                            .padding(16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .fill(.ultraThinMaterial)
+                                    .shadow(color: Color.primary.opacity(0.08), radius: 8, x: 0, y: 4)
+                            )
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .stroke(Color.white.opacity(0.2), lineWidth: 1.2)
+                            )
+                            .padding(.vertical, 4)
+                            .animation(.smooth, value: viewModel.dueNotes.count)
+                            .swipeActions {
+                                Button(role: .destructive) {
+                                    Task { await viewModel.delete(note: note) }
+                                } label: {
+                                    Label("Delete", systemImage: "trash")
+                                }
                             }
                         }
                     }
-                    
                     
                     Spacer()
                     
