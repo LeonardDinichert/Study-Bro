@@ -61,6 +61,13 @@ struct HomeTab: View {
             }
 
             .navigationBarTitleDisplayMode(.large)
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: NotificationsView()) {
+                        Image(systemName: "bell")
+                    }
+                }
+            }
         }
         .onAppear {
             Task {

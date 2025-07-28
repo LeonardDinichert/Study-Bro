@@ -66,8 +66,9 @@
 		E39C60A62E0DBAB2006B4C39 /* IntroPagesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60462E0DBAB2006B4C39 /* IntroPagesModel.swift */; };
 		E39C60A72E0DBAB2006B4C39 /* LearningNote.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60472E0DBAB2006B4C39 /* LearningNote.swift */; };
 		E39C60A82E0DBAB2006B4C39 /* ShowEmailAdressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C605D2E0DBAB2006B4C39 /* ShowEmailAdressView.swift */; };
-		E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60712E0DBAB2006B4C39 /* SocialView.swift */; };
-		E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C605C2E0DBAB2006B4C39 /* SettingsView.swift */; };
+                E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60712E0DBAB2006B4C39 /* SocialView.swift */; };
+                1CE3C183AB8D46E69642843A /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F8CB0A9DE98410BA6CD7913 /* NotificationsView.swift */; };
+                E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C605C2E0DBAB2006B4C39 /* SettingsView.swift */; };
 		E39C60AB2E0DBAB2006B4C39 /* MeditationPreWorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60752E0DBAB2006B4C39 /* MeditationPreWorkView.swift */; };
 		E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60582E0DBAB2006B4C39 /* EditProfileView.swift */; };
 		E39C60AD2E0DBAB2006B4C39 /* Localizable.xcstrings in Resources */ = {isa = PBXBuildFile; fileRef = E39C604C2E0DBAB2006B4C39 /* Localizable.xcstrings */; };
@@ -138,7 +139,8 @@
 		E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchoolAssisstant.entitlements; sourceTree = "<group>"; };
 		E3C94B812E34E157004D8262 /* StudySessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionModel.swift; sourceTree = "<group>"; };
 		E3C94B832E34E22A004D8262 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                8F8CB0A9DE98410BA6CD7913 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,12 +310,13 @@
 		E39C60722E0DBAB2006B4C39 /* SocialPage */ = {
 			isa = PBXGroup;
 			children = (
-				E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
-				E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
-			);
-			path = SocialPage;
-			sourceTree = "<group>";
-		};
+                               E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
+                               8F8CB0A9DE98410BA6CD7913 /* NotificationsView.swift */,
+                               E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
+                       );
+                       path = SocialPage;
+                       sourceTree = "<group>";
+               };
 		E39C60742E0DBAB2006B4C39 /* StatsPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -512,8 +515,9 @@
 				E39C60A62E0DBAB2006B4C39 /* IntroPagesModel.swift in Sources */,
 				E39C60A72E0DBAB2006B4C39 /* LearningNote.swift in Sources */,
 				E39C60A82E0DBAB2006B4C39 /* ShowEmailAdressView.swift in Sources */,
-				E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */,
-				E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */,
+                                E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */,
+                                1CE3C183AB8D46E69642843A /* NotificationsView.swift in Sources */,
+                                E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */,
 				E39C60AB2E0DBAB2006B4C39 /* MeditationPreWorkView.swift in Sources */,
 				E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */,
 				A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */,
