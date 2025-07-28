@@ -8,10 +8,6 @@ struct ChatBotView: View {
 
     var body: some View {
         ZStack {
-            // Liquid‐glass background
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .ignoresSafeArea()
 
             NavigationStack {
                 VStack(spacing: 0) {
@@ -24,11 +20,6 @@ struct ChatBotView: View {
                                         Text(msg.text)
                                             .foregroundColor(msg.isUser ? .primary : .primary)
                                             .padding()
-//                                            .background(
-//                                                msg.isUser
-//                                                    ? AppTheme.primaryTint.opacity(0.7)
-//                                                    : Color(.secondarySystemBackground).opacity(0.6)
-//                                            )
                                             .glassEffect()
                                             
                                         if !msg.isUser { Spacer() }
@@ -58,27 +49,37 @@ struct ChatBotView: View {
                                     .foregroundColor(.secondary)
                                     .padding(.horizontal, 12)
                             }
-                            CustomTextField(text: $viewModel.inputText, placeholder: "Write something to AI")
-                                .focused($isInputFocused)
-                                .padding(.horizontal)
-                                .cornerRadius(18)
-                                .glassEffect()
-                                .frame(height: 50)
+                            
+                            HStack (spacing: 10){
+                                
+                                CustomTextField(text: $viewModel.inputText, placeholder: "Write something to AI")
+                                    .focused($isInputFocused)
+                                    .padding(.horizontal)
+                                    .cornerRadius(18)
+                                    .frame(height: 50)
+                                
+                                
+                                Button {
+                                    isInputFocused = false
+                                    Task { await viewModel.sendMessage() }
+                                } label: {
+                                    Image(systemName: "paperplane.fill")
+                                        .foregroundStyle(
+                                            viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+                                                ? .gray
+                                                : AppTheme.primaryColor
+                                        )
+                                }
+                                .padding(.leading)
+                                .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
+                                
+                            }
+                            .glassEffect()
+
+                           
  
                         }
 
-                        Button {
-                            isInputFocused = false
-                            Task { await viewModel.sendMessage() }
-                        } label: {
-                            Image(systemName: "paperplane.fill")
-                                .foregroundStyle(
-                                    viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
-                                        ? .gray
-                                        : AppTheme.primaryColor
-                                )
-                        }
-                        .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty)
 
                         if isInputFocused {
                             Button(action: { isInputFocused = false }) {
@@ -88,12 +89,9 @@ struct ChatBotView: View {
                         }
                     }
                     .padding(10)
-                    .background(.ultraThinMaterial)
-                    .clipShape(RoundedRectangle(cornerRadius: 16))
                     .padding([.horizontal, .bottom])
                 }
                 .navigationTitle("Chatbot")
-                .background(Color.clear)
             }
             .padding(.vertical, 16)
             .padding(.horizontal, 6)

@@ -25,9 +25,6 @@ struct LearnedSomethingView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color.clear
-                    .ignoresSafeArea()
-                    .background(.ultraThinMaterial)
                 
                 VStack(spacing: 24) {
                     Spacer()
