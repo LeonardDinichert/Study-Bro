@@ -7,7 +7,7 @@ class FriendsViewModel: ObservableObject {
     @Published var incomingRequests: [DBUser] = []
     
     @MainActor
-    func load() async {
+    func load() async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
         do {
             let allUsers = try await UserManager.shared.getAllUsers()
@@ -15,37 +15,37 @@ class FriendsViewModel: ObservableObject {
             let friendIds = me?.friends ?? []
             if friendIds.isEmpty {
                 self.friends = []
-                await loadPendingRequests()
+                try await loadPendingRequests()
                 return
             }
             let loadedFriends = allUsers.filter { friendIds.contains($0.userId) }
             self.friends = loadedFriends
-            await loadPendingRequests()
+            try await loadPendingRequests()
         } catch {
             print("Failed to load friends: \(error)")
             self.friends = []
-            await loadPendingRequests()
+            try await loadPendingRequests()
         }
     }
     
     @MainActor
-    func loadPendingRequests() async {
+    func loadPendingRequests() async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
-        do {
-            let allUsers = try await UserManager.shared.getAllUsers()
-            let me = allUsers.first(where: { $0.userId == currentId })
-            let pendingIds = me?.pendingFriends ?? []
-            if pendingIds.isEmpty {
-                self.incomingRequests = []
-                return
-            }
-            let requests = allUsers.filter { pendingIds.contains($0.userId) }
-            self.incomingRequests = requests
-        } catch {
-            print("Failed to load pending requests: \(error)")
-            self.incomingRequests = []
+
+        
+        let snapshot = try await Firestore.firestore().collection("users")
+            .whereField("sentFriendRequests", arrayContains: currentId)
+            .getDocuments()
+        print(snapshot)
+        let users: [DBUser] = snapshot.documents.compactMap { document in
+            try? document.data(as: DBUser.self)
         }
+        
+        self.incomingRequests = users
+
     }
+    
+ 
     
     @MainActor
     func acceptFriendRequest(from user: DBUser) async throws {
@@ -67,8 +67,8 @@ class FriendsViewModel: ObservableObject {
 
         try await batch.commit()
 
-        await load()
-        await loadPendingRequests()
+        try await load()
+        try await loadPendingRequests()
     }
     
     @MainActor
@@ -89,7 +89,7 @@ class FriendsViewModel: ObservableObject {
 
         try await batch.commit()
 
-        await loadPendingRequests()
+        try await loadPendingRequests()
     }
     
     @MainActor
@@ -135,3 +135,4 @@ class FriendsViewModel: ObservableObject {
         task.resume()
     }
 }
+

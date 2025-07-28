@@ -56,8 +56,8 @@ struct FriendsView: View {
         .padding()
         .task {
             Task {
-                await viewModel.load()
-                await viewModel.loadPendingRequests()
+                try await viewModel.load()
+                try await viewModel.loadPendingRequests()
                 
                 // Check for new incoming friend requests and show local notifications for new ones
                 let currentSet = Set(viewModel.incomingRequests.map { $0.id })
