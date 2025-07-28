@@ -107,6 +107,7 @@ struct DetailNoteView: View {
                         .font(.caption)
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
+                        .foregroundStyle(.secondary)
                 }
                 .padding()
                 .background(.regularMaterial)

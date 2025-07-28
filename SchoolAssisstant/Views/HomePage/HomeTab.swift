@@ -65,8 +65,9 @@ struct HomeTab: View {
         .onAppear {
             Task {
                 try await viewModel.loadCurrentUser()
-                await notesViewModel.loadNotes()
+
                 await statsModel.load()
+
                 await viewModel.loadLeaderboard()
                 scheduleReminder()
             }
@@ -95,7 +96,22 @@ struct HomeTabSubView: View {
 
     let user: DBUser
     
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "dd/MM"
+        return formatter
+    }()
+    
     var body: some View {
+        let calendar = Calendar.current
+        let today = calendar.startOfDay(for: Date())
+        let lastSevenDays = (0..<7).map { calendar.date(byAdding: .day, value: -($0), to: today)! }.reversed()
+        let chartData = lastSevenDays.map { day in
+            statsModel.dailyTotals.first(where: { calendar.isDate($0.day, inSameDayAs: day) })?.minutes ?? 0.0
+        }
+        let hasData = chartData.contains(where: { $0 > 0 })
+        let maxY = max(chartData.max() ?? 0, 60)
+        
         VStack(alignment: .leading, spacing: 24) {
             
             Text("Hi \(user.username ?? "No user"), let's work !")
@@ -128,95 +144,67 @@ struct HomeTabSubView: View {
             .accentColor(.orange)
             .animation(.spring(), value: statsModel.streak)
             
-            let totalDays = statsModel.dailyTotals.count
-            let daysWithData = statsModel.dailyTotals.filter { $0.minutes > 0 }.count
             
-            if totalDays >= 10 && daysWithData >= 7 {
-                VStack(spacing: 8) {
-                    Chart(statsModel.dailyTotals, id: \.day) { entry in
-                        LineMark(
-                            x: .value("Day", entry.day, unit: .day),
-                            y: .value("Minutes", entry.minutes)
-                        )
-                        PointMark(
-                            x: .value("Day", entry.day, unit: .day),
-                            y: .value("Minutes", entry.minutes)
-                        )
-                    }
-                    .chartXAxisLabel("Day")
-                    .chartYAxisLabel("Minutes")
-                    .chartLegend(position: .bottom) {
-                        Text("Minutes studied per day")
-                            .font(.footnote.weight(.semibold))
-                            .foregroundStyle(.secondary)
-                    }
-                    .frame(height: 200)
+            if statsModel.streak != 0 {
+                Text("Amount of time you have worked each day :")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
                     .padding(.horizontal, 16)
-                }
-                .padding(.vertical, 16)
-                .background {
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.orange.opacity(0.12),
-                                    Color.orange.opacity(0.08)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+            }
+            
+            VStack(spacing: 8) {
+                Chart {
+                    ForEach(Array(lastSevenDays.enumerated()), id: \.offset) { index, day in
+                        BarMark(
+                            x: .value("Day", dateFormatter.string(from: day)),
+                            y: .value("Minutes", chartData[index])
                         )
-                )
+                        .foregroundStyle(.orange)
+                    }
+                }
+                .chartXScale(domain: lastSevenDays.map { dateFormatter.string(from: $0) })
+                .chartYScale(domain: 0...maxY)
+                .chartXAxisLabel("Day")
+                .chartYAxisLabel("Minutes")
+                .frame(height: 200)
                 .padding(.horizontal, 16)
-                .animation(.spring(), value: statsModel.streak)
-            } else {
-                VStack(spacing: 8) {
-                    Chart(statsModel.dailyTotals.prefix(0), id: \.day) { _ in
-                        // No data
-                    }
-                    .chartXAxisLabel("Day")
-                    .chartYAxisLabel("Minutes")
-                    .frame(height: 200)
-                    .padding(.horizontal, 16)
-
-                    VStack(alignment: .leading, spacing: 8) {
-                        Text("Your study data will appear here.")
-                            .foregroundStyle(.orange)
-                            .font(.title3.weight(.bold))
-                        Text("To display your study graph, log at least one study session per day for 7 days within a 10-day span.")
-                            .foregroundStyle(.secondary)
-                        Text("• Open the app daily and complete a study session to record your time.")
-                            .foregroundStyle(.secondary)
-                        Text("• Once 7 days have data out of your last 10 days, your graph will appear here.")
-                            .foregroundStyle(.secondary)
-                    }
-                    .font(.footnote)
-                    .padding(.horizontal, 16)
-                }
-                .padding(.vertical, 16)
-                .background {
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                }
-                .overlay(
-                    RoundedRectangle(cornerRadius: 20, style: .continuous)
-                        .fill(
-                            LinearGradient(
-                                colors: [
-                                    Color.orange.opacity(0.12),
-                                    Color.orange.opacity(0.08)
-                                ],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+            }
+            .padding(.vertical, 16)
+            .background {
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(.ultraThinMaterial)
+            }
+            .overlay(
+                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                    .fill(
+                        LinearGradient(
+                            colors: [
+                                Color.orange.opacity(0.12),
+                                Color.orange.opacity(0.08)
+                            ],
+                            startPoint: .topLeading,
+                            endPoint: .bottomTrailing
                         )
-                )
+                    )
+            )
+            .padding(.horizontal, 16)
+            .animation(.spring(), value: statsModel.streak)
+            
+            if !hasData {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Your study data will appear here.")
+                        .foregroundStyle(.orange)
+                        .font(.title3.weight(.bold))
+                    Text("To display your study graph, log at least one study session per day for 7 days within a 7-day span.")
+                        .foregroundStyle(.secondary)
+                    Text("• Open the app daily and complete a study session to record your time.")
+                        .foregroundStyle(.secondary)
+                    Text("• Once 7 days have data out of your last 7 days, your graph will appear here.")
+                        .foregroundStyle(.secondary)
+                }
+                .font(.footnote)
                 .padding(.horizontal, 16)
-                .animation(.spring(), value: statsModel.streak)
             }
             
             VStack(spacing: 8) {
@@ -247,6 +235,11 @@ struct HomeTabSubView: View {
             }
             .padding(.horizontal, 16)
             
+        }
+        .onAppear {
+            Task {
+                await statsModel.load()
+            }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }

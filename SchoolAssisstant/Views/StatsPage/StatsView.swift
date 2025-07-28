@@ -9,8 +9,10 @@ final class StatsViewModel: ObservableObject {
     private static var hasLoadedThisSession = false
     
     func load() async {
-        guard !Self.hasLoadedThisSession else { return }
-        guard let userId = Auth.auth().currentUser?.uid else { return }
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("Could not fetch the userID")
+            return
+        }
         do {
             sessions = try await UserManager.shared.fetchStudySessions(userId: userId)
             Self.hasLoadedThisSession = true

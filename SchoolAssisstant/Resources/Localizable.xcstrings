@@ -1,6 +1,9 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "%@" : {
+
+    },
     "%lld day streak! Keep it up!" : {
 
     },
@@ -14,7 +17,7 @@
         }
       }
     },
-    "• Once 7 days have data out of your last 10 days, your graph will appear here." : {
+    "• Once 7 days have data out of your last 7 days, your graph will appear here." : {
 
     },
     "• Open the app daily and complete a study session to record your time." : {
@@ -68,6 +71,9 @@
     "Add New Info" : {
 
     },
+    "All" : {
+
+    },
     "Already have an account?" : {
       "localizations" : {
         "fr" : {
@@ -77,6 +83,9 @@
           }
         }
       }
+    },
+    "Amount of time you have worked each day :" : {
+
     },
     "Are you sure you want to delete your account? You cannot undo it" : {
       "localizations" : {
@@ -207,6 +216,9 @@
     "Email adress :" : {
 
     },
+    "English" : {
+
+    },
     "Enter a category" : {
 
     },
@@ -226,6 +238,9 @@
 
     },
     "Forgot your Password?" : {
+
+    },
+    "French" : {
 
     },
     "Friend Requests" : {
@@ -264,6 +279,9 @@
     "Importance" : {
 
     },
+    "Importance :%@" : {
+
+    },
     "Informations manquantes" : {
 
     },
@@ -300,13 +318,13 @@
     "Long Break" : {
 
     },
+    "Math" : {
+
+    },
     "Me déconnecter" : {
 
     },
     "Minutes" : {
-
-    },
-    "Minutes studied per day" : {
 
     },
     "Modify my password" : {
@@ -348,6 +366,9 @@
 
     },
     "Non" : {
+
+    },
+    "Note category :" : {
 
     },
     "OK" : {
@@ -483,10 +504,13 @@
     "Thank you for using StuddyBuddy !" : {
 
     },
+    "The forgetting curve illustrates how memory retention declines over time when there are no attempts to review information. The horizontal axis represents days since the initial learning or any subsequent review, and the vertical axis shows the percentage of information retained. Spacing these reviews farther apart over time optimizes long-term retention by slowing the rate of forgetting with each repetition." : {
+
+    },
     "Title" : {
 
     },
-    "To display your study graph, log at least one study session per day for 7 days within a 10-day span." : {
+    "To display your study graph, log at least one study session per day for 7 days within a 7-day span." : {
 
     },
     "Username" : {
@@ -516,6 +540,9 @@
     "What will you study %@?" : {
 
     },
+    "What you have to remember :" : {
+
+    },
     "Work" : {
 
     },
@@ -526,6 +553,9 @@
 
     },
     "You can begin building your work streak by finishing a minium of one study session." : {
+
+    },
+    "You remembered this note" : {
 
     },
     "You’ve completed four sessions." : {
