@@ -16,9 +16,9 @@ struct IntroPage: Identifiable {
 
 struct IntroPagesModel {
     static let pages: [IntroPage] = [
-        IntroPage(title: "Welcome", description: "Manage your school tasks easily.", systemImage: "star"),
-        IntroPage(title: "Track Progress", description: "Keep track of what you've learned.", systemImage: "list.bullet.rectangle"),
-        IntroPage(title: "Stay Focused", description: "Use timers to stay productive.", systemImage: "timer")
+        IntroPage(title: "Welcome", description: "Welcome to StuddyBuddy ! Here, you can learn more effectively and more easily. This app has been build with the lates psychlogy techniques and learniing methods to automate your learning.", systemImage: "star"),
+        IntroPage(title: "Use AI", description: "With the AI we created, you will be able to chat with it in order to understant some subject better. The provided context makes it more awares of your goals, what you want to learn or even how you do it.", systemImage: "list.bullet.rectangle"),
+        IntroPage(title: "Stay Focused", description: "With lots of features all aiming to help you stay focuses and remember thing in short ot long term, this app gives you all teh chances for success in your studies.", systemImage: "timer")
     ]
 }
 

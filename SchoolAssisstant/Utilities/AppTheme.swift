@@ -20,7 +20,7 @@ struct AppTheme {
             content
                 .padding()
                 .glassEffect()
-                .clipShape(RoundedRectangle(cornerRadius: AppTheme.cornerRadius))
+                //.clipShape(RoundedRectangle(cornerRadius: AppTheme.cornerRadius))
         }
     }
 }

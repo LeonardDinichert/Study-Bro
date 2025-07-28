@@ -11,35 +11,57 @@ struct IntroPagesView: View {
     let pages = IntroPagesModel.pages
     
     @AppStorage("hasShownWelcome") private var hasShownWelcome: Bool = false
+    @State private var currentPage = 0
     
     var body: some View {
-        VStack {
-            TabView {
-                ForEach(pages) { page in
-                    VStack(spacing: 16) {
-                        Image(systemName: page.systemImage)
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 120, height: 120)
+        ZStack {
+            Rectangle()
+                .fill(.ultraThinMaterial)
+                .ignoresSafeArea()
+            VStack {
+                TabView(selection: $currentPage) {
+                    ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
+                        ZStack {
+                            VStack(spacing: 16) {
+//                                Image(systemName: page.systemImage)
+//                                    .resizable()
+//                                    .scaledToFit()
+//                                    .frame(width: 120, height: 120)
+//                                    .padding()
+
+                                Text(page.title)
+                                    .font(.title)
+                                    .fontWeight(.bold)
+                                
+
+                                Text(page.description)
+                                    .font(.body)
+                                    .multilineTextAlignment(.center)
+                                    .padding(.horizontal)
+                            }
                             .padding()
-
-                        Text(page.title)
-                            .font(.title)
-                            .fontWeight(.bold)
-
-                        Text(page.description)
-                            .font(.body)
-                            .multilineTextAlignment(.center)
-                            .padding(.horizontal)
+                        }
+                        .glassEffect()
+                        .shadow(radius: 10)
+                        .tag(index)
                     }
                 }
-            }
-            .tabViewStyle(PageTabViewStyle())
+                .tabViewStyle(PageTabViewStyle())
 
-            Button("Continue") {
-                hasShownWelcome = true
+                Button {
+                    if currentPage < pages.count - 1 {
+                        currentPage += 1
+                    } else {
+                        hasShownWelcome = true
+                    }
+                } label: {
+                    Text("Continue")
+                        .foregroundStyle(.primary)
+                        .padding()
+                }
+                .glassEffect()
+                .padding()
             }
-            .padding()
         }
     }
 }
@@ -47,4 +69,3 @@ struct IntroPagesView: View {
 #Preview {
     IntroPagesView()
 }
-

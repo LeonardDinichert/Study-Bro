@@ -38,6 +38,12 @@ struct LearnedSomethingView: View {
                                 .font(.caption)
                                 .foregroundColor(.gray)
                         }
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                                .fill(.thinMaterial)
+                        )
+                        .padding(.vertical, 4)
+                        .animation(.smooth, value: viewModel.dueNotes.count)
                         .swipeActions {
                             Button(role: .destructive) {
                                 Task { await viewModel.delete(note: note) }
@@ -46,6 +52,7 @@ struct LearnedSomethingView: View {
                             }
                         }
                     }
+                    
                     
                     Spacer()
                     

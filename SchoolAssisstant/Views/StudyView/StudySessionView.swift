@@ -30,7 +30,14 @@ struct StudySessionView: View {
         NavigationStack {
             ScrollView {
                 if let user = viewModel.user {
-                    StudySessionSubview(user: user)
+                    StudySessionSubview(
+                        userWillStudy: $userWillStudy,
+                        openMeditationView: $openMeditationView,
+                        startSession: $startSession,
+                        userId: $userId,
+                        errorMessage: $errorMessage,
+                        user: user
+                    )
                 } else {
                     VStack(spacing: 16) {
                         Text("Loading...")
@@ -67,16 +74,23 @@ struct StudySessionView: View {
 }
 
 #Preview {
-    StudySessionSubview(user: DBUser(userId: "preview-id", email: "preview@example.com", firstName: "Preview", lastName: "User"))
+    StudySessionSubview(
+        userWillStudy: .constant("Math"),
+        openMeditationView: .constant(false),
+        startSession: .constant(false),
+        userId: .constant("preview-id"),
+        errorMessage: .constant(nil),
+        user: DBUser(userId: "preview-id", email: "preview@example.com", firstName: "Preview", lastName: "User")
+    )
 }
 
 struct StudySessionSubview: View {
     
-    @State var userWillStudy: String = ""
-    @State var openMeditationView: Bool = false
-    @State var startSession: Bool = false
-    @State var userId: String = ""
-    @State private var errorMessage: String? = nil
+    @Binding var userWillStudy: String
+    @Binding var openMeditationView: Bool
+    @Binding var startSession: Bool
+    @Binding var userId: String
+    @Binding var errorMessage: String?
     @FocusState private var focusedField: Field?
     
     enum Field: Hashable {
@@ -163,7 +177,6 @@ struct StudySessionSubview: View {
             .background(.ultraThinMaterial)
             .cornerRadius(24)
             .shadow(color: Color.black.opacity(0.1), radius: 10, x: 0, y: 4)
-            .frame(maxWidth: 600)
             .padding(.horizontal, 20)
         }
         .padding(1)

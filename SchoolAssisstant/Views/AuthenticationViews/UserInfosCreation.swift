@@ -36,14 +36,13 @@ struct UserInfosCreation: View {
     
     var body: some View {
         NavigationStack {
-            ScrollView {
                 VStack(spacing: 20) {
-                    Spacer()
                     
-                    Text("Please complete the information below to finish your registration")
+                    Text("Please complete the information below to continue your registration")
                         .font(.title2)
                         .fontWeight(.semibold)
                         .multilineTextAlignment(.center)
+                        .padding(.vertical, 8)
                         .padding(.horizontal)
                     
                     // First Name
@@ -51,18 +50,24 @@ struct UserInfosCreation: View {
                         .focused($focusedField, equals: .firstName)
                         .cardStyle()
                         .padding(.horizontal)
+                        .frame(maxHeight: 50)
+                    
                     
                     // Last Name
                     CustomTextField(text: $lastName, placeholder: "Name")
                         .focused($focusedField, equals: .lastName)
                         .cardStyle()
                         .padding(.horizontal)
+                        .frame(maxHeight: 50)
+
                     
                     // Username
                     CustomTextField(text: $username, placeholder: "Username")
                         .focused($focusedField, equals: .username)
                         .cardStyle()
                         .padding(.horizontal)
+                        .frame(maxHeight: 50)
+
                     
                     // Birth Date
                     DatePicker("Birthdate", selection: $birthDate, displayedComponents: .date)
@@ -78,16 +83,19 @@ struct UserInfosCreation: View {
                                 .resizable()
                                 .frame(width: 24, height: 24)
                                 .foregroundColor(.gray)
+                        
                             
                             Text("Add a profile picture")
                                 .font(.headline)
                                 .fontWeight(.semibold)
                                 .foregroundColor(.black)
+                            
+                            Spacer()
                         }
-                        .cardStyle()
-                        .frame(maxWidth: .infinity)
-                        .padding(.horizontal)
+                       
                     }
+                    .cardStyle()
+                    .padding(.horizontal)
                     .onChange(of: selectedItem) { oldItem, newItem in
                         Task {
                             if let data = try? await newItem?.loadTransferable(type: Data.self) {
@@ -106,26 +114,46 @@ struct UserInfosCreation: View {
                             .frame(width: 100, height: 100)
                             .clipShape(Circle())
                             .padding()
+                            .glassEffect()
+                            .clipShape(Circle())
+
                     }
                     
+                    Spacer()
                     
                     // Finish Registration Button
-                    Button(action: {
-                        Task {
-                            await finishRegistration()
-                        }
-                    }) {
-                        Text("Finish Registration")
+                    NavigationLink{
+                        moreInfoAboutUser(
+                            firstName: $firstName,
+                            lastName: $lastName,
+                            username: $username,
+                            birthDate: $birthDate,
+                            selectedItem: $selectedItem,
+                            profileImageData: $profileImageData,
+                            displayNotFilledAlert: $displayNotFilledAlert,
+                            showSignInView: $showSignInView
+                        )
+                        .glassEffect()
+                        .clipShape(.rect(cornerRadius: 28))
+                        .shadow(color: AppTheme.primaryColor.opacity(0.4), radius: 14, x: 0, y: 8)
+                        .tint(AppTheme.primaryColor)
+                        .padding(.horizontal)
+                    } label: {
+                        Text("Continue")
+                            .font(.title3)
+                            .bold()
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(AppTheme.primaryColor)
+                            .foregroundColor(.white)
+                            .clipShape(.rect(cornerRadius: 28))
+                            .shadow(color: AppTheme.primaryColor.opacity(0.7), radius: 10, x: 0, y: 6)
                     }
-                    .buttonStyle(.borderedProminent)
                     .padding(.horizontal)
                     .disabled(firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil)
                     
-                    // Spacer
-                    Spacer()
                 }
-                .padding()
-            }
+            
             .padding(.top)
             .onTapGesture {
                 focusedField = nil
@@ -138,8 +166,6 @@ struct UserInfosCreation: View {
                 )
             }
         }
-        .navigationTitle("Registration")
-        .navigationBarTitleDisplayMode(.large)
         .navigationBarBackButtonHidden()
         .onAppear {
             Task {
@@ -148,9 +174,114 @@ struct UserInfosCreation: View {
         }
     }
     
+    
+}
+
+#Preview {
+    UserInfosCreation()
+}
+
+struct moreInfoAboutUser: View {
+    
+    @Binding var firstName: String
+    @Binding var lastName: String
+    @Binding var username: String
+    @Binding var birthDate: Date
+    @Binding var selectedItem: PhotosPickerItem?
+    
+    @Binding var profileImageData: Data?
+    @Binding var displayNotFilledAlert: Bool
+    @Binding var showSignInView: Bool
+    
+    @State private var discoverySource: String = ""
+    @State private var usagePurpose: String = ""
+    
+    var discoveryOptions = ["School", "Instagram", "TikTok", "Friends", "Family"]
+    var usageOptions = ["Middle School", "High School", "University", "Day to Day Life"]
+    
+    var body: some View {
+        VStack(spacing: 25) {
+            
+            VStack(alignment: .center, spacing: 10) {
+                Text("How did you discover StuddyBuddy?")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                
+                Picker("How did you discover the app?", selection: $discoverySource) {
+                    ForEach(discoveryOptions, id: \.self) { option in
+                        Text(option)
+                    }
+                }
+                .pickerStyle(.automatic)
+                .tint(AppTheme.primaryColor)
+                .glassEffect()
+                .padding(5)
+                .padding(.top)
+            }
+            .padding()
+            //.shadow(color: AppTheme.primaryColor.opacity(0.6), radius: 12, x: 0, y: 8)
+            .padding(.horizontal)
+            
+            VStack(alignment: .center, spacing: 10) {
+                Text("What are you using StuddyBuddy for?")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                    .foregroundColor(.primary)
+                
+                Picker("What are you using StuddyBuddy for?", selection: $usagePurpose) {
+                    ForEach(usageOptions, id: \.self) { option in
+                        Text(option)
+                    }
+                }
+                .tint(AppTheme.primaryColor)
+                .pickerStyle(.automatic)
+                .glassEffect()
+                .padding(5)
+                .padding(.top)
+
+            }
+            .padding()
+            //.shadow(color: Color.purple.opacity(0.6), radius: 12, x: 0, y: 8)
+            .padding(.horizontal)
+            
+            Spacer()
+            
+            VStack {
+                Text("Thank you for using StuddyBuddy !")
+                    .font(.title3)
+                    .fontWeight(.bold)
+                    .foregroundStyle(AppTheme.primaryColor)
+                    .multilineTextAlignment(.center)
+                    .padding()
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal)
+            
+            
+            Button("Finish registration") {
+                Task {
+                    await finishRegistration()
+                }
+            }
+            .font(.title3)
+            .bold()
+            .frame(maxWidth: .infinity)
+            .padding()
+            .background(discoverySource.isEmpty || usagePurpose.isEmpty ? Color.gray.opacity(0.4) : AppTheme.primaryColor)
+            .foregroundColor(.white)
+            .clipShape(.rect(cornerRadius: 28))
+            .shadow(color: discoverySource.isEmpty || usagePurpose.isEmpty ? Color.clear : AppTheme.primaryColor.opacity(0.7), radius: 10, x: 0, y: 6)
+            .disabled(discoverySource.isEmpty || usagePurpose.isEmpty)
+            .padding(.horizontal)
+            .padding(.vertical)
+            
+        }
+    }
+    
     // Function to finish registration
     func finishRegistration() async {
-        if firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil {
+        if firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil || discoverySource.isEmpty || usagePurpose.isEmpty {
             self.displayNotFilledAlert = true
             return
         }
@@ -182,14 +313,16 @@ struct UserInfosCreation: View {
                 return
             }
 
-            // Batch user information (with age and profileImageURL)
+            // Batch user information (with age, profileImageURL, discoverySource, usagePurpose)
             var data: [String: Any] = [
                 "first_name": firstName,
                 "last_name": lastName,
                 "username": username,
                 "birthdate": birthDate,
                 "age": age,
-                "user_id": userId
+                "user_id": userId,
+                "discovery_source": discoverySource,
+                "usage_purpose": usagePurpose
             ]
             if let profileImageURL = profileImageURL {
                 data["profile_image_path_url"] = profileImageURL
@@ -220,5 +353,14 @@ struct UserInfosCreation: View {
 }
 
 #Preview {
-    UserInfosCreation()
+    moreInfoAboutUser(
+        firstName: .constant("PreviewFirst"),
+        lastName: .constant("PreviewLast"),
+        username: .constant("PreviewUsername"),
+        birthDate: .constant(Date()),
+        selectedItem: .constant(nil),
+        profileImageData: .constant(Data()),
+        displayNotFilledAlert: .constant(false),
+        showSignInView: .constant(true)
+    )
 }

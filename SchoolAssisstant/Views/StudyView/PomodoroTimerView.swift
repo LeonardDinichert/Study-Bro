@@ -8,6 +8,7 @@
 
 import SwiftUI
 import UserNotifications
+import FirebaseFirestore
 
 struct PomodoroTimerView: View {
     enum Phase { case work, shortBreak, congratulations, longBreak }
@@ -22,7 +23,11 @@ struct PomodoroTimerView: View {
     // MARK: – State
     @State private var phase: Phase = .work
     @State private var workCount = 0
+
     @State private var history: [Session] = []
+    @State private var lastFetchedDoc: DocumentSnapshot? = nil
+    @State private var hasMore = true
+    @State private var isFetching = false
 
     @State private var startTime: Date?
     @State private var accumulated: TimeInterval = 0
@@ -45,14 +50,18 @@ struct PomodoroTimerView: View {
         let date: Date
         let duration: Int
         let type: Phase
+        let subject: String
     }
 
-    var body: some View {
+    var body: some View { mainBody }
+
+    private var mainBody: some View {
         NavigationStack {
             Group {
                 if isFocusMode { focusView }
                 else          { fullView  }
             }
+            
             .statusBar(hidden: isFocusMode)
             .animation(.default, value: isFocusMode)
             .navigationTitle("Study Timer")
@@ -110,14 +119,17 @@ struct PomodoroTimerView: View {
                     scheduleNotification()
                 }
             }
+            .onAppear {
+                UIApplication.shared.isIdleTimerDisabled = true
+                Task {
+                    await fetchSessions(initial: true)
+                }
+            }
+            .onDisappear {
+                UIApplication.shared.isIdleTimerDisabled = false
+            }
+            // Removed background with systemBackground; liquid glass container background used instead
         }
-        .onAppear {
-            UIApplication.shared.isIdleTimerDisabled = true
-        }
-        .onDisappear {
-            UIApplication.shared.isIdleTimerDisabled = false
-        }
-        .background(Color(.systemBackground).ignoresSafeArea())
     }
 
     // MARK: – Computed
@@ -197,6 +209,14 @@ struct PomodoroTimerView: View {
                                         ForEach(history.reversed()) { s in
                                             HistoryRow(session: s)
                                         }
+                                        if hasMore {
+                                            Button("Load more") {
+                                                Task {
+                                                    await fetchSessions(initial: false)
+                                                }
+                                            }
+                                            .padding(.vertical, 8)
+                                        }
                                     }
                                     .padding(.trailing)
                                 }
@@ -221,6 +241,9 @@ struct PomodoroTimerView: View {
                         Button("Quit session") { showQuit = true }
                             .font(.callout)
                             .foregroundColor(.red)
+                            .padding()
+                            .glassEffect()
+                        
                         Divider().padding(.vertical, 8)
                         Text("History")
                             .font(.headline)
@@ -235,6 +258,14 @@ struct PomodoroTimerView: View {
                                 LazyVStack(spacing: 12) {
                                     ForEach(history.reversed()) { s in
                                         HistoryRow(session: s)
+                                    }
+                                    if hasMore {
+                                        Button("Load more") {
+                                            Task {
+                                                await fetchSessions(initial: false)
+                                            }
+                                        }
+                                        .padding(.vertical, 8)
                                     }
                                 }
                                 .cardStyle()
@@ -252,23 +283,22 @@ struct PomodoroTimerView: View {
 
     private var focusView: some View {
         ZStack {
-            Color(.systemBackground).ignoresSafeArea()
+          
             timerCard.onTapGesture { isFocusMode = false }
         }
         .padding()
     }
 
-    private var timerCard: some View {
+    var timerCard: some View {
         ZStack {
-            Circle()
-                .stroke(lineWidth: 20)
-                .opacity(0.2)
-                .foregroundColor(.orange)
+
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(style: .init(lineWidth: 20, lineCap: .round))
+                .stroke(style: .init(lineWidth: 15, lineCap: .round))
                 .foregroundColor(.orange)
                 .rotationEffect(.degrees(-90))
+                .glassEffect()
+
             VStack(spacing: 4) {
                 Text(timeString)
                     .font(.title)
@@ -282,6 +312,7 @@ struct PomodoroTimerView: View {
                 Text(userWillStudy)
                     .font(.caption)
             }
+            .padding(48)
         }
     }
 
@@ -296,31 +327,31 @@ struct PomodoroTimerView: View {
         resetTimerState()
         phase = .work
         workCount = 0
-        history.removeAll()
+        Task {
+            await fetchSessions(initial: true)
+        }
     }
 
     private func completePhase() {
         isRunning = false
         if phase == .work {
             workCount += 1
-            history.append(
-              .init(date: .now,
-                    duration: currentDuration,
-                    type: .work)
-            )
             let end = now
             Task {
-                
                 print("UserId 1 is \(userId)")
-               
-                try await UserManager
-                  .shared
-                  .addStudySessionRegisteredToUser(
-                    userId: userId,
-                    studiedSubject: userWillStudy,
-                    start: startTime ?? end,
-                    end: end
-                  )
+                do {
+                    try await UserManager
+                      .shared
+                      .addStudySessionRegisteredToUser(
+                        userId: userId,
+                        studiedSubject: userWillStudy,
+                        start: startTime ?? end,
+                        end: end
+                      )
+                    await fetchSessions(initial: true)
+                } catch {
+                    print("Error adding study session: \(error)")
+                }
             }
         }
         switch phase {
@@ -352,6 +383,46 @@ struct PomodoroTimerView: View {
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
     }
+
+    @MainActor
+    private func fetchSessions(initial: Bool) async {
+        guard !isFetching else { return }
+        isFetching = true
+        defer { isFetching = false }
+        if initial {
+            history = []
+            lastFetchedDoc = nil
+            hasMore = true
+        }
+        let db = Firestore.firestore()
+        var query = db.collection("users").document(userId).collection("work_sessions")
+            .order(by: "session_start", descending: true)
+            .limit(to: 10)
+        if let last = lastFetchedDoc {
+            query = query.start(afterDocument: last)
+        }
+        do {
+            let snap = try await query.getDocuments()
+            guard !snap.documents.isEmpty else {
+                hasMore = false
+                return
+            }
+            let newSessions = snap.documents.compactMap { doc -> Session? in
+                let data = doc.data()
+                guard let start = (data["session_start"] as? Timestamp)?.dateValue(),
+                      let end = (data["session_end"] as? Timestamp)?.dateValue(),
+                      let subject = data["studied_subject"] as? String else { return nil }
+                let duration = Int(end.timeIntervalSince(start))
+                return Session(date: start, duration: duration, type: .work, subject: subject)
+            }
+            lastFetchedDoc = snap.documents.last
+            history += newSessions
+            hasMore = snap.documents.count == 10
+        } catch {
+            print("Error fetching sessions: \(error)")
+            hasMore = false
+        }
+    }
 }
 
 // MARK: – Helpers
@@ -365,7 +436,8 @@ private struct ControlButton: View {
                 .font(.largeTitle)
                 .foregroundColor(.orange)
                 .frame(width: 64, height: 64)
-                .background(.bar, in: Circle())
+                // iOS 26 liquid glass style for button background
+                .glassEffect()
         }
     }
 }
@@ -384,13 +456,14 @@ private struct HistoryRow: View {
                     .font(.subheadline).bold()
                 Text(fmt.string(from: session.date))
                     .font(.caption).foregroundColor(.secondary)
+                Text(session.subject)
+                    .font(.caption2).foregroundColor(.secondary)
             }
             Spacer()
             Text("\(session.duration/60) min")
                 .font(.subheadline)
         }
         .padding()
-        .glassEffect()
     }
 }
 
@@ -404,6 +477,16 @@ private struct CongratsView: View {
             Button("Take 20 min break", action: onContinue)
                 .buttonStyle(.borderedProminent)
         }
+        // iOS 26 liquid glass effect for congrats container
+        .glassEffect()
         .padding(40)
     }
+}
+
+#Preview {
+    PomodoroTimerView(
+        startSession: .constant(false),
+        userWillStudy: .constant("Sample Subject"),
+        userId: .constant("preview-user-id")
+    )
 }
