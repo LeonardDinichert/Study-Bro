@@ -5,12 +5,18 @@ import FirebaseFirestore
 struct LearningNote: Codable, Identifiable {
     var id: String?
 
-  let category: String
+    let category: String
     let text: String
     let importance: String
     var reviewCount: Int
     var nextReview: Date
     let createdAt: Date
+    var reminder_1: Bool
+    var reminder_2: Bool
+    var reminder_3: Bool
+    var reminder_4: Bool
+    var reminder_5: Bool
+
     init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date) {
         self.id = id
         self.category = category
@@ -19,6 +25,26 @@ struct LearningNote: Codable, Identifiable {
         self.reviewCount = reviewCount
         self.nextReview = nextReview
         self.createdAt = createdAt
+        self.reminder_1 = false
+        self.reminder_2 = false
+        self.reminder_3 = false
+        self.reminder_4 = false
+        self.reminder_5 = false
+    }
+
+    init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, reminder_1: Bool = false, reminder_2: Bool = false, reminder_3: Bool = false, reminder_4: Bool = false, reminder_5: Bool = false) {
+        self.id = id
+        self.category = category
+        self.text = text
+        self.importance = importance
+        self.reviewCount = reviewCount
+        self.nextReview = nextReview
+        self.createdAt = createdAt
+        self.reminder_1 = reminder_1
+        self.reminder_2 = reminder_2
+        self.reminder_3 = reminder_3
+        self.reminder_4 = reminder_4
+        self.reminder_5 = reminder_5
     }
 
     init?(document: DocumentSnapshot) {
@@ -37,16 +63,29 @@ struct LearningNote: Codable, Identifiable {
         self.reviewCount = reviewCount
         self.nextReview = nextReviewTS.dateValue()
         self.createdAt = createdTS.dateValue()
+
+        self.reminder_1 = data["reminder_1"] as? Bool ?? false
+        self.reminder_2 = data["reminder_2"] as? Bool ?? false
+        self.reminder_3 = data["reminder_3"] as? Bool ?? false
+        self.reminder_4 = data["reminder_4"] as? Bool ?? false
+        self.reminder_5 = data["reminder_5"] as? Bool ?? false
     }
 
     var dictionary: [String: Any] {
-        [
+        var dict: [String: Any] = [
             "category": category,
             "text": text,
             "importance": importance,
             "reviewCount": reviewCount,
             "nextReview": Timestamp(date: nextReview),
-            "createdAt": Timestamp(date: createdAt)
+            "createdAt": Timestamp(date: createdAt),
+            "reminder_1": reminder_1,
+            "reminder_2": reminder_2,
+            "reminder_3": reminder_3,
+            "reminder_4": reminder_4,
+            "reminder_5": reminder_5
         ]
+
+        return dict
     }
 }

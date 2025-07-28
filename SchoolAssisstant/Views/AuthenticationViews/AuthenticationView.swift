@@ -46,6 +46,16 @@ struct AuthenticationView: View {
 
                     }
                     
+                    Button {
+                        Task {
+                            try await AuthService.shared.signInUser(email: "betatest@user.com", password: "password_for_betaUser")
+                            showSignInView = false
+                        }
+                        
+                    } label: {
+                        Text("I am a demo test user")
+                    }
+                    
                     // Navigation Buttons as Cards
                     VStack(spacing: 20) {
                         NavigationLink {

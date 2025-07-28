@@ -108,9 +108,6 @@
         }
       }
     },
-    "Break" : {
-
-    },
     "By resting a few minutes before working, you will be able to concentrate better" : {
       "localizations" : {
         "fr" : {
@@ -195,9 +192,6 @@
     "Describe it here" : {
 
     },
-    "Did you learn something new?" : {
-
-    },
     "Don't have an account yet?" : {
 
     },
@@ -253,6 +247,9 @@
 
     },
     "How did you discover the app?" : {
+
+    },
+    "I am a demo test user" : {
 
     },
     "I learned something new" : {
@@ -404,6 +401,9 @@
     "Reset Timer?" : {
 
     },
+    "Review Schedule Graph" : {
+
+    },
     "Save" : {
 
     },
@@ -535,6 +535,9 @@
 
     },
     "Your Notes" : {
+
+    },
+    "Your notes : " : {
 
     },
     "Your study data will appear here." : {

@@ -153,7 +153,7 @@ struct AddNoteView: View {
             else { continue }
 
             let content = UNMutableNotificationContent()
-            content.title = "Do you remember?"
+            content.title = "Time to revise :"
             content.body = note.text
             content.sound = .default
 

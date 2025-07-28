@@ -57,23 +57,9 @@ struct HomeTab: View {
                     }
                 }
                 
-                // Welcoming orange study button at the bottom
+                
             }
-//            .safeAreaInset(edge: .bottom) {
-//                Button(action: {
-//                    selectedTab = .studySession
-//                }) {
-//                    Text("Start Studying!")
-//                        .font(.title2.weight(.bold))
-//                        .foregroundColor(.white)
-//                        .frame(maxWidth: .infinity)
-//                        .padding()
-//                        .background(RoundedRectangle(cornerRadius: 16).fill(.orange.gradient))
-//                        .shadow(radius: 6, y: 2)
-//                }
-//                .padding(.horizontal, 24)
-//                .padding(.bottom, 8)
-//            }
+
             .navigationBarTitleDisplayMode(.large)
         }
         .onAppear {

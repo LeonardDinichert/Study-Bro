@@ -8,7 +8,7 @@ struct UserWantsToReviseView: View {
     var body: some View {
         NavigationStack {
             List {
-                ForEach(viewModel.dueNotes) { note in
+                ForEach(viewModel.notes) { note in
                     VStack(alignment: .leading, spacing: 4) {
                         Text(note.category)
                             .font(.headline)
@@ -22,7 +22,7 @@ struct UserWantsToReviseView: View {
                             .fill(.thinMaterial)
                     )
                     .padding(.vertical, 4)
-                    .animation(.smooth, value: viewModel.dueNotes.count)
+                    .animation(.smooth, value: viewModel.notes.count)
                     .swipeActions {
                         Button(role: .destructive) {
                             Task { await viewModel.delete(note: note) }
@@ -37,7 +37,7 @@ struct UserWantsToReviseView: View {
             .shadow(color: .black.opacity(0.12), radius: 10, x: 0, y: 6)
             .padding(.vertical, 16)
             .padding(.horizontal, 12)
-            .animation(.smooth, value: viewModel.dueNotes.count)
+            .animation(.smooth, value: viewModel.notes.count)
             .navigationTitle("Your Notes")
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {

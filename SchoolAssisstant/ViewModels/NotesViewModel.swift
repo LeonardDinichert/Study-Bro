@@ -4,13 +4,14 @@ import FirebaseAuth
 @MainActor
 final class NotesViewModel: ObservableObject {
     @Published var notes: [LearningNote] = []
-    @Published var dueNotes: [LearningNote] = []
+   // @Published var dueNotes: [LearningNote] = []
 
     func loadNotes() async {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         do {
             notes = try await NotesManager.shared.fetchNotes(userId: userId)
-            dueNotes = notes.filter { $0.nextReview <= Date() }
+            //dueNotes = notes.filter { $0.nextReview <= Date() }
+            
         } catch {
             print("Error loading notes: \(error)")
         }
