@@ -15,7 +15,7 @@ import FirebaseMessaging
 
 struct DBUser: Codable {
     // MARK: - Properties
-    
+
     let userId: String
     let email: String?
     let age: Int?
@@ -26,6 +26,8 @@ struct DBUser: Codable {
     let biography: String?
     let lastConnection: Date?
     var fcmToken: String?
+    let friends: [String]?
+    let pendingFriends: [String]?
     
     // MARK: - Initializers
     
@@ -40,6 +42,8 @@ struct DBUser: Codable {
         self.biography = nil
         self.lastConnection = nil
         self.fcmToken = nil
+        self.friends = nil
+        self.pendingFriends = nil
     }
     
     init(
@@ -52,7 +56,9 @@ struct DBUser: Codable {
         profileImagePathUrl: String? = nil,
         biography: String? = nil,
         fcmToken: String? = nil,
-        lastConnection: Date? = nil
+        lastConnection: Date? = nil,
+        friends: [String]? = nil,
+        pendingFriends: [String]? = nil
     ) {
         self.userId = userId
         self.email = email
@@ -64,6 +70,8 @@ struct DBUser: Codable {
         self.biography = biography
         self.lastConnection = lastConnection
         self.fcmToken = fcmToken
+        self.friends = friends
+        self.pendingFriends = pendingFriends
     }
     
     // MARK: - Coding Keys
@@ -80,6 +88,8 @@ struct DBUser: Codable {
         // Store the FCM token under "fcm_token" in Firestore
         case fcmToken = "fcm_token"
         case lastConnection = "last_connection"
+        case friends = "friends"
+        case pendingFriends = "pending_friends"
     }
     
     // MARK: - Decoder Initializer
@@ -96,6 +106,8 @@ struct DBUser: Codable {
         self.biography = try container.decodeIfPresent(String.self, forKey: .biography)
         self.fcmToken = try container.decodeIfPresent(String.self, forKey: .fcmToken)
         self.lastConnection = try container.decodeIfPresent(Date.self, forKey: .lastConnection)
+        self.friends = try container.decodeIfPresent([String].self, forKey: .friends)
+        self.pendingFriends = try container.decodeIfPresent([String].self, forKey: .pendingFriends)
     }
     
     // MARK: - Encoder Method
@@ -112,6 +124,8 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.biography, forKey: .biography)
         try container.encodeIfPresent(self.fcmToken, forKey: .fcmToken)
         try container.encodeIfPresent(self.lastConnection, forKey: .lastConnection)
+        try container.encodeIfPresent(self.friends, forKey: .friends)
+        try container.encodeIfPresent(self.pendingFriends, forKey: .pendingFriends)
     }
 
     init?(id: String, data: [String: Any]) {
@@ -124,6 +138,8 @@ struct DBUser: Codable {
         self.profileImagePathUrl = data[CodingKeys.profileImagePathUrl.rawValue] as? String
         self.biography = data[CodingKeys.biography.rawValue] as? String
         self.fcmToken = data[CodingKeys.fcmToken.rawValue] as? String
+        self.friends = data[CodingKeys.friends.rawValue] as? [String]
+        self.pendingFriends = data[CodingKeys.pendingFriends.rawValue] as? [String]
         if let ts = data[CodingKeys.lastConnection.rawValue] as? Timestamp {
             self.lastConnection = ts.dateValue()
         } else {
@@ -144,6 +160,8 @@ struct DBUser: Codable {
         if let biography = biography { dict[CodingKeys.biography.rawValue] = biography }
         if let fcmToken = fcmToken { dict[CodingKeys.fcmToken.rawValue] = fcmToken }
         if let lastConnection = lastConnection { dict[CodingKeys.lastConnection.rawValue] = Timestamp(date: lastConnection) }
+        if let friends = friends { dict[CodingKeys.friends.rawValue] = friends }
+        if let pendingFriends = pendingFriends { dict[CodingKeys.pendingFriends.rawValue] = pendingFriends }
         return dict
     }
 }
