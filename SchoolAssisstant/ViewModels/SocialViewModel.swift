@@ -48,15 +48,23 @@ class FriendsViewModel: ObservableObject {
     @MainActor
     func acceptFriendRequest(from user: DBUser) async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
         let myDoc = UserManager.shared.userDocument(userId: currentId)
         let theirDoc = UserManager.shared.userDocument(userId: user.userId)
-        try await myDoc.updateData([
+
+        let batch = db.batch()
+        batch.updateData([
             "pendingFriends": FieldValue.arrayRemove([user.userId]),
             "friends": FieldValue.arrayUnion([user.userId])
-        ])
-        try await theirDoc.updateData([
+        ], forDocument: myDoc)
+        batch.updateData([
+            "sentFriendRequests": FieldValue.arrayRemove([currentId]),
             "friends": FieldValue.arrayUnion([currentId])
-        ])
+        ], forDocument: theirDoc)
+
+        try await batch.commit()
+
         await load()
         await loadPendingRequests()
     }
@@ -64,10 +72,21 @@ class FriendsViewModel: ObservableObject {
     @MainActor
     func declineFriendRequest(from user: DBUser) async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
         let myDoc = UserManager.shared.userDocument(userId: currentId)
-        try await myDoc.updateData([
+        let theirDoc = UserManager.shared.userDocument(userId: user.userId)
+
+        let batch = db.batch()
+        batch.updateData([
             "pendingFriends": FieldValue.arrayRemove([user.userId])
-        ])
+        ], forDocument: myDoc)
+        batch.updateData([
+            "sentFriendRequests": FieldValue.arrayRemove([currentId])
+        ], forDocument: theirDoc)
+
+        try await batch.commit()
+
         await loadPendingRequests()
     }
 
