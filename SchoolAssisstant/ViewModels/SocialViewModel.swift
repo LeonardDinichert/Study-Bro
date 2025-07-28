@@ -12,7 +12,8 @@ class FriendsViewModel: ObservableObject {
         do {
             let allUsers = try await UserManager.shared.getAllUsers()
             let me = allUsers.first(where: { $0.userId == currentId })
-            guard let friendIds = me?.dictionary["friends"] as? [String] else {
+            let friendIds = me?.friends ?? []
+            if friendIds.isEmpty {
                 self.friends = []
                 await loadPendingRequests()
                 return
@@ -33,7 +34,8 @@ class FriendsViewModel: ObservableObject {
         do {
             let allUsers = try await UserManager.shared.getAllUsers()
             let me = allUsers.first(where: { $0.userId == currentId })
-            guard let pendingIds = me?.dictionary["pendingFriends"] as? [String] else {
+            let pendingIds = me?.pendingFriends ?? []
+            if pendingIds.isEmpty {
                 self.incomingRequests = []
                 return
             }
@@ -48,15 +50,23 @@ class FriendsViewModel: ObservableObject {
     @MainActor
     func acceptFriendRequest(from user: DBUser) async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
         let myDoc = UserManager.shared.userDocument(userId: currentId)
         let theirDoc = UserManager.shared.userDocument(userId: user.userId)
-        try await myDoc.updateData([
+
+        let batch = db.batch()
+        batch.updateData([
             "pendingFriends": FieldValue.arrayRemove([user.userId]),
             "friends": FieldValue.arrayUnion([user.userId])
-        ])
-        try await theirDoc.updateData([
+        ], forDocument: myDoc)
+        batch.updateData([
+            "sentFriendRequests": FieldValue.arrayRemove([currentId]),
             "friends": FieldValue.arrayUnion([currentId])
-        ])
+        ], forDocument: theirDoc)
+
+        try await batch.commit()
+
         await load()
         await loadPendingRequests()
     }
@@ -64,10 +74,21 @@ class FriendsViewModel: ObservableObject {
     @MainActor
     func declineFriendRequest(from user: DBUser) async throws {
         guard let currentId = Auth.auth().currentUser?.uid else { return }
+
+        let db = Firestore.firestore()
         let myDoc = UserManager.shared.userDocument(userId: currentId)
-        try await myDoc.updateData([
+        let theirDoc = UserManager.shared.userDocument(userId: user.userId)
+
+        let batch = db.batch()
+        batch.updateData([
             "pendingFriends": FieldValue.arrayRemove([user.userId])
-        ])
+        ], forDocument: myDoc)
+        batch.updateData([
+            "sentFriendRequests": FieldValue.arrayRemove([currentId])
+        ], forDocument: theirDoc)
+
+        try await batch.commit()
+
         await loadPendingRequests()
     }
     
@@ -85,7 +106,7 @@ class FriendsViewModel: ObservableObject {
         guard let url = URL(string: "https://us-central1-jobb-8f5e7.cloudfunctions.net/sendPushNotification") else { return }
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
-        
+
         let bodyData: [String: Any] = [
             "token": token,
             "title": title,
@@ -93,13 +114,13 @@ class FriendsViewModel: ObservableObject {
         ]
         request.httpBody = try? JSONSerialization.data(withJSONObject: bodyData, options: [])
         request.addValue("application/json", forHTTPHeaderField: "Content-Type")
-        
+
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
                 print("Error sending notification request: \(error)")
                 return
             }
-            
+
             if let httpResponse = response as? HTTPURLResponse {
                 if (200...299).contains(httpResponse.statusCode) {
                     print("Notification request sent successfully")

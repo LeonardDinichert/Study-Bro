@@ -75,7 +75,8 @@
 		E39C60B02E0DBAB2006B4C39 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = E39C604A2E0DBAB2006B4C39 /* GoogleService-Info.plist */; };
 		E3C94B822E34E157004D8262 /* StudySessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B812E34E157004D8262 /* StudySessionModel.swift */; };
 		E3C94B842E34E22A004D8262 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C94B832E34E22A004D8262 /* Media.xcassets */; };
-		E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+E39C60B12E0DBAB2006B4C39 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60B22E0DBAB2006B4C39 /* NotificationsView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,7 +139,8 @@
 		E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchoolAssisstant.entitlements; sourceTree = "<group>"; };
 		E3C94B812E34E157004D8262 /* StudySessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionModel.swift; sourceTree = "<group>"; };
 		E3C94B832E34E22A004D8262 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+E39C60B22E0DBAB2006B4C39 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -308,9 +310,10 @@
 		E39C60722E0DBAB2006B4C39 /* SocialPage */ = {
 			isa = PBXGroup;
 			children = (
-				E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
-				E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
-			);
+E39C60712E0DBAB2006B4C39 /* SocialView.swift */,
+E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */,
+E39C60B22E0DBAB2006B4C39 /* NotificationsView.swift */,
+);
 			path = SocialPage;
 			sourceTree = "<group>";
 		};
@@ -512,8 +515,9 @@
 				E39C60A62E0DBAB2006B4C39 /* IntroPagesModel.swift in Sources */,
 				E39C60A72E0DBAB2006B4C39 /* LearningNote.swift in Sources */,
 				E39C60A82E0DBAB2006B4C39 /* ShowEmailAdressView.swift in Sources */,
-				E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */,
-				E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */,
+E39C60A92E0DBAB2006B4C39 /* SocialView.swift in Sources */,
+E39C60B12E0DBAB2006B4C39 /* NotificationsView.swift in Sources */,
+E39C60AA2E0DBAB2006B4C39 /* SettingsView.swift in Sources */,
 				E39C60AB2E0DBAB2006B4C39 /* MeditationPreWorkView.swift in Sources */,
 				E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */,
 				A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */,
