@@ -12,7 +12,8 @@ class FriendsViewModel: ObservableObject {
         do {
             let allUsers = try await UserManager.shared.getAllUsers()
             let me = allUsers.first(where: { $0.userId == currentId })
-            guard let friendIds = me?.dictionary["friends"] as? [String] else {
+            let friendIds = me?.friends ?? []
+            if friendIds.isEmpty {
                 self.friends = []
                 await loadPendingRequests()
                 return
@@ -33,7 +34,8 @@ class FriendsViewModel: ObservableObject {
         do {
             let allUsers = try await UserManager.shared.getAllUsers()
             let me = allUsers.first(where: { $0.userId == currentId })
-            guard let pendingIds = me?.dictionary["pendingFriends"] as? [String] else {
+            let pendingIds = me?.pendingFriends ?? []
+            if pendingIds.isEmpty {
                 self.incomingRequests = []
                 return
             }
