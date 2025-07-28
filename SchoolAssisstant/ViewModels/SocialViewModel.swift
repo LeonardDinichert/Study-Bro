@@ -82,6 +82,35 @@ class FriendsViewModel: ObservableObject {
     }
 
     func sendNotificationRequest(title: String, body: String, token: String) {
-        // Implementation of notification sending
+        guard let url = URL(string: "https://us-central1-jobb-8f5e7.cloudfunctions.net/sendPushNotification") else { return }
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+
+        let bodyData: [String: Any] = [
+            "token": token,
+            "title": title,
+            "body": body
+        ]
+        request.httpBody = try? JSONSerialization.data(withJSONObject: bodyData, options: [])
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                print("Error sending notification request: \(error)")
+                return
+            }
+
+            if let httpResponse = response as? HTTPURLResponse {
+                if (200...299).contains(httpResponse.statusCode) {
+                    print("Notification request sent successfully")
+                } else {
+                    print("Server error: \(httpResponse.statusCode)")
+                    if let data = data, let errorMessage = String(data: data, encoding: .utf8) {
+                        print("Error message: \(errorMessage)")
+                    }
+                }
+            }
+        }
+        task.resume()
     }
 }
