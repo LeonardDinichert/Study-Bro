@@ -255,18 +255,24 @@ final class UserManager: ObservableObject {
         return snapshot.documents.compactMap { StudySession(document: $0) }
     }
 
-    func calculateStreak(userId: String, days: Int = 30) async throws -> Int {
-        let sessions = try await fetchRecentSessions(userId: userId, days: days)
+    /// Calculates the current work streak for the given user.
+    /// - Returns: The number of consecutive days the user has worked up to **today**.
+    ///   If the user hasn't worked today the streak will be `0`.
+    func calculateStreak(userId: String) async throws -> Int {
+        let sessions = try await fetchStudySessions(userId: userId)
         let cal = Calendar.current
-        let dayStarts = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted(by: >)
-        guard let first = dayStarts.first else { return 0 }
+        // Unique days a session was started on, sorted ascending
+        let dayStarts = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted()
+        guard let last = dayStarts.last, cal.isDateInToday(last) else { return 0 }
+
         var count = 1
-        var prev = first
-        for day in dayStarts.dropFirst() {
-            if cal.dateComponents([.day], from: day, to: prev).day == 1 {
+        var prev = last
+        for day in dayStarts.dropLast().reversed() {
+            let diff = cal.dateComponents([.day], from: day, to: prev).day ?? 0
+            if diff == 1 {
                 count += 1
                 prev = day
-            } else if day == prev {
+            } else if diff == 0 {
                 continue
             } else {
                 break

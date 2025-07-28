@@ -31,15 +31,17 @@ final class StatsViewModel: ObservableObject {
     
     var streak: Int {
         let cal = Calendar.current
-        let days = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted(by: >)
-        guard let first = days.first else { return 0 }
+        let days = Set(sessions.map { cal.startOfDay(for: $0.session_start) }).sorted()
+        guard let last = days.last, cal.isDateInToday(last) else { return 0 }
+
         var count = 1
-        var prev = first
-        for day in days.dropFirst() {
-            if cal.dateComponents([.day], from: day, to: prev).day == 1 {
+        var prev = last
+        for day in days.dropLast().reversed() {
+            let diff = cal.dateComponents([.day], from: day, to: prev).day ?? 0
+            if diff == 1 {
                 count += 1
                 prev = day
-            } else if day == prev {
+            } else if diff == 0 {
                 continue
             } else {
                 break
