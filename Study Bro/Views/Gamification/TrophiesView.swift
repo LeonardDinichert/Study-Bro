@@ -10,7 +10,7 @@ struct TrophiesView: View {
                     Text("No trophies yet")
                         .foregroundStyle(.secondary)
                 } else {
-                    ForEach(viewModel.trophies, id: \._self) { trophy in
+                    ForEach(viewModel.trophies, id: \ .self) { trophy in
                         Text(trophy)
                     }
                 }

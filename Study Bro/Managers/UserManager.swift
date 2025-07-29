@@ -49,7 +49,7 @@ struct DBUser: Codable {
         self.friends = nil
         self.pendingFriends = nil
     }
-    
+
     init(
         userId: String,
         email: String? = nil,
@@ -80,6 +80,23 @@ struct DBUser: Codable {
         self.trophies = trophies
         self.friends = friends
         self.pendingFriends = pendingFriends
+    }
+    
+    init(userId: String, email: String?, age: Int?, username: String?, firstName: String?, lastName: String?, profileImagePathUrl: String?, biography: String?, fcmToken: String?, isStudying: [String]?, lastConnection: Date?, friends: [String]?, pendingFriends: [String]?) {
+        self.userId = userId
+        self.email = email
+        self.age = age
+        self.username = username
+        self.firstName = firstName
+        self.lastName = lastName
+        self.profileImagePathUrl = profileImagePathUrl
+        self.biography = biography
+        self.fcmToken = fcmToken
+        self.isStudying = isStudying
+        self.lastConnection = lastConnection
+        self.friends = friends
+        self.pendingFriends = pendingFriends
+        self.trophies = nil
     }
     
     // MARK: - Coding Keys
@@ -467,4 +484,3 @@ final class userManagerViewModel: ObservableObject {
 extension DBUser: Identifiable {
     public var id: String { userId }
 }
-

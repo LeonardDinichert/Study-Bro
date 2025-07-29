@@ -58,8 +58,7 @@ struct FriendsView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
-                        .padding()
-                        .cardStyle()
+                        .glassEffect()
                     }
                 }
                 .padding()
