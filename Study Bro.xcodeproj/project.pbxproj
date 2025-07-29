@@ -202,7 +202,7 @@
 		E3405EE82DA80F2100216E57 = {
 			isa = PBXGroup;
 			children = (
-				E39C607E2E0DBAB2006B4C39 /* SchoolAssisstant */,
+				E39C607E2E0DBAB2006B4C39 /* Study Bro */,
 				E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */,
 			);
 			sourceTree = "<group>";
@@ -390,7 +390,7 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		E39C607E2E0DBAB2006B4C39 /* SchoolAssisstant */ = {
+		E39C607E2E0DBAB2006B4C39 /* Study Bro */ = {
 			isa = PBXGroup;
 			children = (
 				E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */,
@@ -402,7 +402,7 @@
 				E39C60562E0DBAB2006B4C39 /* ViewModels */,
 				E39C607D2E0DBAB2006B4C39 /* Views */,
 			);
-			path = SchoolAssisstant;
+			path = "Study Bro";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -454,7 +454,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "StudyBro" */;
+			buildConfigurationList = E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "Study Bro" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -759,7 +759,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "StudyBro" */ = {
+		E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "Study Bro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3405EFA2DA80F2300216E57 /* Debug */,

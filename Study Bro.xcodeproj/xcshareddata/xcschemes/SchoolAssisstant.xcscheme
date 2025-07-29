@@ -17,7 +17,7 @@
                BlueprintIdentifier = "E3405EF02DA80F2100216E57"
                BuildableName = "SchoolAssisstant.app"
                BlueprintName = "SchoolAssisstant"
-               ReferencedContainer = "container:StudyBro.xcodeproj">
+               ReferencedContainer = "container:Study Bro.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,7 +33,7 @@
             BlueprintIdentifier = "E3405EF02DA80F2100216E57"
             BuildableName = "SchoolAssisstant.app"
             BlueprintName = "SchoolAssisstant"
-            ReferencedContainer = "container:StudyBro.xcodeproj">
+            ReferencedContainer = "container:Study Bro.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <Testables>
@@ -56,7 +56,7 @@
             BlueprintIdentifier = "E3405EF02DA80F2100216E57"
             BuildableName = "SchoolAssisstant.app"
             BlueprintName = "SchoolAssisstant"
-            ReferencedContainer = "container:StudyBro.xcodeproj">
+            ReferencedContainer = "container:Study Bro.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -73,7 +73,7 @@
             BlueprintIdentifier = "E3405EF02DA80F2100216E57"
             BuildableName = "SchoolAssisstant.app"
             BlueprintName = "SchoolAssisstant"
-            ReferencedContainer = "container:StudyBro.xcodeproj">
+            ReferencedContainer = "container:Study Bro.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
