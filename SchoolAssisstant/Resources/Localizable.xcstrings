@@ -32,35 +32,6 @@
         }
       }
     },
-    "%lld day streak! Keep it up!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld Tage in Folge! Machen Sie weiter so!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Racha de %lld días! ¡Siga así!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "%lld jours d'affilée ! Continuez ainsi !"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Серия из %lld дней! Так держать!"
-          }
-        }
-      }
-    },
     "%lld min" : {
       "localizations" : {
         "de" : {
@@ -497,7 +468,14 @@
       }
     },
     "App Appearance" : {
-
+      "localizations" : {
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Apparence de l’application"
+          }
+        }
+      }
     },
     "Are you sure you want to delete your account? You cannot undo it" : {
       "localizations" : {
@@ -1360,35 +1338,6 @@
         }
       }
     },
-    "Enter a category" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Geben Sie une Kategorie ein"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ingrese una catégorie"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Entrez une catégorie"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Введите catégorie"
-          }
-        }
-      }
-    },
     "Enter your email" : {
       "localizations" : {
         "de" : {
@@ -1584,35 +1533,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Французский"
-          }
-        }
-      }
-    },
-    "Friend Requests" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Freundschaftsanfragen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Solicitudes de amistad"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Demandes d'amis"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Запросы в друзья"
           }
         }
       }
@@ -3511,35 +3431,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Зарегистрироваться через Google"
-          }
-        }
-      }
-    },
-    "Start building your streak!" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Starten Sie Ihre Serie!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Comience su racha!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Commencez votre série !"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Начните свою серию!"
           }
         }
       }

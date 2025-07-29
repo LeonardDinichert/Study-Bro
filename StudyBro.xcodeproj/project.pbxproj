@@ -454,7 +454,7 @@
 					};
 				};
 			};
-			buildConfigurationList = E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "SchoolAssisstant" */;
+			buildConfigurationList = E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "StudyBro" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -759,7 +759,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "SchoolAssisstant" */ = {
+		E3405EEC2DA80F2100216E57 /* Build configuration list for PBXProject "StudyBro" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				E3405EFA2DA80F2300216E57 /* Debug */,

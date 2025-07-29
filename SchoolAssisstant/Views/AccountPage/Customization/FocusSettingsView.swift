@@ -15,7 +15,6 @@ struct FocusSettingsView: View {
         ZStack {
             RoundedRectangle(cornerRadius: 32, style: .continuous)
                 .fill(.ultraThinMaterial)
-                .glassEffect()
                 .shadow(radius: 16)
             VStack(spacing: 24) {
                 Toggle("Auto-activate Work Focus during Pomodoro", isOn: $autoActivateWorkFocus)
