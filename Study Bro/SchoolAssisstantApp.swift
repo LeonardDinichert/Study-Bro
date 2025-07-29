@@ -60,7 +60,7 @@ class AppDelegate: NSObject, UIApplicationDelegate,
             if let uid = Auth.auth().currentUser?.uid {
                 UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)
             }
-        }  // :contentReference[oaicite:9]{index=9}
+        }
 
         return true
     }
