@@ -2471,6 +2471,9 @@
         }
       }
     },
+    "No reminders" : {
+
+    },
     "No sessions yet" : {
       "localizations" : {
         "de" : {

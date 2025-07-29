@@ -58,6 +58,7 @@ struct FriendsView: View {
                                     .foregroundColor(.secondary)
                             }
                         }
+                        .padding()
                         .glassEffect()
                     }
                 }

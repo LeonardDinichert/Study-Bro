@@ -16,10 +16,6 @@ struct AccountTab: View {
     var body: some View {
 
         NavigationStack {
-            ZStack {
-                Rectangle()
-                    .fill(.ultraThinMaterial)
-                    .ignoresSafeArea()
                 
                 if let user = viewModel.user {
                     
@@ -284,7 +280,7 @@ struct AccountTab: View {
                     )
                     .padding()
                 }
-            }
+            
         }
         .onAppear() {
             Task {

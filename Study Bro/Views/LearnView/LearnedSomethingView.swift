@@ -17,6 +17,8 @@ struct LearnedSomethingView: View {
     
     @StateObject private var viewModel = NotesViewModel()
     
+    @Environment(\.scenePhase) private var scenePhase
+    
     private var filteredNotes: [LearningNote] {
         if selectedCategory == "All" {
             return viewModel.notes
@@ -160,19 +162,27 @@ struct LearnedSomethingView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .animation(.smooth, value: userWantsAddInfo || userWantsToRevise)
             }
-            // Modals
-            .fullScreenCover(isPresented: $userWantsAddInfo) {
-                AddNoteView(isPresented: $userWantsAddInfo)
-                    .background(.regularMaterial)
+        }
+        .onAppear {
+            Task { await loadUserCategories() }
+        }
+        .onChange(of: scenePhase) { newPhase in
+            if newPhase == .active {
+                Task { await loadUserCategories() }
             }
-            .fullScreenCover(isPresented: $userWantsToRevise) {
-                UserWantsToReviseView().onDisappear { userWantsToRevise = false }
-                    .background(.regularMaterial)
-            }
-            .task {
-                await viewModel.loadNotes()
-                await loadUserCategories()
-            }
+        }
+        // Modals
+        .fullScreenCover(isPresented: $userWantsAddInfo) {
+            AddNoteView(isPresented: $userWantsAddInfo)
+                .background(.regularMaterial)
+        }
+        .fullScreenCover(isPresented: $userWantsToRevise) {
+            UserWantsToReviseView().onDisappear { userWantsToRevise = false }
+                .background(.regularMaterial)
+        }
+        .task {
+            await viewModel.loadNotes()
+            await loadUserCategories()
         }
     }
 }

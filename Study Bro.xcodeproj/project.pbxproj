@@ -18,6 +18,7 @@
 		E31A18B62E38E97C000B08DE /* FocusStatusCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18B52E38E97C000B08DE /* FocusStatusCenter.swift */; };
 		E31A18B82E393367000B08DE /* TrophiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18B72E393367000B08DE /* TrophiesView.swift */; };
 		E31A18BA2E3933CD000B08DE /* TrophiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18B92E3933CD000B08DE /* TrophiesViewModel.swift */; };
+		E31A18BC2E39357D000B08DE /* CalendarEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18BB2E39357D000B08DE /* CalendarEventsViewModel.swift */; };
 		E3405F282DA80F7900216E57 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F272DA80F7900216E57 /* FirebaseAppDistribution-Beta */; };
 		E3405F2A2DA80F7900216E57 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F292DA80F7900216E57 /* FirebaseAuth */; };
 		E3405F2C2DA80F7900216E57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F2B2DA80F7900216E57 /* FirebaseFirestore */; };
@@ -97,6 +98,7 @@
 		E31A18B52E38E97C000B08DE /* FocusStatusCenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusStatusCenter.swift; sourceTree = "<group>"; };
 		E31A18B72E393367000B08DE /* TrophiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrophiesView.swift; sourceTree = "<group>"; };
 		E31A18B92E3933CD000B08DE /* TrophiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrophiesViewModel.swift; sourceTree = "<group>"; };
+		E31A18BB2E39357D000B08DE /* CalendarEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventsViewModel.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -266,6 +268,7 @@
 				E39C60522E0DBAB2006B4C39 /* NotesViewModel.swift */,
 				E39C60532E0DBAB2006B4C39 /* SignUpEmailViewModel.swift */,
 				E39C60542E0DBAB2006B4C39 /* SocialViewModel.swift */,
+				E31A18BB2E39357D000B08DE /* CalendarEventsViewModel.swift */,
 				E39C60552E0DBAB2006B4C39 /* TasksViewModel.swift */,
 				D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */,
 				006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */,
@@ -560,6 +563,7 @@
 				E39C60AB2E0DBAB2006B4C39 /* MeditationPreWorkView.swift in Sources */,
 				E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */,
 				E31A18BA2E3933CD000B08DE /* TrophiesViewModel.swift in Sources */,
+				E31A18BC2E39357D000B08DE /* CalendarEventsViewModel.swift in Sources */,
 				A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */,
 				72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */,
 				312E13329A464195B5DE2488 /* ChatBotView.swift in Sources */,
