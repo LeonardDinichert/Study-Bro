@@ -114,7 +114,7 @@ struct AddNoteView: View {
         }
 
         let now = Date()
-        let note = LearningNote(
+        var note = LearningNote(
             category: category,
             text: learned,
             importance: importance.rawValue,
@@ -122,6 +122,11 @@ struct AddNoteView: View {
             nextReview: Calendar.current.date(byAdding: .day, value: 1, to: now)!,
             createdAt: now
         )
+        note.firstReminderDate = Calendar.current.date(byAdding: .day, value: 1, to: now)
+        note.secondReminderDate = Calendar.current.date(byAdding: .day, value: 4, to: now)
+        note.thirdReminderDate = Calendar.current.date(byAdding: .day, value: 8, to: now)
+        note.fourthReminderDate = Calendar.current.date(byAdding: .month, value: 1, to: now)
+        note.fifthReminderDate = Calendar.current.date(byAdding: .month, value: 4, to: now)
 
         do {
             try await NotesManager.shared.addNote(note, userId: userId)
