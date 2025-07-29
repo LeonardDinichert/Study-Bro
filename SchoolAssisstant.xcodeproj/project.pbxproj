@@ -12,6 +12,7 @@
 		72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */; };
 		A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C8ED5EBAD496CB5D8CFA0 /* ChatMessage.swift */; };
 		E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */; };
+		E31A18AE2E38D4A6000B08DE /* CHooseStudyBranches.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AD2E38D4A6000B08DE /* CHooseStudyBranches.swift */; };
 		E3405F282DA80F7900216E57 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F272DA80F7900216E57 /* FirebaseAppDistribution-Beta */; };
 		E3405F2A2DA80F7900216E57 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F292DA80F7900216E57 /* FirebaseAuth */; };
 		E3405F2C2DA80F7900216E57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F2B2DA80F7900216E57 /* FirebaseFirestore */; };
@@ -85,6 +86,7 @@
 		A282BA3CAB414928BD2CDE16 /* ChatBotView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBotView.swift; sourceTree = "<group>"; };
 		D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryViewModel.swift; sourceTree = "<group>"; };
 		E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoteView.swift; sourceTree = "<group>"; };
+		E31A18AD2E38D4A6000B08DE /* CHooseStudyBranches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CHooseStudyBranches.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -255,6 +257,7 @@
 				E39C605C2E0DBAB2006B4C39 /* SettingsView.swift */,
 				E39C605D2E0DBAB2006B4C39 /* ShowEmailAdressView.swift */,
 				E39C605E2E0DBAB2006B4C39 /* ShowPasswordView.swift */,
+				E31A18AD2E38D4A6000B08DE /* CHooseStudyBranches.swift */,
 			);
 			path = AccountPage;
 			sourceTree = "<group>";
@@ -488,6 +491,7 @@
 				E39C608E2E0DBAB2006B4C39 /* LogInView.swift in Sources */,
 				E39C608F2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift in Sources */,
 				E39C60902E0DBAB2006B4C39 /* StorageManager.swift in Sources */,
+				E31A18AE2E38D4A6000B08DE /* CHooseStudyBranches.swift in Sources */,
 				E39C60912E0DBAB2006B4C39 /* UserInfosCreation.swift in Sources */,
 				E39C60922E0DBAB2006B4C39 /* TaskManager.swift in Sources */,
 				E39C60932E0DBAB2006B4C39 /* LegalView.swift in Sources */,
@@ -665,11 +669,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SchoolAssisstant/SchoolAssisstant.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = F6VFNA642Y;
+				DEVELOPMENT_TEAM = F6VFNA642Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
@@ -687,7 +689,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeonardDinichert.SchoolAssisstant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = StuddyBuddy;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -701,11 +702,9 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = SchoolAssisstant/SchoolAssisstant.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
-				CODE_SIGN_STYLE = Manual;
+				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = "";
-				"DEVELOPMENT_TEAM[sdk=iphoneos*]" = F6VFNA642Y;
+				DEVELOPMENT_TEAM = F6VFNA642Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
@@ -723,7 +722,6 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.LeonardDinichert.SchoolAssisstant;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = StuddyBuddy;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

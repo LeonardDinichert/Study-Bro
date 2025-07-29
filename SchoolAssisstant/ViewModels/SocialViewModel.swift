@@ -5,6 +5,7 @@ import FirebaseFirestore
 class FriendsViewModel: ObservableObject {
     @Published var friends: [DBUser] = []
     @Published var incomingRequests: [DBUser] = []
+    @Published var friendsStreaks: [String: Int] = [:]
     
     @MainActor
     func load() async throws {
@@ -20,6 +21,17 @@ class FriendsViewModel: ObservableObject {
             }
             let loadedFriends = allUsers.filter { friendIds.contains($0.userId) }
             self.friends = loadedFriends
+            
+            self.friendsStreaks = [:]
+            for friend in loadedFriends {
+                Task {
+                    let streak = (try? await UserManager.shared.calculateStreak(userId: friend.userId)) ?? 0
+                    await MainActor.run { [weak self] in
+                        self?.friendsStreaks[friend.userId] = streak
+                    }
+                }
+            }
+            
             try await loadPendingRequests()
         } catch {
             print("Failed to load friends: \(error)")

@@ -162,6 +162,45 @@ struct AccountTab: View {
                         .padding(.horizontal, 20)
                         .padding(.vertical, 8)
                         
+                        VStack(alignment: .leading) {
+                            Text("Customization")
+                                .font(.title2)
+                                .fontWeight(.semibold)
+                                .padding(.bottom)
+                                .foregroundColor(.primary)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                            NavigationLink {
+                                CHooseStudyBranches()
+                            } label: {
+                                HStack {
+                                    Text("Studying branches")
+                                        .font(.headline)
+                                        .foregroundColor(.primary)
+                                        .fontWeight(.semibold)
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.subheadline)
+                                        .foregroundColor(.primary)
+                                }
+                                .padding()
+                                .background(
+                                    RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                        .fill(.ultraThinMaterial)
+                                        .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                )
+                            }
+                            .padding(.bottom, 6)
+                        }
+                        .padding()
+                        .background(
+                            RoundedRectangle(cornerRadius: 22, style: .continuous)
+                                .fill(.thinMaterial)
+                                .shadow(color: .black.opacity(0.09), radius: 14, x: 0, y: 6)
+                        )
+                        .padding(.horizontal, 20)
+                        .padding(.vertical, 8)
+                        
                         Divider()
                             .padding(.horizontal, 20)
                             .padding(.vertical, 4)
@@ -403,6 +442,46 @@ struct AccountViewSub: View {
                 }
                 
                 Spacer()
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 22, style: .continuous)
+                    .fill(.thinMaterial)
+                    .shadow(color: .black.opacity(0.09), radius: 14, x: 0, y: 6)
+            )
+            .padding(.horizontal, 20)
+            .padding(.vertical, 8)
+            
+            VStack(alignment: .leading) {
+                Text("Customization")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .padding(.bottom)
+                    .foregroundColor(.primary)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
+                NavigationLink {
+                    // TODO: Replace with your customization view
+                    Text("Customization options coming soon")
+                } label: {
+                    HStack {
+                        Text("App Appearance")
+                            .font(.headline)
+                            .foregroundColor(.primary)
+                            .fontWeight(.semibold)
+                        Spacer()
+                        Image(systemName: "chevron.right")
+                            .font(.subheadline)
+                            .foregroundColor(.primary)
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                    )
+                }
+                .padding(.bottom, 6)
             }
             .padding()
             .background(

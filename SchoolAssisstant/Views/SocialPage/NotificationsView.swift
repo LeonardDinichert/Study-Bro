@@ -6,6 +6,11 @@ struct NotificationsView: View {
     var body: some View {
         NavigationStack {
             List {
+                
+                if viewModel.incomingRequests.isEmpty {
+                    Text("You don't have any friend requests at the moment. Invite users to be friends with you or wait to be invited!")
+                }
+                
                 ForEach(viewModel.incomingRequests, id: \.id) { user in
                     HStack {
                         Text(user.username ?? "no username")

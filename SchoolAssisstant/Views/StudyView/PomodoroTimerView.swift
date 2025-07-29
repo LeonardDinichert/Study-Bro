@@ -4,21 +4,40 @@
 //
 //  Created by Léonard Dinichert on 27.04.2025.
 //
+//  Added Pomodoro mode picker (traditional/double) at launch; users can change mode from toolbar.
 //
 
 import SwiftUI
 import UserNotifications
 import FirebaseFirestore
 
+enum PomodoroMode {
+    case traditional
+    case double
+}
+
 struct PomodoroTimerView: View {
     enum Phase { case work, shortBreak, congratulations, longBreak }
 
-    // Durations
-    private let workSec = 25 * 60
+    @State private var modeSelection: PomodoroMode? = nil
 
-    private let shortSec = 5 * 60
-    private let longSec  = 20 * 60
-    private let totalWorkSessions = 4
+    // Durations based on modeSelection with fallback to traditional
+    private var workSec: Int {
+        let mode = modeSelection ?? .traditional
+        return mode == .traditional ? 25 * 60 : 50 * 60
+    }
+
+    private var shortSec: Int {
+        let mode = modeSelection ?? .traditional
+        return mode == .traditional ? 5 * 60 : 10 * 60
+    }
+
+    private var longSec: Int {
+        let mode = modeSelection ?? .traditional
+        return mode == .traditional ? 20 * 60 : 20 * 60
+    }
+
+    private var totalWorkSessions: Int { 4 }
 
     // MARK: – State
     @State private var phase: Phase = .work
@@ -54,93 +73,137 @@ struct PomodoroTimerView: View {
         let subject: String
     }
 
+    init(startSession: Binding<Bool>, userWillStudy: Binding<String>, userId: Binding<String>) {
+        self._startSession = startSession
+        self._userWillStudy = userWillStudy
+        self._userId = userId
+    }
+
     var body: some View { mainBody }
 
     private var mainBody: some View {
-        NavigationStack {
-            Group {
-                if isFocusMode { focusView }
-                else          { fullView  }
-            }
-            
-            .statusBar(hidden: isFocusMode)
-            .animation(.default, value: isFocusMode)
-            .navigationTitle("Study Timer")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        isFocusMode.toggle()
-                    } label: {
-                        Image(systemName: isFocusMode
-                              ? "xmark"
-                              : "arrow.up.left.and.arrow.down.right")
+        Group {
+            if modeSelection == nil {
+                modePickerView
+            } else {
+                NavigationStack {
+                    Group {
+                        if isFocusMode { focusView }
+                        else          { fullView  }
                     }
-                }
-            }
-            .navigationDestination(isPresented: $showCongrats) {
-                CongratsView {
-                    phase = .longBreak
-                    resetTimerState()
-                    showCongrats = false
-                }
-            }
-            .onReceive(ticker) { tick in
-                now = tick
-                if isRunning && elapsedSeconds >= currentDuration {
-                    print("userid 0 \(userId)")
-                    completePhase()
-                }
-            }
-            .alert("Reset Timer?", isPresented: $showReset) {
-                Button("Reset", role: .destructive) { resetPhase() }
-                Button("Cancel", role: .cancel) { }
-            }
-            .alert("Quit session?", isPresented: $showQuit) {
-                Button("Quit", role: .destructive) { startSession = false }
-                Button("Cancel", role: .cancel) { }
-            }
-            .onChange(of: isRunning, initial: false) { oldValue, newValue in
-                if newValue {
-                    // started
-                    if startTime == nil { startTime = now }
-                    scheduleNotification()
-                } else {
-                    // paused
-                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
-                    if let start = startTime {
-                        accumulated += now.timeIntervalSince(start)
-                        startTime = nil
+                    
+                    .statusBar(hidden: isFocusMode)
+                    .animation(.default, value: isFocusMode)
+                    .navigationTitle("Study Timer")
+                    .navigationBarTitleDisplayMode(.inline)
+                    .toolbar {
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                // Reset mode selection to choose mode again and reset timer
+                                modeSelection = nil
+                                resetPhase()
+                            } label: {
+                                Image(systemName: "arrow.triangle.2.circlepath")
+                            }
+                        }
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button {
+                                isFocusMode.toggle()
+                            } label: {
+                                Image(systemName: isFocusMode
+                                      ? "xmark"
+                                      : "arrow.up.left.and.arrow.down.right")
+                            }
+                        }
                     }
+                    .navigationDestination(isPresented: $showCongrats) {
+                        CongratsView {
+                            phase = .longBreak
+                            resetTimerState()
+                            showCongrats = false
+                        }
+                    }
+                    .onReceive(ticker) { tick in
+                        now = tick
+                        if isRunning && elapsedSeconds >= currentDuration {
+                            print("userid 0 \(userId)")
+                            completePhase()
+                        }
+                    }
+                    .alert("Reset Timer?", isPresented: $showReset) {
+                        Button("Reset", role: .destructive) { resetPhase() }
+                        Button("Cancel", role: .cancel) { }
+                    }
+                    .alert("Quit session?", isPresented: $showQuit) {
+                        Button("Quit", role: .destructive) { startSession = false }
+                        Button("Cancel", role: .cancel) { }
+                    }
+                    .onChange(of: isRunning, initial: false) { oldValue, newValue in
+                        if newValue {
+                            // started
+                            if startTime == nil { startTime = now }
+                            scheduleNotification()
+                        } else {
+                            // paused
+                            UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                            if let start = startTime {
+                                accumulated += now.timeIntervalSince(start)
+                                startTime = nil
+                            }
+                        }
+                    }
+                    .onChange(of: phase) {
+                        resetTimerState()
+                        if phase != .congratulations {
+                            scheduleNotification()
+                        }
+                    }
+                    .onAppear {
+                        UIApplication.shared.isIdleTimerDisabled = true
+                        Task {
+                            await fetchSessions(initial: true)
+                        }
+                    }
+                    .onDisappear {
+                        UIApplication.shared.isIdleTimerDisabled = false
+                    }
+                    // Removed background with systemBackground; liquid glass container background used instead
+                }
+                .fullScreenCover(isPresented: $showHistoryFullScreen) {
+                    HistoryFullScreenView(
+                        history: history,
+                        hasMore: hasMore,
+                        onLoadMore: {
+                            Task { await fetchSessions(initial: false) }
+                        },
+                        onClose: { showHistoryFullScreen = false }
+                    )
                 }
             }
-            .onChange(of: phase) {
-                resetTimerState()
-                if phase != .congratulations {
-                    scheduleNotification()
-                }
-            }
-            .onAppear {
-                UIApplication.shared.isIdleTimerDisabled = true
-                Task {
-                    await fetchSessions(initial: true)
-                }
-            }
-            .onDisappear {
-                UIApplication.shared.isIdleTimerDisabled = false
-            }
-            // Removed background with systemBackground; liquid glass container background used instead
         }
-        .fullScreenCover(isPresented: $showHistoryFullScreen) {
-            HistoryFullScreenView(
-                history: history,
-                hasMore: hasMore,
-                onLoadMore: {
-                    Task { await fetchSessions(initial: false) }
-                },
-                onClose: { showHistoryFullScreen = false }
-            )
+    }
+
+    private var modePickerView: some View {
+        VStack(spacing: 40) {
+            Spacer()
+            Text("Choose Pomodoro Mode")
+                .font(.largeTitle)
+                .bold()
+            Button("Traditional Pomodoro (25/5)") {
+                modeSelection = .traditional
+                resetPhase()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            Button("Double Pomodoro (50/10)") {
+                modeSelection = .double
+                resetPhase()
+            }
+            .buttonStyle(.borderedProminent)
+            .controlSize(.large)
+            Spacer()
         }
+        .padding()
     }
 
     // MARK: – Computed
@@ -442,8 +505,16 @@ private struct HistoryRow: View {
                     .font(.caption).foregroundColor(.secondary)
             }
             Spacer()
-            Text("\(session.duration/60) min")
-                .font(.subheadline)
+            if session.duration >= 60 {
+                Text("\(session.duration / 60) min")
+                    .font(.subheadline)
+            } else if session.duration > 0 {
+                Text("<1 min")
+                    .font(.subheadline)
+            } else {
+                Text("0 min")
+                    .font(.subheadline)
+            }
         }
         .padding()
     }
@@ -502,18 +573,21 @@ private struct HistoryFullScreenView: View {
     }
 }
 
-private struct CongratsView: View {
+struct CongratsView: View {
     let onContinue: ()->Void
     var body: some View {
         VStack(spacing: 24) {
+            
             Text("🎉 Great job! 🎉")
                 .font(.largeTitle).bold()
+            
             Text("You’ve completed four sessions.")
+            
             Button("Take 20 min break", action: onContinue)
                 .buttonStyle(.borderedProminent)
         }
-        // iOS 26 liquid glass effect for congrats container
         .glassEffect()
         .padding(40)
     }
 }
+

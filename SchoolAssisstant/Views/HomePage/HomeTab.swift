@@ -126,10 +126,19 @@ struct HomeTabSubView: View {
                 .padding(.top, 16)
             
             VStack(spacing: 16) {
-                Text(statsModel.streak > 0 ? "\(statsModel.streak) day streak! Keep it up!" : "Start building your streak!")
-                    .font(.title3.weight(.semibold))
-                    .multilineTextAlignment(.center)
-                    .foregroundStyle(statsModel.streak > 0 ? .orange : .primary)
+                
+                Group {
+                    if statsModel.streak == 0 {
+                        Text("No streak yet")
+                    } else if statsModel.hasSessionToday {
+                        Text("Current streak: \(statsModel.streak) days")
+                    } else {
+                        Text("Nice work! You have a \(statsModel.streak) day streak. Work today too to keep it going!")
+                    }
+                }
+                .font(.title3.weight(.semibold))
+                .multilineTextAlignment(.center)
+                .foregroundStyle(statsModel.streak > 0 ? .orange : .primary)
                 
                 if statsModel.streak == 0 {
                     Text("You can begin building your work streak by finishing a minium of one study session.")
@@ -239,7 +248,7 @@ struct HomeTabSubView: View {
                     .fill(.ultraThinMaterial)
             }
             .padding(.horizontal, 16)
-            
+         Spacer()
         }
         .onAppear {
             Task {

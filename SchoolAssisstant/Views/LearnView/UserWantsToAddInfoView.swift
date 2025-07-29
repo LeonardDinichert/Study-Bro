@@ -19,51 +19,55 @@ struct AddNoteView: View {
     }
     @State private var importance: Importance = .low
     @Binding var isPresented: Bool
-
+    
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
                     Section(header: Text("Category")
-                                .font(.callout)
-                                .foregroundStyle(.secondary)) {
-                        TextField("Enter a category", text: $category)
-                            .textInputAutocapitalization(.words)
-                            .submitLabel(.next)
-                    }
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.thinMaterial)
-                    )
-
-                    Section(header: Text("What did you learn?")
-                                .font(.callout)
-                                .foregroundStyle(.secondary)) {
-                        TextField("Describe it here", text: $learned)
-                            .textInputAutocapitalization(.sentences)
-                            .submitLabel(.done)
-                    }
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.thinMaterial)
-                    )
-
-                    Section(header: Text("Importance")
-                                .font(.callout)
-                                .foregroundStyle(.secondary)) {
-                        Picker(selection: $importance) {
-                            ForEach(Importance.allCases) { level in
-                                Text(level.rawValue).tag(level)
+                        .font(.callout)
+                        .foregroundStyle(.secondary)) {
+                            
+                            Picker("Category", selection: $category) {
+                                Text("All").tag("All")
+                                Text("Math").tag("Math")
+                                Text("French").tag("French")
+                                Text("English").tag("English")
                             }
-                        } label: {
-                            Label("Importance", systemImage: "flag.fill")
                         }
-                        .pickerStyle(.segmented)
-                    }
-                    .listRowBackground(
-                        RoundedRectangle(cornerRadius: 16)
-                            .fill(.thinMaterial)
-                    )
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.thinMaterial)
+                        )
+                    
+                    Section(header: Text("What did you learn?")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)) {
+                            TextField("Describe it here", text: $learned)
+                                .textInputAutocapitalization(.sentences)
+                                .submitLabel(.done)
+                        }
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.thinMaterial)
+                        )
+                    
+                    Section(header: Text("Importance")
+                        .font(.callout)
+                        .foregroundStyle(.secondary)) {
+                            Picker(selection: $importance) {
+                                ForEach(Importance.allCases) { level in
+                                    Text(level.rawValue).tag(level)
+                                }
+                            } label: {
+                                Label("Importance", systemImage: "flag.fill")
+                            }
+                            .pickerStyle(.segmented)
+                        }
+                        .listRowBackground(
+                            RoundedRectangle(cornerRadius: 16)
+                                .fill(.thinMaterial)
+                        )
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .background(
@@ -73,9 +77,9 @@ struct AddNoteView: View {
                 )
                 .padding([.horizontal, .top], 18)
                 .animation(.smooth, value: category + learned + String(describing: importance))
-
+                
                 Spacer(minLength: 16)
-
+                
                 VStack(spacing: 12) {
                     Button {
                         Task { await save() }
@@ -87,7 +91,7 @@ struct AddNoteView: View {
                     .tint(.accentColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .accentColor.opacity(0.3), radius: 6, x: 0, y: 3)
-
+                    
                     Button(role: .cancel) {
                         isPresented = false
                     } label: {
@@ -106,13 +110,13 @@ struct AddNoteView: View {
         .navigationTitle("Add New Info")
         .navigationBarTitleDisplayMode(.inline)
     }
-
+    
     func save() async {
         guard let userId = Auth.auth().currentUser?.uid else {
             isPresented = false
             return
         }
-
+        
         let now = Date()
         let note = LearningNote(
             category: category,
@@ -122,7 +126,7 @@ struct AddNoteView: View {
             nextReview: Calendar.current.date(byAdding: .day, value: 1, to: now)!,
             createdAt: now
         )
-
+        
         do {
             try await NotesManager.shared.addNote(note, userId: userId)
             scheduleNotifications(for: note)
@@ -131,7 +135,7 @@ struct AddNoteView: View {
             print("Failed to save note: \(error)")
         }
     }
-
+    
     /// Schedules “Do you remember?” with the note text at a series of spaced intervals.
     private func scheduleNotifications(for note: LearningNote) {
         let center = UNUserNotificationCenter.current()
@@ -142,7 +146,7 @@ struct AddNoteView: View {
             (1, .month),
             (4, .month)
         ]
-
+        
         for (index, offset) in offsets.enumerated() {
             guard
                 let fireDate = Calendar.current.date(
@@ -151,18 +155,18 @@ struct AddNoteView: View {
                     to: note.createdAt
                 )
             else { continue }
-
+            
             let content = UNMutableNotificationContent()
             content.title = "Time to revise :"
             content.body = note.text
             content.sound = .default
-
+            
             let comps = Calendar.current.dateComponents(
                 [.year, .month, .day, .hour, .minute, .second],
                 from: fireDate
             )
             let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-
+            
             let request = UNNotificationRequest(
                 identifier: "note-\(note.createdAt.timeIntervalSince1970)-\(index)",
                 content: content,
@@ -170,7 +174,7 @@ struct AddNoteView: View {
             )
             
             print("Change the note.text to an autoformulated question made by ai")
-
+            
             center.add(request) { error in
                 if let err = error {
                     print("🔔 Notification error: \(err)")
@@ -178,7 +182,7 @@ struct AddNoteView: View {
             }
         }
     }
-
+    
 }
 
 #Preview {
