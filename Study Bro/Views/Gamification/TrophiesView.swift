@@ -15,10 +15,9 @@ struct TrophiesView: View {
                 Text("No trophies yet")
                     .foregroundStyle(.secondary)
             } else {
-                ForEach(viewModel.trophies, id: \.self) { trophy in
-                    ScrollView {
-                        
-                        HStack {
+                    ScrollView(.horizontal) {
+                        ForEach(viewModel.trophies, id: \.self) { trophy in
+                            
                             VStack {
                                 
                                 if trophy == "10_day_streak" {
@@ -47,7 +46,6 @@ struct TrophiesView: View {
                                 Text(trophy.replacingOccurrences(of: "_", with: " "))
                             }
                         }
-                    }
                 }
             }
         }

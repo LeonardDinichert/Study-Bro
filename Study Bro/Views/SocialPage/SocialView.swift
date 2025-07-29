@@ -35,12 +35,15 @@ struct FriendsView: View {
                                             .frame(width: 56, height: 56)
                                     }
                                 }
-                            } else {
+                                
+                            }
+                            else {
                                 Image(systemName: "person.crop.circle")
                                     .resizable()
                                     .scaledToFit()
                                     .frame(width: 56, height: 56)
                             }
+                            
                             Text(friend.username ?? "no username")
                                 .font(.subheadline)
                                 .foregroundColor(.primary)
