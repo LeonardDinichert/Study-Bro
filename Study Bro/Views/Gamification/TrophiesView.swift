@@ -7,7 +7,7 @@ struct TrophiesView: View {
     var body: some View {
         VStack {
             
-            Text("Your trophies")
+            Text("Your trophies : ")
                 .font(.title3.weight(.semibold))
                 .foregroundStyle(.primary)
             
@@ -16,32 +16,37 @@ struct TrophiesView: View {
                     .foregroundStyle(.secondary)
             } else {
                 ForEach(viewModel.trophies, id: \.self) { trophy in
-                    VStack {
+                    ScrollView {
                         
-                        if trophy == "10_day_streak" {
-                            
-                            Image("10DaysStreakTrophie")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                            
-                        } else if trophy == "15_day_streak" {
-                            Image("15DaysStreakTrophie")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-
-                        } else if trophy == "30_day_streak" {
-                            Image("30DaysStreakTrophie")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                            
-                        
-
+                        HStack {
+                            VStack {
+                                
+                                if trophy == "10_day_streak" {
+                                    
+                                    Image("10DaysStreakTrophie")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                    
+                                } else if trophy == "15_day_streak" {
+                                    Image("15DaysStreakTrophie")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                    
+                                } else if trophy == "30_day_streak" {
+                                    Image("30DaysStreakTrophie")
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 100, height: 100)
+                                    
+                                    
+                                    
+                                }
+                                
+                                Text(trophy.replacingOccurrences(of: "_", with: " "))
+                            }
                         }
-                        
-                        Text(trophy.replacingOccurrences(of: "_", with: " "))
                     }
                 }
             }
