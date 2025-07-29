@@ -13,6 +13,7 @@ struct HomeTab: View {
     @StateObject private var viewModel = userManagerViewModel()
     @StateObject private var notesViewModel = NotesViewModel()
     @StateObject private var statsModel = StatsViewModel()
+
     @Binding var selectedTab: Tab
     @AppStorage("showSignInView") private var showSignInView: Bool = true
 
@@ -103,6 +104,8 @@ struct HomeTab: View {
 struct HomeTabSubView: View {
     
     @StateObject private var statsModel = StatsViewModel()
+    @StateObject private var trophiesVm = TrophiesViewModel()
+
 
     let user: DBUser
     
@@ -226,6 +229,9 @@ struct HomeTabSubView: View {
                 .padding(.horizontal, 16)
             }
             
+            TrophiesView()
+                .padding()
+            
             VStack(spacing: 8) {
                 HStack(spacing: 6) {
                     Text("Your friends :")
@@ -253,7 +259,10 @@ struct HomeTabSubView: View {
                     .fill(.ultraThinMaterial)
             }
             .padding(.horizontal, 16)
+            
+            
          Spacer()
+            
         }
         .onAppear {
             Task {

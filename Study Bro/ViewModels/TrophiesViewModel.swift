@@ -10,6 +10,7 @@ final class TrophiesViewModel: ObservableObject {
         do {
             let user = try await UserManager.shared.getUser(userId: userId)
             trophies = user.trophies ?? []
+            print(trophies)
         } catch {
             print("Failed to load trophies: \(error)")
         }

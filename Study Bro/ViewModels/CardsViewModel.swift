@@ -62,7 +62,11 @@ final class CardsViewModel: ObservableObject {
         stopAutoplay()
         guard isAutoplay else { return }
         timer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { [weak self] _ in
-            self?.nextCard()
+            if let self = self {
+                Task { @MainActor in
+                    self.nextCard()
+                }
+            }
         }
     }
 
@@ -71,3 +75,4 @@ final class CardsViewModel: ObservableObject {
         timer = nil
     }
 }
+

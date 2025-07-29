@@ -60,8 +60,14 @@ final class StatsViewModel: ObservableObject {
             }
         }
         if calendar.isDate(last, inSameDayAs: yesterday) {
+            if count >= 10, let userId = Auth.auth().currentUser?.uid {
+                Task { await self.checkStreakTrophies(streak: count, userId: userId) }
+            }
             return count
         } else {
+            if count >= 10, let userId = Auth.auth().currentUser?.uid {
+                Task { await self.checkStreakTrophies(streak: count, userId: userId) }
+            }
             return count
         }
     }
@@ -71,6 +77,25 @@ final class StatsViewModel: ObservableObject {
         guard let last = sessionDays.last else { return false }
         let today = calendar.startOfDay(for: .now)
         return calendar.isDate(last, inSameDayAs: today)
+    }
+
+    private func checkStreakTrophies(streak: Int, userId: String) async {
+        do {
+            let user = try await UserManager.shared.getUser(userId: userId)
+            let trophies = user.trophies ?? []
+            let thresholds: [(Int, String)] = [
+                (10, "10_day_streak"),
+                (15, "15_day_streak"),
+                (30, "30_day_streak")
+            ]
+            for (requiredStreak, trophyName) in thresholds {
+                if streak >= requiredStreak && !trophies.contains(trophyName) {
+                    try? await UserManager.shared.addTrophy(userId: userId, trophy: trophyName)
+                }
+            }
+        } catch {
+            print("Error checking/adding trophies: \(error)")
+        }
     }
 }
 

@@ -3899,9 +3899,6 @@
     "Traditional Pomodoro (25/5)" : {
 
     },
-    "Trophies" : {
-
-    },
     "Type here" : {
 
     },
@@ -4501,6 +4498,9 @@
           }
         }
       }
+    },
+    "Your trophies" : {
+
     }
   },
   "version" : "1.0"
