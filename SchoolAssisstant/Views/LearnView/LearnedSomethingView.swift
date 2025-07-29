@@ -6,11 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
+import FirebaseFirestore
 
 struct LearnedSomethingView: View {
     @State private var userWantsToRevise = false
     @State private var userWantsAddInfo = false
     @State private var selectedCategory: String = "All"
+    @State private var userCategories: [String] = ["All"]
     
     @StateObject private var viewModel = NotesViewModel()
     
@@ -19,6 +22,22 @@ struct LearnedSomethingView: View {
             return viewModel.notes
         } else {
             return viewModel.notes.filter { $0.category == selectedCategory }
+        }
+    }
+    
+    private func loadUserCategories() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            let user = try await UserManager.shared.getUser(userId: userId)
+            await MainActor.run {
+                if let studying = user.is_studying, !studying.isEmpty {
+                    self.userCategories = ["All"] + studying
+                } else {
+                    self.userCategories = ["All"]
+                }
+            }
+        } catch {
+            print("Error loading user categories: \(error)")
         }
     }
     
@@ -42,10 +61,9 @@ struct LearnedSomethingView: View {
                         }
                         
                         Picker("Category", selection: $selectedCategory) {
-                            Text("All").tag("All")
-                            Text("Math").tag("Math")
-                            Text("French").tag("French")
-                            Text("English").tag("English")
+                            ForEach(userCategories, id: \.self) { category in
+                                Text(category).tag(category)
+                            }
                         }
                         .pickerStyle(.segmented)
                         
@@ -153,6 +171,7 @@ struct LearnedSomethingView: View {
             }
             .task {
                 await viewModel.loadNotes()
+                await loadUserCategories()
             }
         }
     }

@@ -16,7 +16,7 @@ struct CHooseStudyBranches: View {
     
     private let subjects = [
         "Mathematics", "Science", "English", "History", "Geography",
-        "Art", "Music", "Physical Education", "Computer Science", "Economics", "Language"
+        "Art", "Music", "Physical Education", "Computer Science", "Economics", "German", "French"
     ]
     
     var body: some View {

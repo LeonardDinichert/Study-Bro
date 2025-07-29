@@ -26,6 +26,7 @@ struct DBUser: Codable {
     let biography: String?
     let lastConnection: Date?
     var fcmToken: String?
+    var isStudying: Bool?
     let friends: [String]?
     let pendingFriends: [String]?
     
@@ -42,6 +43,7 @@ struct DBUser: Codable {
         self.biography = nil
         self.lastConnection = nil
         self.fcmToken = nil
+        self.isStudying = nil
         self.friends = nil
         self.pendingFriends = nil
     }
@@ -56,6 +58,7 @@ struct DBUser: Codable {
         profileImagePathUrl: String? = nil,
         biography: String? = nil,
         fcmToken: String? = nil,
+        isStudying: Bool? = nil,
         lastConnection: Date? = nil,
         friends: [String]? = nil,
         pendingFriends: [String]? = nil
@@ -70,6 +73,7 @@ struct DBUser: Codable {
         self.biography = biography
         self.lastConnection = lastConnection
         self.fcmToken = fcmToken
+        self.isStudying = isStudying
         self.friends = friends
         self.pendingFriends = pendingFriends
     }
@@ -87,6 +91,7 @@ struct DBUser: Codable {
         case biography = "biography"
         // Store the FCM token under "fcm_token" in Firestore
         case fcmToken = "fcm_token"
+        case isStudying = "is_studying"
         case lastConnection = "last_connection"
         case friends = "friends"
         case pendingFriends = "pending_friends"
@@ -105,6 +110,7 @@ struct DBUser: Codable {
         self.profileImagePathUrl = try container.decodeIfPresent(String.self, forKey: .profileImagePathUrl)
         self.biography = try container.decodeIfPresent(String.self, forKey: .biography)
         self.fcmToken = try container.decodeIfPresent(String.self, forKey: .fcmToken)
+        self.isStudying = try container.decodeIfPresent(Bool.self, forKey: .isStudying)
         self.lastConnection = try container.decodeIfPresent(Date.self, forKey: .lastConnection)
         self.friends = try container.decodeIfPresent([String].self, forKey: .friends)
         self.pendingFriends = try container.decodeIfPresent([String].self, forKey: .pendingFriends)
@@ -123,6 +129,7 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.profileImagePathUrl, forKey: .profileImagePathUrl)
         try container.encodeIfPresent(self.biography, forKey: .biography)
         try container.encodeIfPresent(self.fcmToken, forKey: .fcmToken)
+        try container.encodeIfPresent(self.isStudying, forKey: .isStudying)
         try container.encodeIfPresent(self.lastConnection, forKey: .lastConnection)
         try container.encodeIfPresent(self.friends, forKey: .friends)
         try container.encodeIfPresent(self.pendingFriends, forKey: .pendingFriends)
@@ -138,6 +145,7 @@ struct DBUser: Codable {
         self.profileImagePathUrl = data[CodingKeys.profileImagePathUrl.rawValue] as? String
         self.biography = data[CodingKeys.biography.rawValue] as? String
         self.fcmToken = data[CodingKeys.fcmToken.rawValue] as? String
+        self.isStudying = data[CodingKeys.isStudying.rawValue] as? Bool
         self.friends = data[CodingKeys.friends.rawValue] as? [String]
         self.pendingFriends = data[CodingKeys.pendingFriends.rawValue] as? [String]
         if let ts = data[CodingKeys.lastConnection.rawValue] as? Timestamp {
@@ -159,6 +167,7 @@ struct DBUser: Codable {
         if let profileImagePathUrl = profileImagePathUrl { dict[CodingKeys.profileImagePathUrl.rawValue] = profileImagePathUrl }
         if let biography = biography { dict[CodingKeys.biography.rawValue] = biography }
         if let fcmToken = fcmToken { dict[CodingKeys.fcmToken.rawValue] = fcmToken }
+        if let isStudying = isStudying { dict[CodingKeys.isStudying.rawValue] = isStudying }
         if let lastConnection = lastConnection { dict[CodingKeys.lastConnection.rawValue] = Timestamp(date: lastConnection) }
         if let friends = friends { dict[CodingKeys.friends.rawValue] = friends }
         if let pendingFriends = pendingFriends { dict[CodingKeys.pendingFriends.rawValue] = pendingFriends }
@@ -431,3 +440,4 @@ final class userManagerViewModel: ObservableObject {
 extension DBUser: Identifiable {
     public var id: String { userId }
 }
+
