@@ -22,6 +22,13 @@ struct GamificationView: View {
                 .padding()
             }
             .navigationTitle("Progress")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: TrophiesView()) {
+                        Image(systemName: "medal.fill")
+                    }
+                }
+            }
             .onAppear {
                 Task {
                     await manager.updateStreak()
