@@ -15,8 +15,27 @@ struct CHooseStudyBranches: View {
     @State private var errorMessage: String? = nil
     
     private let subjects = [
-        "Mathematics", "Science", "English", "History", "Geography",
-        "Art", "Music", "Physical Education", "Computer Science", "Economics", "German", "French"
+        // Languages
+        "German", "French", "Italian", "Romansh",
+        "English", "Latin", "Greek",
+        "Spanish", "Russian", "Third national language",
+        // Mathematics
+        "Mathematics", "Applied Mathematics",
+        // Natural Sciences
+        "Biology", "Chemistry", "Physics", "Natural Sciences", "Computer Science",
+        // Social Sciences & Humanities
+        "Geography", "History", "Civics", "Economics and Law",
+        "Philosophy", "Psychology", "Education",
+        // Arts & Design
+        "Visual Arts", "Music", "Design and Technology", "Technical Design",
+        "Textile Design",
+        // Practical & Elective
+        "Home Economics", "Project Work",
+        "Media Studies", "ICT",
+        // Sport & Health
+        "Physical Education", "Health",
+        // Religion & Ethics
+        "Religious Studies", "Ethics"
     ]
     
     var body: some View {

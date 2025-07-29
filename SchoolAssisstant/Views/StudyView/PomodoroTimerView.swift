@@ -10,6 +10,7 @@
 import SwiftUI
 import UserNotifications
 import FirebaseFirestore
+import AppIntents
 
 enum PomodoroMode {
     case traditional
@@ -62,6 +63,8 @@ struct PomodoroTimerView: View {
     @Binding var startSession: Bool
     @Binding var userWillStudy: String
     @Binding var userId: String
+
+    @AppStorage("autoActivateWorkFocus") private var autoActivateWorkFocus: Bool = false
 
     private let ticker = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
 
@@ -154,6 +157,11 @@ struct PomodoroTimerView: View {
                     }
                     .onChange(of: phase) {
                         resetTimerState()
+                        if phase == .work && autoActivateWorkFocus {
+                            activateWorkFocusIfNeeded()
+                        } else if autoActivateWorkFocus {
+                            deactivateWorkFocusIfNeeded()
+                        }
                         if phase != .congratulations {
                             scheduleNotification()
                         }
@@ -428,6 +436,16 @@ struct PomodoroTimerView: View {
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
         let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: trigger)
         center.add(request)
+    }
+    
+    private func activateWorkFocusIfNeeded() {
+        guard autoActivateWorkFocus else { return }
+        try? FocusStatusCenter.shared.requestFocusModeActivation(.work)
+    }
+
+    private func deactivateWorkFocusIfNeeded() {
+        guard autoActivateWorkFocus else { return }
+        try? FocusStatusCenter.shared.requestFocusModeDeactivation(.work)
     }
 
     @MainActor

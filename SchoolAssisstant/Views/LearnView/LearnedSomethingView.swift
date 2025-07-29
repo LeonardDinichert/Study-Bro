@@ -30,7 +30,7 @@ struct LearnedSomethingView: View {
         do {
             let user = try await UserManager.shared.getUser(userId: userId)
             await MainActor.run {
-                if let studying = user.is_studying, !studying.isEmpty {
+                if let studying = user.isStudying, !studying.isEmpty {
                     self.userCategories = ["All"] + studying
                 } else {
                     self.userCategories = ["All"]
@@ -65,7 +65,7 @@ struct LearnedSomethingView: View {
                                 Text(category).tag(category)
                             }
                         }
-                        .pickerStyle(.segmented)
+                        .pickerStyle(.automatic)
                         
                         VStack(alignment: .leading) {
                             ForEach(filteredNotes) { note in

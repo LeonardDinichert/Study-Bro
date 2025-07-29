@@ -527,6 +527,9 @@
         }
       }
     },
+    "Auto-activate Work Focus during Pomodoro" : {
+
+    },
     "Begin the pomodoro timer" : {
       "localizations" : {
         "de" : {
@@ -638,6 +641,9 @@
           }
         }
       }
+    },
+    "Calendar" : {
+
     },
     "Cancel" : {
       "localizations" : {
@@ -1523,6 +1529,9 @@
         }
       }
     },
+    "Focus" : {
+
+    },
     "Forgot your Password?" : {
       "localizations" : {
         "de" : {
@@ -2364,6 +2373,9 @@
           }
         }
       }
+    },
+    "Mode" : {
+
     },
     "Modify my password" : {
       "localizations" : {
@@ -4209,6 +4221,9 @@
           }
         }
       }
+    },
+    "When enabled, your iPhone will automatically enable the 'Work' Focus whenever a Pomodoro work session starts." : {
+
     },
     "Work" : {
       "localizations" : {

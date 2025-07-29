@@ -26,7 +26,7 @@ struct DBUser: Codable {
     let biography: String?
     let lastConnection: Date?
     var fcmToken: String?
-    var isStudying: Bool?
+    var isStudying: [String]?
     let friends: [String]?
     let pendingFriends: [String]?
     
@@ -58,7 +58,7 @@ struct DBUser: Codable {
         profileImagePathUrl: String? = nil,
         biography: String? = nil,
         fcmToken: String? = nil,
-        isStudying: Bool? = nil,
+        isStudying: [String]? = nil,
         lastConnection: Date? = nil,
         friends: [String]? = nil,
         pendingFriends: [String]? = nil
@@ -110,7 +110,7 @@ struct DBUser: Codable {
         self.profileImagePathUrl = try container.decodeIfPresent(String.self, forKey: .profileImagePathUrl)
         self.biography = try container.decodeIfPresent(String.self, forKey: .biography)
         self.fcmToken = try container.decodeIfPresent(String.self, forKey: .fcmToken)
-        self.isStudying = try container.decodeIfPresent(Bool.self, forKey: .isStudying)
+        self.isStudying = try container.decodeIfPresent([String].self, forKey: .isStudying)
         self.lastConnection = try container.decodeIfPresent(Date.self, forKey: .lastConnection)
         self.friends = try container.decodeIfPresent([String].self, forKey: .friends)
         self.pendingFriends = try container.decodeIfPresent([String].self, forKey: .pendingFriends)
@@ -145,7 +145,7 @@ struct DBUser: Codable {
         self.profileImagePathUrl = data[CodingKeys.profileImagePathUrl.rawValue] as? String
         self.biography = data[CodingKeys.biography.rawValue] as? String
         self.fcmToken = data[CodingKeys.fcmToken.rawValue] as? String
-        self.isStudying = data[CodingKeys.isStudying.rawValue] as? Bool
+        self.isStudying = data[CodingKeys.isStudying.rawValue] as? [String]
         self.friends = data[CodingKeys.friends.rawValue] as? [String]
         self.pendingFriends = data[CodingKeys.pendingFriends.rawValue] as? [String]
         if let ts = data[CodingKeys.lastConnection.rawValue] as? Timestamp {
