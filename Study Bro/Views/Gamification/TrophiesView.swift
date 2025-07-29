@@ -37,9 +37,11 @@ struct TrophiesView: View {
                                 .scaledToFit()
                                 .frame(width: 100, height: 100)
                             
-                            Text(trophy.replacingOccurrences(of: "_", with: " "))
+                        
 
                         }
+                        
+                        Text(trophy.replacingOccurrences(of: "_", with: " "))
                     }
                 }
             }
