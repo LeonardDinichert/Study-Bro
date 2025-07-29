@@ -16,6 +16,11 @@ struct LearningNote: Codable, Identifiable {
     var reminder_3: Bool
     var reminder_4: Bool
     var reminder_5: Bool
+    var firstReminderDate: Date?
+    var secondReminderDate: Date?
+    var thirdReminderDate: Date?
+    var fourthReminderDate: Date?
+    var fifthReminderDate: Date?
 
     init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date) {
         self.id = id
@@ -30,6 +35,11 @@ struct LearningNote: Codable, Identifiable {
         self.reminder_3 = false
         self.reminder_4 = false
         self.reminder_5 = false
+        self.firstReminderDate = Calendar.current.date(byAdding: .day, value: 1, to: createdAt)
+        self.secondReminderDate = Calendar.current.date(byAdding: .day, value: 4, to: createdAt)
+        self.thirdReminderDate = Calendar.current.date(byAdding: .day, value: 8, to: createdAt)
+        self.fourthReminderDate = Calendar.current.date(byAdding: .month, value: 1, to: createdAt)
+        self.fifthReminderDate = Calendar.current.date(byAdding: .month, value: 4, to: createdAt)
     }
 
     init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, reminder_1: Bool = false, reminder_2: Bool = false, reminder_3: Bool = false, reminder_4: Bool = false, reminder_5: Bool = false) {
@@ -45,6 +55,11 @@ struct LearningNote: Codable, Identifiable {
         self.reminder_3 = reminder_3
         self.reminder_4 = reminder_4
         self.reminder_5 = reminder_5
+        self.firstReminderDate = Calendar.current.date(byAdding: .day, value: 1, to: createdAt)
+        self.secondReminderDate = Calendar.current.date(byAdding: .day, value: 4, to: createdAt)
+        self.thirdReminderDate = Calendar.current.date(byAdding: .day, value: 8, to: createdAt)
+        self.fourthReminderDate = Calendar.current.date(byAdding: .month, value: 1, to: createdAt)
+        self.fifthReminderDate = Calendar.current.date(byAdding: .month, value: 4, to: createdAt)
     }
 
     init?(document: DocumentSnapshot) {
@@ -69,6 +84,11 @@ struct LearningNote: Codable, Identifiable {
         self.reminder_3 = data["reminder_3"] as? Bool ?? false
         self.reminder_4 = data["reminder_4"] as? Bool ?? false
         self.reminder_5 = data["reminder_5"] as? Bool ?? false
+        self.firstReminderDate = (data["firstReminderDate"] as? Timestamp)?.dateValue()
+        self.secondReminderDate = (data["secondReminderDate"] as? Timestamp)?.dateValue()
+        self.thirdReminderDate = (data["thirdReminderDate"] as? Timestamp)?.dateValue()
+        self.fourthReminderDate = (data["fourthReminderDate"] as? Timestamp)?.dateValue()
+        self.fifthReminderDate = (data["fifthReminderDate"] as? Timestamp)?.dateValue()
     }
 
     var dictionary: [String: Any] {
@@ -86,6 +106,17 @@ struct LearningNote: Codable, Identifiable {
             "reminder_5": reminder_5
         ]
 
+        if let firstReminderDate { dict["firstReminderDate"] = Timestamp(date: firstReminderDate) }
+        if let secondReminderDate { dict["secondReminderDate"] = Timestamp(date: secondReminderDate) }
+        if let thirdReminderDate { dict["thirdReminderDate"] = Timestamp(date: thirdReminderDate) }
+        if let fourthReminderDate { dict["fourthReminderDate"] = Timestamp(date: fourthReminderDate) }
+        if let fifthReminderDate { dict["fifthReminderDate"] = Timestamp(date: fifthReminderDate) }
+
         return dict
+    }
+
+    var reminderDates: [Date] {
+        [firstReminderDate, secondReminderDate, thirdReminderDate, fourthReminderDate, fifthReminderDate]
+            .compactMap { $0 }
     }
 }

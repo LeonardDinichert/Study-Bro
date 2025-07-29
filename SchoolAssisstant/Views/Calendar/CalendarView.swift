@@ -11,6 +11,7 @@ struct CalendarView: View {
 
     @State private var displayMode: DisplayMode = .month
     @State private var currentDate: Date = Date()
+    @StateObject private var dataModel = CalendarViewModel()
 
     private var calendar: Calendar {
         var cal = Calendar.current
@@ -30,11 +31,24 @@ struct CalendarView: View {
 
             switch displayMode {
             case .day:
-                DayView(date: currentDate, calendar: calendar)
+                DayView(
+                    date: currentDate,
+                    calendar: calendar,
+                    tasks: dataModel.tasks(on: currentDate, calendar: calendar),
+                    notes: dataModel.notes(on: currentDate, calendar: calendar)
+                )
             case .week:
-                WeekView(date: currentDate, calendar: calendar)
+                WeekView(
+                    date: currentDate,
+                    calendar: calendar,
+                    highlights: Set(dataModel.tasks.map { $0.dueDate } + dataModel.notes.flatMap { $0.reminderDates })
+                )
             case .month:
-                MonthView(date: currentDate, calendar: calendar)
+                MonthView(
+                    date: currentDate,
+                    calendar: calendar,
+                    highlights: Set(dataModel.tasks.map { $0.dueDate } + dataModel.notes.flatMap { $0.reminderDates })
+                )
             }
 
             Spacer()
@@ -49,6 +63,9 @@ struct CalendarView: View {
                     Image(systemName: "chevron.right")
                 }
             }
+        }
+        .task {
+            await dataModel.load()
         }
     }
 
@@ -78,6 +95,8 @@ struct CalendarView: View {
 private struct DayView: View {
     let date: Date
     let calendar: Calendar
+    let tasks: [TaskItem]
+    let notes: [LearningNote]
 
     private var formatter: DateFormatter {
         let df = DateFormatter()
@@ -86,15 +105,47 @@ private struct DayView: View {
     }
 
     var body: some View {
-        Text(formatter.string(from: date))
-            .font(.title.weight(.semibold))
+        ScrollView {
+            VStack(alignment: .leading, spacing: 16) {
+                Text(formatter.string(from: date))
+                    .font(.title.weight(.semibold))
+                if tasks.isEmpty && notes.isEmpty {
+                    Text("No reminders")
+                        .foregroundStyle(.secondary)
+                }
+                ForEach(tasks) { task in
+                    HStack {
+                        VStack(alignment: .leading) {
+                            Text(task.title)
+                                .font(.headline)
+                            Text(task.dueDate, style: .time)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                        Spacer()
+                    }
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+                ForEach(notes) { note in
+                    HStack {
+                        Text(note.text)
+                            .font(.headline)
+                        Spacer()
+                    }
+                    .padding()
+                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+            }
             .padding()
+        }
     }
 }
 
 private struct WeekView: View {
     let date: Date
     let calendar: Calendar
+    let highlights: Set<Date>
 
     var body: some View {
         let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
@@ -104,7 +155,7 @@ private struct WeekView: View {
                 Text(dayNumber(day))
                     .frame(maxWidth: .infinity)
                     .padding(8)
-                    .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                    .background(highlights.contains { calendar.isDate($0, inSameDayAs: day) } ? Color.orange.opacity(0.3) : (calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.2) : Color.clear))
                     .clipShape(Circle())
             }
         }
@@ -119,6 +170,7 @@ private struct WeekView: View {
 private struct MonthView: View {
     let date: Date
     let calendar: Calendar
+    let highlights: Set<Date>
 
     var body: some View {
         let days = generateDays()
@@ -133,7 +185,7 @@ private struct MonthView: View {
                     .foregroundStyle(calendar.isDate(day, equalTo: date, toGranularity: .month) ? .primary : .secondary)
                     .frame(maxWidth: .infinity)
                     .padding(4)
-                    .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                    .background(highlights.contains { calendar.isDate($0, inSameDayAs: day) } ? Color.orange.opacity(0.3) : (calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.2) : Color.clear))
                     .clipShape(Circle())
             }
         }
