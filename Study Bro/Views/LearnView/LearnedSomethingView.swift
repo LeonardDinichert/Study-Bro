@@ -162,6 +162,14 @@ struct LearnedSomethingView: View {
                 .animation(.smooth, value: userWantsAddInfo || userWantsToRevise)
             }
         }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                NavigationLink(destination: CardsView()) {
+                    Image(systemName: "rectangle.on.rectangle")
+                }
+                .accessibilityLabel("Flashcards")
+            }
+        }
         .onAppear {
             Task { await loadUserCategories() }
         }
