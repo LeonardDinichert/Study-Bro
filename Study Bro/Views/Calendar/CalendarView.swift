@@ -1,125 +1,275 @@
 import SwiftUI
 
-enum DisplayMode {
-    case day
-    case week
-    case month
-}
-
 struct CalendarView: View {
-    @State private var currentDate: Date = Date()
+    enum DisplayMode: String, CaseIterable, Identifiable {
+        case day = "Day"
+        case week = "Week"
+        case month = "Month"
+
+        var id: Self { self }
+    }
+
     @State private var displayMode: DisplayMode = .month
-    
-    private func selectDay(_ date: Date) {
-        currentDate = date
-        displayMode = .day
+    @State private var currentDate: Date = Date()
+    @StateObject private var eventsModel = CalendarEventsViewModel()
+    @State private var selectedDate: Date? = nil
+
+    private var calendar: Calendar {
+        var cal = Calendar.current
+        cal.firstWeekday = 2 // Monday
+        return cal
     }
     
+    private var monthYearFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "LLLL yyyy"
+        return formatter
+    }
+
     var body: some View {
-        VStack {
-            HStack {
-                Button("Day") { displayMode = .day }
-                Button("Week") { displayMode = .week }
-                Button("Month") { displayMode = .month }
+        VStack(spacing: 16) {
+            Picker("Mode", selection: $displayMode) {
+                ForEach(DisplayMode.allCases) { mode in
+                    Text(mode.rawValue).tag(mode)
+                }
             }
+            .pickerStyle(.segmented)
+            .padding([.horizontal, .top])
             
+            if displayMode == .week || displayMode == .month {
+                Text(monthYearFormatter.string(from: currentDate))
+                    .font(.title2.weight(.semibold))
+                    .padding(.bottom, 4)
+                    .transition(.opacity)
+            }
+
             switch displayMode {
             case .day:
-                DayView(date: currentDate)
+                DayView(date: currentDate, calendar: calendar, model: eventsModel)
             case .week:
-                WeekView(date: currentDate, onDaySelected: selectDay)
+                WeekView(date: currentDate, calendar: calendar, model: eventsModel, onSelectDay: { selectedDate = $0 })
             case .month:
-                MonthView(date: currentDate, onDaySelected: selectDay)
+                MonthView(date: currentDate, calendar: calendar, model: eventsModel, onSelectDay: { selectedDate = $0 })
             }
-        }
-    }
-}
 
-struct WeekView: View {
-    let date: Date
-    let onDaySelected: ((Date) -> Void)?
-    
-    private var days: [Date] {
-        // Implementation that returns the days in the week of 'date'
-        // Stub example:
-        let calendar = Calendar.current
-        let startOfWeek = calendar.dateInterval(of: .weekOfYear, for: date)!.start
-        return (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }
-    }
-    
-    var body: some View {
-        HStack {
-            ForEach(days, id: \.self) { day in
-                VStack {
-                    Text("\(Calendar.current.component(.day, from: day))")
+            Spacer()
+        }
+        .navigationTitle("Calendar")
+        .toolbar {
+            ToolbarItemGroup(placement: .navigationBarTrailing) {
+                Button(action: previous) {
+                    Image(systemName: "chevron.left")
                 }
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    onDaySelected?(day)
+                Button(action: next) {
+                    Image(systemName: "chevron.right")
                 }
             }
         }
+        .navigationDestination(isPresented: Binding(
+            get: { selectedDate != nil },
+            set: { isActive in
+                if !isActive { selectedDate = nil }
+            }
+        )) {
+            if let date = selectedDate {
+                DayView(date: date, calendar: calendar, model: eventsModel)
+            } else {
+                EmptyView()
+            }
+        }
+        .task { await eventsModel.load() }
     }
-}
 
-struct MonthView: View {
-    let date: Date
-    let onDaySelected: ((Date) -> Void)?
-    
-    private var days: [Date] {
-        // Implementation that returns the days in the month of 'date'
-        // Stub example:
-        let calendar = Calendar.current
-        guard let range = calendar.range(of: .day, in: .month, for: date),
-              let firstDay = calendar.date(from: calendar.dateComponents([.year, .month], from: date)) else {
-            return []
+    private func previous() {
+        switch displayMode {
+        case .day:
+            currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
+        case .week:
+            currentDate = calendar.date(byAdding: .weekOfYear, value: -1, to: currentDate) ?? currentDate
+        case .month:
+            currentDate = calendar.date(byAdding: .month, value: -1, to: currentDate) ?? currentDate
         }
-        return range.compactMap { calendar.date(byAdding: .day, value: $0 - 1, to: firstDay) }
     }
-    
-    var body: some View {
-        let rows = days.chunked(into: 7)
-        VStack {
-            ForEach(rows.indices, id: \.self) { rowIndex in
-                HStack {
-                    ForEach(rows[rowIndex], id: \.self) { day in
-                        VStack {
-                            Text("\(Calendar.current.component(.day, from: day))")
-                        }
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            onDaySelected?(day)
-                        }
-                    }
-                }
-            }
+
+    private func next() {
+        switch displayMode {
+        case .day:
+            currentDate = calendar.date(byAdding: .day, value: 1, to: currentDate) ?? currentDate
+        case .week:
+            currentDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentDate) ?? currentDate
+        case .month:
+            currentDate = calendar.date(byAdding: .month, value: 1, to: currentDate) ?? currentDate
         }
     }
 }
 
 struct DayView: View {
     let date: Date
-    
+    let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
+
+    private var formatter: DateFormatter {
+        let df = DateFormatter()
+        df.dateStyle = .full
+        return df
+    }
+
     var body: some View {
-        Text("Day view for \(date, formatter: dateFormatter)")
+        let tasks = model.tasks(on: date)
+        let notes = model.notes(on: date)
+
+        ScrollView {
+            VStack(spacing: 12) {
+                Text(formatter.string(from: date))
+                    .font(.title.weight(.semibold))
+                    .padding(.bottom, 8)
+
+                if tasks.isEmpty && notes.isEmpty {
+                    Text("No reminders")
+                        .foregroundStyle(.secondary)
+                }
+
+                ForEach(tasks) { task in
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(Color.orange)
+                            .frame(width: 8, height: 8)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(task.title)
+                                .font(.headline)
+                            Text(task.dueDate, style: .time)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                    )
+                }
+
+                ForEach(notes) { note in
+                    HStack(spacing: 8) {
+                        Circle()
+                            .fill(Color.orange)
+                            .frame(width: 8, height: 8)
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text(note.category)
+                                .font(.headline)
+                            Text(note.text)
+                                .font(.subheadline)
+                        }
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                    )
+                }
+            }
+            .padding()
+        }
     }
 }
 
-private let dateFormatter: DateFormatter = {
-    let formatter = DateFormatter()
-    formatter.dateStyle = .medium
-    return formatter
-}()
+private struct WeekView: View {
+    let date: Date
+    let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
+    let onSelectDay: (Date) -> Void
 
-extension Array {
-    func chunked(into size: Int) -> [[Element]] {
-        var chunks: [[Element]] = []
-        var start = 0
-        while start < count {
-            let end = Swift.min(start + size, count)
-            chunks.append(Array(self[start..<end]))
-            start += size
+    var body: some View {
+        let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
+        let days = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
+            ForEach(days, id: \.self) { day in
+                Button(action: { onSelectDay(day) }) {
+                    VStack(spacing: 4) {
+                        Text(dayNumber(day))
+                            .frame(maxWidth: .infinity)
+                            .padding(8)
+                            .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                            .clipShape(Circle())
+                        if model.hasEvents(on: day) {
+                            Circle()
+                                .fill(Color.orange)
+                                .frame(width: 6, height: 6)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
         }
-        return chunks
+        .padding()
+    }
+
+    private func dayNumber(_ date: Date) -> String {
+        String(calendar.component(.day, from: date))
+    }
+}
+
+private struct MonthView: View {
+    let date: Date
+    let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
+    let onSelectDay: (Date) -> Void
+
+    var body: some View {
+        let days = generateDays()
+        LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 8) {
+            ForEach(dayHeaders, id: \.self) { header in
+                Text(header)
+                    .font(.subheadline.weight(.bold))
+                    .frame(maxWidth: .infinity)
+            }
+            ForEach(days, id: \.self) { day in
+                Button(action: { onSelectDay(day) }) {
+                    VStack(spacing: 2) {
+                        Text(dayLabel(day))
+                            .foregroundStyle(calendar.isDate(day, equalTo: date, toGranularity: .month) ? .primary : .secondary)
+                            .frame(maxWidth: .infinity)
+                            .padding(4)
+                            .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                            .clipShape(Circle())
+                        if model.hasEvents(on: day) {
+                            Circle()
+                                .fill(Color.orange)
+                                .frame(width: 5, height: 5)
+                        }
+                    }
+                }
+                .buttonStyle(.plain)
+            }
+        }
+        .padding()
+    }
+
+    private var dayHeaders: [String] {
+        let symbols = calendar.shortWeekdaySymbols
+        let index = calendar.firstWeekday - 1
+        return Array(symbols[index...] + symbols[..<index])
+    }
+
+    private func dayLabel(_ date: Date) -> String {
+        String(calendar.component(.day, from: date))
+    }
+
+    private func generateDays() -> [Date] {
+        let startOfMonth = calendar.date(from: calendar.dateComponents([.year, .month], from: date))!
+        let firstWeekday = calendar.component(.weekday, from: startOfMonth)
+        let offset = (firstWeekday - calendar.firstWeekday + 7) % 7
+        let daysInGrid = 42
+        return (0..<daysInGrid).compactMap { index in
+            calendar.date(byAdding: .day, value: index - offset, to: startOfMonth)
+        }
+    }
+}
+
+#Preview {
+    NavigationStack {
+        CalendarView()
     }
 }

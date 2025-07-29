@@ -384,6 +384,7 @@
       }
     },
     "All" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1311,6 +1312,7 @@
       }
     },
     "English" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1510,6 +1512,7 @@
       }
     },
     "French" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1762,6 +1765,7 @@
       }
     },
     "I want to revise" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2211,6 +2215,7 @@
       }
     },
     "Math" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

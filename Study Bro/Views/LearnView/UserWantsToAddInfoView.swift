@@ -13,6 +13,8 @@ import UserNotifications
 struct AddNoteView: View {
     @State private var category = ""
     @State private var learned = ""
+    @State private var userCategories: [String] = ["All"]
+
     enum Importance: String, CaseIterable, Identifiable {
         case low = "Low", medium = "Medium", high = "High"
         var id: String { rawValue }
@@ -29,10 +31,9 @@ struct AddNoteView: View {
                         .foregroundStyle(.secondary)) {
                             
                             Picker("Category", selection: $category) {
-                                Text("All").tag("All")
-                                Text("Math").tag("Math")
-                                Text("French").tag("French")
-                                Text("English").tag("English")
+                                ForEach(userCategories, id: \.self) { category in
+                                    Text(category).tag(category)
+                                }
                             }
                         }
                         .listRowBackground(
@@ -43,9 +44,12 @@ struct AddNoteView: View {
                     Section(header: Text("What did you learn?")
                         .font(.callout)
                         .foregroundStyle(.secondary)) {
-                            TextField("Describe it here", text: $learned)
+                            TextEditor(text: $learned)
+                                .frame(minHeight: 80, maxHeight: 160, alignment: .topLeading)
+                                .scrollContentBackground(.hidden)
+                                .autocorrectionDisabled(false)
                                 .textInputAutocapitalization(.sentences)
-                                .submitLabel(.done)
+                                .padding(.vertical, 6)
                         }
                         .listRowBackground(
                             RoundedRectangle(cornerRadius: 16)
@@ -107,8 +111,27 @@ struct AddNoteView: View {
             }
             .background(.ultraThinMaterial)
         }
+        .onAppear {
+            Task { await loadUserCategories() }
+        }
         .navigationTitle("Add New Info")
         .navigationBarTitleDisplayMode(.inline)
+    }
+    
+    private func loadUserCategories() async {
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        do {
+            let user = try await UserManager.shared.getUser(userId: userId)
+            await MainActor.run {
+                if let studying = user.isStudying, !studying.isEmpty {
+                    self.userCategories = ["All"] + studying
+                } else {
+                    self.userCategories = ["All"]
+                }
+            }
+        } catch {
+            print("Error loading user categories: \(error)")
+        }
     }
     
     func save() async {

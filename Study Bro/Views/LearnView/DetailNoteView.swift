@@ -30,6 +30,8 @@ struct DetailNoteView: View {
                         Text(note.category)
                             .font(.title2.weight(.semibold))
                             .foregroundStyle(.primary)
+                            .padding(.trailing)
+                        
                     }
                 }
                 .padding()
@@ -44,6 +46,9 @@ struct DetailNoteView: View {
                         .foregroundStyle(.primary)
                     Text(note.text)
                         .foregroundStyle(.primary)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .multilineTextAlignment(.leading)
                 }
                 .padding()
                 .background(.regularMaterial)
@@ -108,6 +113,8 @@ struct DetailNoteView: View {
                         .foregroundStyle(.primary)
                         .multilineTextAlignment(.leading)
                         .foregroundStyle(.secondary)
+                        .lineLimit(nil)
+                        .fixedSize(horizontal: false, vertical: true)
                 }
                 .padding()
                 .background(.regularMaterial)

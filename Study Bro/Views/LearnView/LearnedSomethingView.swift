@@ -70,58 +70,57 @@ struct LearnedSomethingView: View {
                         .pickerStyle(.automatic)
                         
                         VStack(alignment: .leading) {
-                            ForEach(filteredNotes) { note in
-                                
-                                NavigationLink {
-                                    DetailNoteView(note: note)
-                                } label: {
-                                    HStack(alignment: .top, spacing: 12) {
-                                        // Intensity Icon
-                                        let iconColor: Color = {
-                                            switch note.importance.lowercased() {
-                                            case "high": return .red
-                                            case "medium": return .orange
-                                            default: return .green
-                                            }
-                                        }()
-                                        Image(systemName: "flame.circle.fill")
-                                            .font(.system(size: 28))
-                                            .foregroundColor(iconColor)
-                                            .shadow(color: iconColor.opacity(0.3), radius: 6, x: 0, y: 2)
-                                            .padding(.top, 3)
-                                        
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(note.category)
-                                                .font(.headline)
-                                                .foregroundStyle(.black)
-                                            
-//                                            Text(note.text)
-//                                                .foregroundStyle(.black)
-                                            
-                                            Text("Importance :\(note.importance.capitalized)")
-                                                .font(.caption)
+                            ScrollView {
+                                ForEach(filteredNotes) { note in
+                                    
+                                    NavigationLink {
+                                        DetailNoteView(note: note)
+                                    } label: {
+                                        HStack(alignment: .top, spacing: 12) {
+                                            // Intensity Icon
+                                            let iconColor: Color = {
+                                                switch note.importance.lowercased() {
+                                                case "high": return .red
+                                                case "medium": return .orange
+                                                default: return .green
+                                                }
+                                            }()
+                                            Image(systemName: "flame.circle.fill")
+                                                .font(.system(size: 28))
                                                 .foregroundColor(iconColor)
+                                                .shadow(color: iconColor.opacity(0.3), radius: 6, x: 0, y: 2)
+                                                .padding(.top, 3)
                                             
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(note.category)
+                                                    .font(.headline)
+                                                    .foregroundStyle(.black)
+
+                                                Text("Importance :\(note.importance.capitalized)")
+                                                    .font(.caption)
+                                                    .foregroundColor(iconColor)
+                                                
+                                            }
+                                            Spacer()
                                         }
-                                        Spacer()
-                                    }
-                                    .padding(16)
-                                    .background(
-                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                            .fill(.ultraThinMaterial)
-                                            .shadow(color: Color.primary.opacity(0.08), radius: 8, x: 0, y: 4)
-                                    )
-                                    .overlay(
-                                        RoundedRectangle(cornerRadius: 20, style: .continuous)
-                                            .stroke(Color.white.opacity(0.05), lineWidth: 1.2)
-                                    )
-                                    .padding(.vertical, 4)
-                                    .animation(.smooth, value: viewModel.notes.count)
-                                    .swipeActions {
-                                        Button(role: .destructive) {
-                                            Task { await viewModel.delete(note: note) }
-                                        } label: {
-                                            Label("Delete", systemImage: "trash")
+                                        .padding(16)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                                .fill(.ultraThinMaterial)
+                                                .shadow(color: Color.primary.opacity(0.08), radius: 8, x: 0, y: 4)
+                                        )
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                                .stroke(Color.white.opacity(0.05), lineWidth: 1.2)
+                                        )
+                                        .padding(.vertical, 4)
+                                        .animation(.smooth, value: viewModel.notes.count)
+                                        .swipeActions {
+                                            Button(role: .destructive) {
+                                                Task { await viewModel.delete(note: note) }
+                                            } label: {
+                                                Label("Delete", systemImage: "trash")
+                                            }
                                         }
                                     }
                                 }
@@ -140,21 +139,21 @@ struct LearnedSomethingView: View {
                                     .tint(.accentColor)
                             }
                             
-                            Button(action: { userWantsToRevise = true }) {
-                                Label("I want to revise", systemImage: "book.fill")
-                                    .frame(maxWidth: .infinity)
-                                    .padding()
-                                    .glassEffect()
-                                    .tint(.primary)
-                            }
+//                            Button(action: { userWantsToRevise = true }) {
+//                                Label("I want to revise", systemImage: "book.fill")
+//                                    .frame(maxWidth: .infinity)
+//                                    .padding()
+//                                    .glassEffect()
+//                                    .tint(.primary)
+//                            }
                         }
                     }
                     .padding(.horizontal, 24)
                     .padding(.vertical, 24)
-                    .background(
-                        RoundedRectangle(cornerRadius: 24, style: .continuous)
-                            .foregroundStyle(.black.opacity(0.1))
-                    )
+                    .background {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                    }
                     .padding(.horizontal, 20)
                     
                     Spacer()
@@ -166,7 +165,7 @@ struct LearnedSomethingView: View {
         .onAppear {
             Task { await loadUserCategories() }
         }
-        .onChange(of: scenePhase) { newPhase in
+        .onChange(of: scenePhase) { _, newPhase in
             if newPhase == .active {
                 Task { await loadUserCategories() }
             }

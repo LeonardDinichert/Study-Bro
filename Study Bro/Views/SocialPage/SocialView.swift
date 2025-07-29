@@ -6,10 +6,6 @@ struct FriendsView: View {
     @State private var lastNotifiedRequests: Set<String> = [] // userIds of last notified
     let userId: String
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .ignoresSafeArea()
             
             VStack {
                 LazyVGrid(columns: [GridItem(.adaptive(minimum: 80))], spacing: 16) {
@@ -64,7 +60,7 @@ struct FriendsView: View {
                 }
                 .padding()
             }
-        }
+        
         .task {
             Task {
                 try await viewModel.load()
