@@ -161,15 +161,16 @@ struct LearnedSomethingView: View {
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .animation(.smooth, value: userWantsAddInfo || userWantsToRevise)
             }
-        }
-        .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
-                NavigationLink(destination: CardsView()) {
-                    Image(systemName: "rectangle.on.rectangle")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink(destination: CardsView()) {
+                        Image(systemName: "rectangle.on.rectangle")
+                    }
+                    .accessibilityLabel("Flashcards")
                 }
-                .accessibilityLabel("Flashcards")
             }
         }
+        
         .onAppear {
             Task { await loadUserCategories() }
         }

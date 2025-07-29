@@ -355,6 +355,9 @@
         }
       }
     },
+    "Add Item" : {
+
+    },
     "Add New Info" : {
       "localizations" : {
         "de" : {
@@ -468,6 +471,9 @@
         }
       }
     },
+    "Answer" : {
+
+    },
     "App Appearance" : {
       "localizations" : {
         "fr" : {
@@ -505,6 +511,9 @@
           }
         }
       }
+    },
+    "Auto" : {
+
     },
     "Auto-activate Work Focus during Pomodoro" : {
 
@@ -652,6 +661,9 @@
         }
       }
     },
+    "Cards" : {
+
+    },
     "Category" : {
       "localizations" : {
         "de" : {
@@ -763,6 +775,9 @@
           }
         }
       }
+    },
+    "Check" : {
+
     },
     "Choose Pomodoro Mode" : {
 
@@ -1056,6 +1071,9 @@
         }
       }
     },
+    "Definition" : {
+
+    },
     "Delete" : {
       "localizations" : {
         "de" : {
@@ -1141,6 +1159,7 @@
       }
     },
     "Describe it here" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1479,6 +1498,9 @@
           }
         }
       }
+    },
+    "Flashcards" : {
+
     },
     "Focus" : {
 
@@ -1904,6 +1926,9 @@
           }
         }
       }
+    },
+    "Items" : {
+
     },
     "Key" : {
       "extractionState" : "manual",
@@ -2386,6 +2411,9 @@
         }
       }
     },
+    "New Set" : {
+
+    },
     "New Task" : {
       "localizations" : {
         "de" : {
@@ -2475,6 +2503,12 @@
           }
         }
       }
+    },
+    "No cards" : {
+
+    },
+    "No cards available" : {
+
     },
     "No reminders" : {
 
@@ -2767,6 +2801,9 @@
           }
         }
       }
+    },
+    "Prev" : {
+
     },
     "Privacy Policy" : {
       "localizations" : {
@@ -3076,6 +3113,9 @@
         }
       }
     },
+    "Restart" : {
+
+    },
     "Review Schedule Graph" : {
       "localizations" : {
         "de" : {
@@ -3159,6 +3199,9 @@
           }
         }
       }
+    },
+    "Score: %lld" : {
+
     },
     "Security and privacy" : {
       "localizations" : {
@@ -3334,6 +3377,9 @@
         }
       }
     },
+    "Shuffle" : {
+
+    },
     "Sign in / Create an account" : {
       "localizations" : {
         "de" : {
@@ -3446,6 +3492,9 @@
         }
       }
     },
+    "Spell the word you hear" : {
+
+    },
     "Stats" : {
       "localizations" : {
         "de" : {
@@ -3473,6 +3522,9 @@
           }
         }
       }
+    },
+    "Stop" : {
+
     },
     "Streak: %lld" : {
       "localizations" : {
@@ -3701,6 +3753,9 @@
         }
       }
     },
+    "Term" : {
+
+    },
     "Terms of Use" : {
       "localizations" : {
         "de" : {
@@ -3845,6 +3900,9 @@
 
     },
     "Trophies" : {
+
+    },
+    "Type here" : {
 
     },
     "Username" : {
@@ -4157,6 +4215,9 @@
           }
         }
       }
+    },
+    "Write here" : {
+
     },
     "yes" : {
       "localizations" : {

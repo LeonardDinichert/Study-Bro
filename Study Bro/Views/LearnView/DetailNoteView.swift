@@ -16,7 +16,7 @@ struct DetailNoteView: View {
     @State private var wordForCount: String = ""
     
     var body: some View {
-        ZStack {
+        ScrollView {
             Rectangle().fill(.ultraThinMaterial).ignoresSafeArea()
             VStack(spacing: 32) {
                 

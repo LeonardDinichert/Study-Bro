@@ -19,6 +19,10 @@
 		E31A18B82E393367000B08DE /* TrophiesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18B72E393367000B08DE /* TrophiesView.swift */; };
 		E31A18BA2E3933CD000B08DE /* TrophiesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18B92E3933CD000B08DE /* TrophiesViewModel.swift */; };
 		E31A18BC2E39357D000B08DE /* CalendarEventsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18BB2E39357D000B08DE /* CalendarEventsViewModel.swift */; };
+		E31A18BE2E394242000B08DE /* StudySetManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18BD2E394242000B08DE /* StudySetManager.swift */; };
+		E31A18C02E394255000B08DE /* StudySet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18BF2E394255000B08DE /* StudySet.swift */; };
+		E31A18C22E394270000B08DE /* CardsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18C12E394270000B08DE /* CardsViewModel.swift */; };
+		E31A18C52E39429C000B08DE /* CardsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18C32E39429C000B08DE /* CardsView.swift */; };
 		E3405F282DA80F7900216E57 /* FirebaseAppDistribution-Beta in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F272DA80F7900216E57 /* FirebaseAppDistribution-Beta */; };
 		E3405F2A2DA80F7900216E57 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F292DA80F7900216E57 /* FirebaseAuth */; };
 		E3405F2C2DA80F7900216E57 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F2B2DA80F7900216E57 /* FirebaseFirestore */; };
@@ -99,6 +103,10 @@
 		E31A18B72E393367000B08DE /* TrophiesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrophiesView.swift; sourceTree = "<group>"; };
 		E31A18B92E3933CD000B08DE /* TrophiesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrophiesViewModel.swift; sourceTree = "<group>"; };
 		E31A18BB2E39357D000B08DE /* CalendarEventsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarEventsViewModel.swift; sourceTree = "<group>"; };
+		E31A18BD2E394242000B08DE /* StudySetManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySetManager.swift; sourceTree = "<group>"; };
+		E31A18BF2E394255000B08DE /* StudySet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySet.swift; sourceTree = "<group>"; };
+		E31A18C12E394270000B08DE /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
+		E31A18C32E39429C000B08DE /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
@@ -205,6 +213,14 @@
 			path = Customization;
 			sourceTree = "<group>";
 		};
+		E31A18C42E39429C000B08DE /* Flashcards */ = {
+			isa = PBXGroup;
+			children = (
+				E31A18C32E39429C000B08DE /* CardsView.swift */,
+			);
+			path = Flashcards;
+			sourceTree = "<group>";
+		};
 		E3405EE82DA80F2100216E57 = {
 			isa = PBXGroup;
 			children = (
@@ -224,6 +240,7 @@
 				E39C60412E0DBAB2006B4C39 /* StorageManager.swift */,
 				E39C60422E0DBAB2006B4C39 /* TaskManager.swift */,
 				E39C60432E0DBAB2006B4C39 /* TextManager.swift */,
+				E31A18BD2E394242000B08DE /* StudySetManager.swift */,
 				E39C60442E0DBAB2006B4C39 /* UserManager.swift */,
 			);
 			path = Managers;
@@ -237,6 +254,7 @@
 				E39C60482E0DBAB2006B4C39 /* TaskItem.swift */,
 				E3C94B812E34E157004D8262 /* StudySessionModel.swift */,
 				260C8ED5EBAD496CB5D8CFA0 /* ChatMessage.swift */,
+				E31A18BF2E394255000B08DE /* StudySet.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -265,6 +283,7 @@
 		E39C60562E0DBAB2006B4C39 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				E31A18C12E394270000B08DE /* CardsViewModel.swift */,
 				E39C60522E0DBAB2006B4C39 /* NotesViewModel.swift */,
 				E39C60532E0DBAB2006B4C39 /* SignUpEmailViewModel.swift */,
 				E39C60542E0DBAB2006B4C39 /* SocialViewModel.swift */,
@@ -383,6 +402,7 @@
 		E39C607D2E0DBAB2006B4C39 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				E31A18C42E39429C000B08DE /* Flashcards */,
 				E31A18B02E38D8F8000B08DE /* Calendar */,
 				E39C605F2E0DBAB2006B4C39 /* AccountPage */,
 				E39C60652E0DBAB2006B4C39 /* AuthenticationViews */,
@@ -520,6 +540,8 @@
 				E39C608A2E0DBAB2006B4C39 /* SignUpEmailViewModel.swift in Sources */,
 				E39C608B2E0DBAB2006B4C39 /* ShowPasswordView.swift in Sources */,
 				E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */,
+				E31A18C02E394255000B08DE /* StudySet.swift in Sources */,
+				E31A18BE2E394242000B08DE /* StudySetManager.swift in Sources */,
 				E39C608C2E0DBAB2006B4C39 /* TasksViewModel.swift in Sources */,
 				E39C608D2E0DBAB2006B4C39 /* AppTheme.swift in Sources */,
 				E39C608E2E0DBAB2006B4C39 /* LogInView.swift in Sources */,
@@ -544,6 +566,7 @@
 				E39C609D2E0DBAB2006B4C39 /* TextManager.swift in Sources */,
 				E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */,
 				6B5BB6B07029239DCEFEF2DF /* FriendDiscoveryViewModel.swift in Sources */,
+				E31A18C22E394270000B08DE /* CardsViewModel.swift in Sources */,
 				E39C609E2E0DBAB2006B4C39 /* NotesManager.swift in Sources */,
 				E39C609F2E0DBAB2006B4C39 /* UserManager.swift in Sources */,
 				E39C60A02E0DBAB2006B4C39 /* Utilities.swift in Sources */,
@@ -564,6 +587,7 @@
 				E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */,
 				E31A18BA2E3933CD000B08DE /* TrophiesViewModel.swift in Sources */,
 				E31A18BC2E39357D000B08DE /* CalendarEventsViewModel.swift in Sources */,
+				E31A18C52E39429C000B08DE /* CardsView.swift in Sources */,
 				A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */,
 				72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */,
 				312E13329A464195B5DE2488 /* ChatBotView.swift in Sources */,

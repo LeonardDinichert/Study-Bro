@@ -169,53 +169,11 @@ struct AddNoteView: View {
         
         do {
             try await NotesManager.shared.addNote(note, userId: userId)
-            scheduleNotifications(for: note)
             isPresented = false
         } catch {
             print("Failed to save note: \(error)")
         }
     }
-    
-    /// Schedules “Do you remember?” with the note text at a series of spaced intervals.
-    private func scheduleNotifications(for note: LearningNote) {
-        let center = UNUserNotificationCenter.current()
-        let reminderDates: [Date?] = [
-            note.firstReminderDate,
-            note.secondReminderDate,
-            note.thirdReminderDate,
-            note.forthReminderDate,
-            note.fifthReminderDate
-        ]
-
-        for (index, fireDate) in reminderDates.enumerated() {
-            guard let fireDate = fireDate else { continue }
-            
-            let content = UNMutableNotificationContent()
-            content.title = "Time to revise :"
-            content.body = note.text
-            content.sound = .default
-            
-            let comps = Calendar.current.dateComponents(
-                [.year, .month, .day, .hour, .minute, .second],
-                from: fireDate
-            )
-            let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
-            
-            let request = UNNotificationRequest(
-                identifier: "note-\(note.createdAt.timeIntervalSince1970)-\(index)",
-                content: content,
-                trigger: trigger
-            )
-            
-            
-            center.add(request) { error in
-                if let err = error {
-                    print("🔔 Notification error: \(err)")
-                }
-            }
-        }
-    }
-    
 }
 
 #Preview {

@@ -15,26 +15,28 @@ struct CardsView: View {
     }
 
     var body: some View {
-        VStack {
-            Picker("Mode", selection: $selectedMode) {
-                ForEach(Mode.allCases, id: \.self) { mode in
-                    Text(mode.rawValue).tag(mode)
+        NavigationStack {
+            VStack {
+                Picker("Mode", selection: $selectedMode) {
+                    ForEach(Mode.allCases, id: \.self) { mode in
+                        Text(mode.rawValue).tag(mode)
+                    }
                 }
-            }
-            .pickerStyle(.segmented)
-            .padding()
-
-            switch selectedMode {
-            case .flashcards:
-                FlashcardsSubview(viewModel: viewModel)
-            case .learn:
-                LearnSubview(viewModel: viewModel)
-            case .test:
-                TestSubview(viewModel: viewModel)
-            case .write:
-                WriteSubview(viewModel: viewModel)
-            case .spell:
-                SpellSubview(viewModel: viewModel)
+                .pickerStyle(.segmented)
+                .padding()
+                
+                switch selectedMode {
+                case .flashcards:
+                    FlashcardsSubview(viewModel: viewModel)
+                case .learn:
+                    LearnSubview(viewModel: viewModel)
+                case .test:
+                    TestSubview(viewModel: viewModel)
+                case .write:
+                    WriteSubview(viewModel: viewModel)
+                case .spell:
+                    SpellSubview(viewModel: viewModel)
+                }
             }
         }
         .navigationTitle("Cards")
@@ -49,7 +51,7 @@ struct CardsView: View {
             CreateSetView(viewModel: viewModel)
         }
         .task { await viewModel.loadSets() }
-        .onChange(of: viewModel.isAutoplay) { _ in viewModel.startAutoplay() }
+        .onChange(of: viewModel.isAutoplay) { viewModel.startAutoplay() }
     }
 }
 
@@ -212,7 +214,6 @@ struct SpellSubview: View {
     var body: some View {
         VStack(spacing: 16) {
             if let set = viewModel.currentSet, !set.items.isEmpty {
-                let card = set.items[viewModel.currentIndex]
                 Text("Spell the word you hear")
                 TextField("Type here", text: $text)
                     .textFieldStyle(.roundedBorder)
