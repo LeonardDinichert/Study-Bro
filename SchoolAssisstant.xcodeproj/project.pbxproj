@@ -76,7 +76,9 @@
 		E39C60B12E0DBAB2006B4C39 /* NotificationsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60B22E0DBAB2006B4C39 /* NotificationsView.swift */; };
 		E3C94B822E34E157004D8262 /* StudySessionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B812E34E157004D8262 /* StudySessionModel.swift */; };
 		E3C94B842E34E22A004D8262 /* Media.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E3C94B832E34E22A004D8262 /* Media.xcassets */; };
-		E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+                E3C94B862E351657004D8262 /* FriendDiscoveryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */; };
+                ff7dbc47dce94385a02f60a5 /* CalendarViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7359fa6d74d34f968bfdcf07 /* CalendarViewModel.swift */; };
+                b03cf6f8a69e48acb972ce07 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 409f03fabf4f4111b4bc091a /* CalendarView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -140,7 +142,9 @@
 		E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchoolAssisstant.entitlements; sourceTree = "<group>"; };
 		E3C94B812E34E157004D8262 /* StudySessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionModel.swift; sourceTree = "<group>"; };
 		E3C94B832E34E22A004D8262 /* Media.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Media.xcassets; sourceTree = "<group>"; };
-		E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                E3C94B852E351657004D8262 /* FriendDiscoveryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FriendDiscoveryView.swift; sourceTree = "<group>"; };
+                7359fa6d74d34f968bfdcf07 /* CalendarViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewModel.swift; sourceTree = "<group>"; };
+                409f03fabf4f4111b4bc091a /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -238,12 +242,13 @@
 				E39C60532E0DBAB2006B4C39 /* SignUpEmailViewModel.swift */,
 				E39C60542E0DBAB2006B4C39 /* SocialViewModel.swift */,
 				E39C60552E0DBAB2006B4C39 /* TasksViewModel.swift */,
-				D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */,
-				006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */,
-			);
-			path = ViewModels;
-			sourceTree = "<group>";
-		};
+                                D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */,
+                                006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */,
+                                7359fa6d74d34f968bfdcf07 /* CalendarViewModel.swift */,
+                        );
+                        path = ViewModels;
+                        sourceTree = "<group>";
+                };
 		E39C605F2E0DBAB2006B4C39 /* AccountPage */ = {
 			isa = PBXGroup;
 			children = (
@@ -355,13 +360,22 @@
 				E39C60702E0DBAB2006B4C39 /* LearnView */,
 				E39C60722E0DBAB2006B4C39 /* SocialPage */,
 				E39C60742E0DBAB2006B4C39 /* StatsPage */,
-				E39C60782E0DBAB2006B4C39 /* StudyView */,
-				E39C607B2E0DBAB2006B4C39 /* Tasks */,
-				85A7A9ADADFF4F438D61BD55 /* ChatBot */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
+                                E39C60782E0DBAB2006B4C39 /* StudyView */,
+                                E39C607B2E0DBAB2006B4C39 /* Tasks */,
+                                d75d1a28e342465c87d74e16 /* Calendar */,
+                                85A7A9ADADFF4F438D61BD55 /* ChatBot */,
+                        );
+                        path = Views;
+                        sourceTree = "<group>";
+                };
+                d75d1a28e342465c87d74e16 /* Calendar */ = {
+                        isa = PBXGroup;
+                        children = (
+                                409f03fabf4f4111b4bc091a /* CalendarView.swift */,
+                        );
+                        path = Calendar;
+                        sourceTree = "<group>";
+                };
 		E39C607E2E0DBAB2006B4C39 /* SchoolAssisstant */ = {
 			isa = PBXGroup;
 			children = (
@@ -521,9 +535,11 @@
 				E39C60AB2E0DBAB2006B4C39 /* MeditationPreWorkView.swift in Sources */,
 				E39C60AC2E0DBAB2006B4C39 /* EditProfileView.swift in Sources */,
 				A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */,
-				72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */,
-				312E13329A464195B5DE2488 /* ChatBotView.swift in Sources */,
-			);
+                                72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */,
+                                312E13329A464195B5DE2488 /* ChatBotView.swift in Sources */,
+                                ff7dbc47dce94385a02f60a5 /* CalendarViewModel.swift in Sources */,
+                                b03cf6f8a69e48acb972ce07 /* CalendarView.swift in Sources */,
+                        );
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
