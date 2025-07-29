@@ -11,6 +11,7 @@ struct CalendarView: View {
 
     @State private var displayMode: DisplayMode = .month
     @State private var currentDate: Date = Date()
+    @StateObject private var eventsModel = CalendarEventsViewModel()
 
     private var calendar: Calendar {
         var cal = Calendar.current
@@ -30,11 +31,11 @@ struct CalendarView: View {
 
             switch displayMode {
             case .day:
-                DayView(date: currentDate, calendar: calendar)
+                DayView(date: currentDate, calendar: calendar, model: eventsModel)
             case .week:
-                WeekView(date: currentDate, calendar: calendar)
+                WeekView(date: currentDate, calendar: calendar, model: eventsModel)
             case .month:
-                MonthView(date: currentDate, calendar: calendar)
+                MonthView(date: currentDate, calendar: calendar, model: eventsModel)
             }
 
             Spacer()
@@ -50,6 +51,7 @@ struct CalendarView: View {
                 }
             }
         }
+        .task { await eventsModel.load() }
     }
 
     private func previous() {
@@ -78,6 +80,7 @@ struct CalendarView: View {
 private struct DayView: View {
     let date: Date
     let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
 
     private var formatter: DateFormatter {
         let df = DateFormatter()
@@ -86,26 +89,78 @@ private struct DayView: View {
     }
 
     var body: some View {
-        Text(formatter.string(from: date))
-            .font(.title.weight(.semibold))
+        let tasks = model.tasks(on: date)
+        let notes = model.notes(on: date)
+
+        ScrollView {
+            VStack(spacing: 12) {
+                Text(formatter.string(from: date))
+                    .font(.title.weight(.semibold))
+                    .padding(.bottom, 8)
+
+                if tasks.isEmpty && notes.isEmpty {
+                    Text("No reminders")
+                        .foregroundStyle(.secondary)
+                }
+
+                ForEach(tasks) { task in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(task.title)
+                            .font(.headline)
+                        Text(task.dueDate, style: .time)
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                    )
+                }
+
+                ForEach(notes) { note in
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(note.category)
+                            .font(.headline)
+                        Text(note.text)
+                            .font(.subheadline)
+                    }
+                    .padding()
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16, style: .continuous)
+                            .fill(.ultraThinMaterial)
+                    )
+                }
+            }
             .padding()
+        }
     }
 }
 
 private struct WeekView: View {
     let date: Date
     let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
 
     var body: some View {
         let startOfWeek = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
         let days = (0..<7).compactMap { calendar.date(byAdding: .day, value: $0, to: startOfWeek) }
         LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7)) {
             ForEach(days, id: \.self) { day in
-                Text(dayNumber(day))
-                    .frame(maxWidth: .infinity)
-                    .padding(8)
-                    .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
-                    .clipShape(Circle())
+                VStack(spacing: 4) {
+                    Text(dayNumber(day))
+                        .frame(maxWidth: .infinity)
+                        .padding(8)
+                        .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                        .clipShape(Circle())
+                    if model.hasEvents(on: day) {
+                        Circle()
+                            .fill(Color.orange)
+                            .frame(width: 6, height: 6)
+                    }
+                }
             }
         }
         .padding()
@@ -119,6 +174,7 @@ private struct WeekView: View {
 private struct MonthView: View {
     let date: Date
     let calendar: Calendar
+    @ObservedObject var model: CalendarEventsViewModel
 
     var body: some View {
         let days = generateDays()
@@ -129,12 +185,19 @@ private struct MonthView: View {
                     .frame(maxWidth: .infinity)
             }
             ForEach(days, id: \.self) { day in
-                Text(dayLabel(day))
-                    .foregroundStyle(calendar.isDate(day, equalTo: date, toGranularity: .month) ? .primary : .secondary)
-                    .frame(maxWidth: .infinity)
-                    .padding(4)
-                    .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
-                    .clipShape(Circle())
+                VStack(spacing: 2) {
+                    Text(dayLabel(day))
+                        .foregroundStyle(calendar.isDate(day, equalTo: date, toGranularity: .month) ? .primary : .secondary)
+                        .frame(maxWidth: .infinity)
+                        .padding(4)
+                        .background(calendar.isDate(day, inSameDayAs: Date()) ? Color.orange.opacity(0.3) : Color.clear)
+                        .clipShape(Circle())
+                    if model.hasEvents(on: day) {
+                        Circle()
+                            .fill(Color.orange)
+                            .frame(width: 5, height: 5)
+                    }
+                }
             }
         }
         .padding()
