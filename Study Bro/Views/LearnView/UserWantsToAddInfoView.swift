@@ -118,13 +118,30 @@ struct AddNoteView: View {
         }
         
         let now = Date()
+        let offsets: [(value: Int, component: Calendar.Component)] = [
+            (1, .day),
+            (4, .day),
+            (8, .day),
+            (1, .month),
+            (4, .month)
+        ]
+
+        let reminderDates = offsets.compactMap { offset in
+            Calendar.current.date(byAdding: offset.component, value: offset.value, to: now)
+        }
+
         let note = LearningNote(
             category: category,
             text: learned,
             importance: importance.rawValue,
             reviewCount: 0,
-            nextReview: Calendar.current.date(byAdding: .day, value: 1, to: now)!,
-            createdAt: now
+            nextReview: reminderDates.first ?? now,
+            createdAt: now,
+            firstReminderDate: reminderDates.count > 0 ? reminderDates[0] : nil,
+            secondReminderDate: reminderDates.count > 1 ? reminderDates[1] : nil,
+            thirdReminderDate: reminderDates.count > 2 ? reminderDates[2] : nil,
+            forthReminderDate: reminderDates.count > 3 ? reminderDates[3] : nil,
+            fifthReminderDate: reminderDates.count > 4 ? reminderDates[4] : nil
         )
         
         do {
@@ -139,22 +156,16 @@ struct AddNoteView: View {
     /// Schedules “Do you remember?” with the note text at a series of spaced intervals.
     private func scheduleNotifications(for note: LearningNote) {
         let center = UNUserNotificationCenter.current()
-        let offsets: [(value: Int, component: Calendar.Component)] = [
-            (1, .day),
-            (4, .day),
-            (8, .day),
-            (1, .month),
-            (4, .month)
+        let reminderDates: [Date?] = [
+            note.firstReminderDate,
+            note.secondReminderDate,
+            note.thirdReminderDate,
+            note.forthReminderDate,
+            note.fifthReminderDate
         ]
-        
-        for (index, offset) in offsets.enumerated() {
-            guard
-                let fireDate = Calendar.current.date(
-                    byAdding: offset.component,
-                    value: offset.value,
-                    to: note.createdAt
-                )
-            else { continue }
+
+        for (index, fireDate) in reminderDates.enumerated() {
+            guard let fireDate = fireDate else { continue }
             
             let content = UNMutableNotificationContent()
             content.title = "Time to revise :"
@@ -173,7 +184,6 @@ struct AddNoteView: View {
                 trigger: trigger
             )
             
-            print("Change the note.text to an autoformulated question made by ai")
             
             center.add(request) { error in
                 if let err = error {
