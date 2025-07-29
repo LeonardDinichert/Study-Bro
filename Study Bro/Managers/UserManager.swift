@@ -27,6 +27,7 @@ struct DBUser: Codable {
     let lastConnection: Date?
     var fcmToken: String?
     var isStudying: [String]?
+    var trophies: [String]?
     let friends: [String]?
     let pendingFriends: [String]?
     
@@ -44,6 +45,7 @@ struct DBUser: Codable {
         self.lastConnection = nil
         self.fcmToken = nil
         self.isStudying = nil
+        self.trophies = []
         self.friends = nil
         self.pendingFriends = nil
     }
@@ -59,6 +61,7 @@ struct DBUser: Codable {
         biography: String? = nil,
         fcmToken: String? = nil,
         isStudying: [String]? = nil,
+        trophies: [String]? = nil,
         lastConnection: Date? = nil,
         friends: [String]? = nil,
         pendingFriends: [String]? = nil
@@ -74,6 +77,7 @@ struct DBUser: Codable {
         self.lastConnection = lastConnection
         self.fcmToken = fcmToken
         self.isStudying = isStudying
+        self.trophies = trophies
         self.friends = friends
         self.pendingFriends = pendingFriends
     }
@@ -92,6 +96,7 @@ struct DBUser: Codable {
         // Store the FCM token under "fcm_token" in Firestore
         case fcmToken = "fcm_token"
         case isStudying = "is_studying"
+        case trophies = "trophies"
         case lastConnection = "last_connection"
         case friends = "friends"
         case pendingFriends = "pending_friends"
@@ -111,6 +116,7 @@ struct DBUser: Codable {
         self.biography = try container.decodeIfPresent(String.self, forKey: .biography)
         self.fcmToken = try container.decodeIfPresent(String.self, forKey: .fcmToken)
         self.isStudying = try container.decodeIfPresent([String].self, forKey: .isStudying)
+        self.trophies = try container.decodeIfPresent([String].self, forKey: .trophies)
         self.lastConnection = try container.decodeIfPresent(Date.self, forKey: .lastConnection)
         self.friends = try container.decodeIfPresent([String].self, forKey: .friends)
         self.pendingFriends = try container.decodeIfPresent([String].self, forKey: .pendingFriends)
@@ -130,6 +136,7 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.biography, forKey: .biography)
         try container.encodeIfPresent(self.fcmToken, forKey: .fcmToken)
         try container.encodeIfPresent(self.isStudying, forKey: .isStudying)
+        try container.encodeIfPresent(self.trophies, forKey: .trophies)
         try container.encodeIfPresent(self.lastConnection, forKey: .lastConnection)
         try container.encodeIfPresent(self.friends, forKey: .friends)
         try container.encodeIfPresent(self.pendingFriends, forKey: .pendingFriends)
@@ -146,6 +153,7 @@ struct DBUser: Codable {
         self.biography = data[CodingKeys.biography.rawValue] as? String
         self.fcmToken = data[CodingKeys.fcmToken.rawValue] as? String
         self.isStudying = data[CodingKeys.isStudying.rawValue] as? [String]
+        self.trophies = data[CodingKeys.trophies.rawValue] as? [String]
         self.friends = data[CodingKeys.friends.rawValue] as? [String]
         self.pendingFriends = data[CodingKeys.pendingFriends.rawValue] as? [String]
         if let ts = data[CodingKeys.lastConnection.rawValue] as? Timestamp {
@@ -168,6 +176,7 @@ struct DBUser: Codable {
         if let biography = biography { dict[CodingKeys.biography.rawValue] = biography }
         if let fcmToken = fcmToken { dict[CodingKeys.fcmToken.rawValue] = fcmToken }
         if let isStudying = isStudying { dict[CodingKeys.isStudying.rawValue] = isStudying }
+        if let trophies = trophies { dict[CodingKeys.trophies.rawValue] = trophies }
         if let lastConnection = lastConnection { dict[CodingKeys.lastConnection.rawValue] = Timestamp(date: lastConnection) }
         if let friends = friends { dict[CodingKeys.friends.rawValue] = friends }
         if let pendingFriends = pendingFriends { dict[CodingKeys.pendingFriends.rawValue] = pendingFriends }
@@ -320,8 +329,24 @@ final class UserManager: ObservableObject {
         let data: [String: Any] = [
             DBUser.CodingKeys.profileImagePathUrl.rawValue: url ?? "no path",
         ]
-        
+
         try await userDocument(userId: userId).updateData(data)
+    }
+
+    func addTrophy(userId: String, trophy: String) async throws {
+        try await userDocument(userId: userId).updateData([
+            DBUser.CodingKeys.trophies.rawValue: FieldValue.arrayUnion([trophy])
+        ])
+    }
+
+    func checkTenDayStreakTrophy(userId: String) async throws {
+        let streak = try await calculateStreak(userId: userId)
+        guard streak >= 10 else { return }
+        let snapshot = try await userDocument(userId: userId).getDocument()
+        let current = (snapshot.get(DBUser.CodingKeys.trophies.rawValue) as? [String]) ?? []
+        if !current.contains("10_day_streak") {
+            try await addTrophy(userId: userId, trophy: "10_day_streak")
+        }
     }
     
     func saveFCMTokenToFirestore(token: String, userId: String) {
@@ -368,6 +393,8 @@ final class userManagerViewModel: ObservableObject {
     
         self.user = try await UserManager.shared.getUser(userId: userId)
         try? await UserManager.shared.updateLastConnection(userId: userId, date: Date())
+        try? await UserManager.shared.checkTenDayStreakTrophy(userId: userId)
+        self.user = try await UserManager.shared.getUser(userId: userId)
     }
     
     func sendNotificationRequest(title: String, body: String, token: String? = nil) {
