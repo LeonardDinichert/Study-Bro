@@ -44,7 +44,7 @@
 		E39C608C2E0DBAB2006B4C39 /* TasksViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60552E0DBAB2006B4C39 /* TasksViewModel.swift */; };
 		E39C608D2E0DBAB2006B4C39 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C604F2E0DBAB2006B4C39 /* AppTheme.swift */; };
 		E39C608E2E0DBAB2006B4C39 /* LogInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60612E0DBAB2006B4C39 /* LogInView.swift */; };
-		E39C608F2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C607C2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift */; };
+		E39C608F2E0DBAB2006B4C39 /* Study Bro.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C607C2E0DBAB2006B4C39 /* Study Bro.swift */; };
 		E39C60902E0DBAB2006B4C39 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60412E0DBAB2006B4C39 /* StorageManager.swift */; };
 		E39C60912E0DBAB2006B4C39 /* UserInfosCreation.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60642E0DBAB2006B4C39 /* UserInfosCreation.swift */; };
 		E39C60922E0DBAB2006B4C39 /* TaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60422E0DBAB2006B4C39 /* TaskManager.swift */; };
@@ -143,7 +143,7 @@
 		E39C60772E0DBAB2006B4C39 /* StudySessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionView.swift; sourceTree = "<group>"; };
 		E39C60792E0DBAB2006B4C39 /* AddTaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTaskView.swift; sourceTree = "<group>"; };
 		E39C607A2E0DBAB2006B4C39 /* TasksTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TasksTab.swift; sourceTree = "<group>"; };
-		E39C607C2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SchoolAssisstantApp.swift; sourceTree = "<group>"; };
+		E39C607C2E0DBAB2006B4C39 /* Study Bro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Study Bro.swift"; sourceTree = "<group>"; };
 		E39C60B22E0DBAB2006B4C39 /* NotificationsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationsView.swift; sourceTree = "<group>"; };
 		E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SchoolAssisstant.entitlements; sourceTree = "<group>"; };
 		E3C94B812E34E157004D8262 /* StudySessionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudySessionModel.swift; sourceTree = "<group>"; };
@@ -394,7 +394,7 @@
 			isa = PBXGroup;
 			children = (
 				E3C94B802E34E0A7004D8262 /* SchoolAssisstant.entitlements */,
-				E39C607C2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift */,
+				E39C607C2E0DBAB2006B4C39 /* Study Bro.swift */,
 				E39C60452E0DBAB2006B4C39 /* Managers */,
 				E39C60492E0DBAB2006B4C39 /* Models */,
 				E39C604E2E0DBAB2006B4C39 /* Resources */,
@@ -514,7 +514,7 @@
 				E39C608C2E0DBAB2006B4C39 /* TasksViewModel.swift in Sources */,
 				E39C608D2E0DBAB2006B4C39 /* AppTheme.swift in Sources */,
 				E39C608E2E0DBAB2006B4C39 /* LogInView.swift in Sources */,
-				E39C608F2E0DBAB2006B4C39 /* SchoolAssisstantApp.swift in Sources */,
+				E39C608F2E0DBAB2006B4C39 /* Study Bro.swift in Sources */,
 				E31A18B42E38DC18000B08DE /* FocusSettingsView.swift in Sources */,
 				E39C60902E0DBAB2006B4C39 /* StorageManager.swift in Sources */,
 				E31A18AE2E38D4A6000B08DE /* CHooseStudyBranches.swift in Sources */,
@@ -595,6 +595,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "Study Bro/SchoolAssisstant.entitlements";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = F6VFNA642Y;
@@ -615,7 +616,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
+				INFOPLIST_FILE = "/Users/leonarddinichert/Documents/GitHub/StuddyBuddy/Study Bro/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -663,6 +664,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "Study Bro/SchoolAssisstant.entitlements";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = F6VFNA642Y;
@@ -677,7 +679,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
+				INFOPLIST_FILE = "/Users/leonarddinichert/Documents/GitHub/StuddyBuddy/Study Bro/Resources/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -695,14 +697,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SchoolAssisstant/SchoolAssisstant.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Study Bro/SchoolAssisstant.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F6VFNA642Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
+				INFOPLIST_FILE = "/Users/leonarddinichert/Documents/GitHub/StuddyBuddy/Study Bro/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Study Bro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -728,14 +731,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = SchoolAssisstant/SchoolAssisstant.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Study Bro/SchoolAssisstant.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = F6VFNA642Y;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = /Users/leonarddinichert/Documents/GitHub/StuddyBuddy/SchoolAssisstant/Resources/Info.plist;
+				INFOPLIST_FILE = "/Users/leonarddinichert/Documents/GitHub/StuddyBuddy/Study Bro/Resources/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Study Bro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

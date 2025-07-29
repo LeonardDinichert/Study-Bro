@@ -12,7 +12,7 @@ import FirebaseAuth
 import UserNotifications
 
 @main
-struct SchoolAssisstantApp: App {
+struct StudyBro: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
     var body: some Scene {
         WindowGroup {

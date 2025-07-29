@@ -88,3 +88,7 @@ struct FriendsView: View {
         }
     }
 }
+
+#Preview {
+    FriendsView(userId: "previewUser")
+}
