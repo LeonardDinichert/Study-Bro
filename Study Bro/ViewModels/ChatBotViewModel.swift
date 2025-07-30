@@ -14,7 +14,7 @@ final class ChatBotViewModel: ObservableObject {
     @Published var inputText: String = ""
 
     // MARK: - Configuration
-    private let apiToken = "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"
+    private let apiToken = "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"
     private let modelID = "meta-llama/Llama-3.1-8B-Instruct:cerebras"
 
     // MARK: - Public API
