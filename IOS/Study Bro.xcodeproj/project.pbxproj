@@ -35,6 +35,9 @@
 		E3405F3A2DA80F7900216E57 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F392DA80F7900216E57 /* FirebaseStorageCombine-Community */; };
 		E3405F3D2DA8118700216E57 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F3C2DA8118700216E57 /* GoogleSignIn */; };
 		E3405F3F2DA8118700216E57 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F3E2DA8118700216E57 /* GoogleSignInSwift */; };
+		E356437C2E40F85100F76F73 /* AdyenPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */; };
+		E356437E2E40F86B00F76F73 /* SubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */; };
+		E35643802E40F88A00F76F73 /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437F2E40F88A00F76F73 /* SubscribeView.swift */; };
 		E39C607F2E0DBAB2006B4C39 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60602E0DBAB2006B4C39 /* AuthenticationView.swift */; };
 		E39C60802E0DBAB2006B4C39 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */; };
 		E39C60812E0DBAB2006B4C39 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60632E0DBAB2006B4C39 /* SignUpView.swift */; };
@@ -108,6 +111,9 @@
 		E31A18C12E394270000B08DE /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 		E31A18C32E39429C000B08DE /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdyenPaymentManager.swift; sourceTree = "<group>"; };
+		E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
+		E356437F2E40F88A00F76F73 /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		E39C603E2E0DBAB2006B4C39 /* GoogleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleManager.swift; sourceTree = "<group>"; };
@@ -242,6 +248,7 @@
 				E39C60432E0DBAB2006B4C39 /* TextManager.swift */,
 				E31A18BD2E394242000B08DE /* StudySetManager.swift */,
 				E39C60442E0DBAB2006B4C39 /* UserManager.swift */,
+				E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -292,6 +299,7 @@
 				D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */,
 				006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */,
 				E31A18B92E3933CD000B08DE /* TrophiesViewModel.swift */,
+				E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -307,6 +315,7 @@
 				E39C605C2E0DBAB2006B4C39 /* SettingsView.swift */,
 				E39C605D2E0DBAB2006B4C39 /* ShowEmailAdressView.swift */,
 				E39C605E2E0DBAB2006B4C39 /* ShowPasswordView.swift */,
+				E356437F2E40F88A00F76F73 /* SubscribeView.swift */,
 				E31A18B22E38DBFB000B08DE /* Customization */,
 			);
 			path = AccountPage;
@@ -537,9 +546,11 @@
 				E39C60872E0DBAB2006B4C39 /* IntroView.swift in Sources */,
 				E39C60882E0DBAB2006B4C39 /* ResetPasswordView.swift in Sources */,
 				E39C60892E0DBAB2006B4C39 /* TasksTab.swift in Sources */,
+				E35643802E40F88A00F76F73 /* SubscribeView.swift in Sources */,
 				E39C608A2E0DBAB2006B4C39 /* SignUpEmailViewModel.swift in Sources */,
 				E39C608B2E0DBAB2006B4C39 /* ShowPasswordView.swift in Sources */,
 				E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */,
+				E356437E2E40F86B00F76F73 /* SubscriptionViewModel.swift in Sources */,
 				E31A18C02E394255000B08DE /* StudySet.swift in Sources */,
 				E31A18BE2E394242000B08DE /* StudySetManager.swift in Sources */,
 				E39C608C2E0DBAB2006B4C39 /* TasksViewModel.swift in Sources */,
@@ -556,6 +567,7 @@
 				E31A18B82E393367000B08DE /* TrophiesView.swift in Sources */,
 				E31A18B62E38E97C000B08DE /* FocusStatusCenter.swift in Sources */,
 				E39C60952E0DBAB2006B4C39 /* HomeTab.swift in Sources */,
+				E356437C2E40F85100F76F73 /* AdyenPaymentManager.swift in Sources */,
 				E39C60962E0DBAB2006B4C39 /* UserWantsToAddInfoView.swift in Sources */,
 				E39C60972E0DBAB2006B4C39 /* PrivacyView.swift in Sources */,
 				E39C60982E0DBAB2006B4C39 /* StudySessionView.swift in Sources */,
