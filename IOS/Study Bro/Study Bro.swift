@@ -10,6 +10,7 @@ import FirebaseCore
 import FirebaseMessaging
 import FirebaseAuth
 import UserNotifications
+import Adyen
 
 @main
 struct StudyBro: App {
@@ -113,6 +114,12 @@ class AppDelegate: NSObject, UIApplicationDelegate,
               let uid = Auth.auth().currentUser?.uid else { return }
         UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)  // :contentReference[oaicite:14]{index=14}
     }
+    func application(_ app: UIApplication,
+                     open url: URL,
+                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
+        RedirectComponent.applicationDidOpen(from: url)
+    }
+
 }
 
 
