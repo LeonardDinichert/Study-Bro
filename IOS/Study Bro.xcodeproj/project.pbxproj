@@ -790,6 +790,7 @@
 				INFOPLIST_FILE = "Study Bro/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Study Bro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSContactsUsageDescription = "We would want to access your contacts to find some related friends you could have in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -824,6 +825,7 @@
 				INFOPLIST_FILE = "Study Bro/Resources/Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = "Study Bro";
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.education";
+				INFOPLIST_KEY_NSContactsUsageDescription = "We would want to access your contacts to find some related friends you could have in the app.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

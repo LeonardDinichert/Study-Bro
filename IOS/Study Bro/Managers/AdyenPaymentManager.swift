@@ -16,7 +16,7 @@ final class AdyenPaymentManager: @MainActor NSObject, @MainActor PresentationDel
     static let shared = AdyenPaymentManager()
     private override init() {}
 
-    private let clientKey = "<YOUR_ADYEN_CLIENT_KEY>"
+    private let clientKey = "<test_WHDOQ6JHV5CDZMG5ZAZOSGAY5IWUDLJJ>"
 
     private lazy var apiContext: APIContext = {
         return try! APIContext(environment: Environment.test, clientKey: clientKey)
@@ -60,7 +60,7 @@ final class AdyenPaymentManager: @MainActor NSObject, @MainActor PresentationDel
     }
 
     @MainActor private func presentDropIn(using session: AdyenSession) {
-        var dropInConfig = DropInComponent.Configuration()
+        let dropInConfig = DropInComponent.Configuration()
         dropInConfig.card.showsHolderNameField = true
         dropInConfig.card.showsStorePaymentMethodField = false
         dropInConfig.actionComponent.twint = .init(callbackAppScheme: "studybro-payments://")
