@@ -51,8 +51,8 @@ struct CardsView: View {
             CreateSetView(viewModel: viewModel)
         }
         .task { await viewModel.loadSets() }
-        .onChange(of: viewModel.isAutoplay) { isAuto in
-            if isAuto { viewModel.startAutoplay() } else { viewModel.stopAutoplay() }
+        .onChange(of: viewModel.isAutoplay) { oldValue, newValue in
+            if newValue { viewModel.startAutoplay() } else { viewModel.stopAutoplay() }
         }
     }
 }

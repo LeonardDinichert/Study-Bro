@@ -6,7 +6,7 @@ import Adyen
 import FirebaseAuth
 
 @MainActor
-final class SubscriptionViewModel: NSObject, ObservableObject, AdyenSessionDelegate {
+final class SubscriptionViewModel: NSObject, ObservableObject, @MainActor AdyenSessionDelegate {
     
     @Published var paymentStatus: String?
 
