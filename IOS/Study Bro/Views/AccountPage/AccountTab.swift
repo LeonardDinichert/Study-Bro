@@ -125,6 +125,27 @@ struct AccountTab: View {
                                 .padding(.bottom, 6)
 
                                 NavigationLink {
+                                    SubscribeView()
+                                } label: {
+                                    HStack {
+                                        Text("Subscribe")
+                                            .font(.headline)
+                                            .foregroundColor(.primary)
+                                            .fontWeight(.semibold)
+                                        Spacer()
+                                        Image(systemName: "chevron.right")
+                                            .font(.subheadline)
+                                            .foregroundColor(.primary)
+                                    }
+                                    .padding()
+                                    .background(
+                                        RoundedRectangle(cornerRadius: 14, style: .continuous)
+                                            .fill(.ultraThinMaterial)
+                                            .shadow(color: .black.opacity(0.05), radius: 8, x: 0, y: 2)
+                                    )
+                                }
+                                .padding(.bottom, 6)
+                                NavigationLink {
                                     LegalView()
                                 } label: {
                                     HStack {
