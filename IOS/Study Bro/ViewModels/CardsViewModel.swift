@@ -6,7 +6,6 @@ final class CardsViewModel: ObservableObject {
     @Published var sets: [StudySet] = []
     @Published var currentSet: StudySet?
     @Published var currentIndex: Int = 0
-    @Published var showDefinition: Bool = false
     @Published var isAutoplay: Bool = false
 
     private var timer: Timer?
@@ -26,13 +25,11 @@ final class CardsViewModel: ObservableObject {
     func nextCard() {
         guard let set = currentSet else { return }
         currentIndex = (currentIndex + 1) % set.items.count
-        showDefinition = false
     }
 
     func previousCard() {
         guard let set = currentSet else { return }
         currentIndex = (currentIndex - 1 + set.items.count) % set.items.count
-        showDefinition = false
     }
 
     func shuffle() {
