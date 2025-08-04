@@ -51,7 +51,9 @@ struct CardsView: View {
             CreateSetView(viewModel: viewModel)
         }
         .task { await viewModel.loadSets() }
-        .onChange(of: viewModel.isAutoplay) { viewModel.startAutoplay() }
+        .onChange(of: viewModel.isAutoplay) { isAuto in
+            if isAuto { viewModel.startAutoplay() } else { viewModel.stopAutoplay() }
+        }
     }
 }
 
@@ -62,29 +64,36 @@ struct FlashcardsSubview: View {
     var body: some View {
         VStack(spacing: 24) {
             if let set = viewModel.currentSet, !set.items.isEmpty {
-                let card = set.items[viewModel.currentIndex]
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16, style: .continuous)
-                        .fill(.ultraThinMaterial)
-                        .frame(height: 200)
-                        .overlay(
-                            Text(viewModel.showDefinition ? card.definition : card.term)
-                                .font(.title2)
-                                .padding()
-                        )
-                        .onTapGesture { viewModel.showDefinition.toggle() }
+                TabView(selection: $viewModel.currentIndex) {
+                    ForEach(Array(set.items.enumerated()), id: \.1.id) { index, item in
+                        StudyCardView(card: item)
+                            .tag(index)
+                    }
                 }
+                .tabViewStyle(.page(indexDisplayMode: .automatic))
+                .frame(height: 260)
+
+                Text("\(viewModel.currentIndex + 1) / \(set.items.count)")
+                    .font(.footnote)
+                    .foregroundStyle(.secondary)
 
                 HStack {
-                    Button("Prev") { viewModel.previousCard() }
-                    Spacer()
-                    Button(viewModel.isAutoplay ? "Stop" : "Auto") {
-                        viewModel.isAutoplay.toggle()
-                        if viewModel.isAutoplay { viewModel.startAutoplay() } else { viewModel.stopAutoplay() }
+                    Button(action: { viewModel.previousCard() }) {
+                        Image(systemName: "chevron.left")
                     }
                     Spacer()
-                    Button("Next") { viewModel.nextCard() }
+                    Button(action: {
+                        viewModel.isAutoplay.toggle()
+                        if viewModel.isAutoplay { viewModel.startAutoplay() } else { viewModel.stopAutoplay() }
+                    }) {
+                        Image(systemName: viewModel.isAutoplay ? "pause.circle" : "play.circle")
+                    }
+                    Spacer()
+                    Button(action: { viewModel.nextCard() }) {
+                        Image(systemName: "chevron.right")
+                    }
                 }
+                .font(.title3)
                 .padding(.horizontal)
 
                 HStack {
@@ -93,7 +102,7 @@ struct FlashcardsSubview: View {
                     }
                     Spacer()
                     Button(action: { Task { await viewModel.toggleStar() } }) {
-                        Image(systemName: card.starred ? "star.fill" : "star")
+                        Image(systemName: set.items[viewModel.currentIndex].starred ? "star.fill" : "star")
                     }
                 }
                 .padding(.horizontal)
@@ -102,6 +111,28 @@ struct FlashcardsSubview: View {
             }
         }
         .padding()
+    }
+}
+
+struct StudyCardView: View {
+    let card: StudyCardItem
+    @State private var isFlipped = false
+
+    var body: some View {
+        ZStack {
+            RoundedRectangle(cornerRadius: 16, style: .continuous)
+                .fill(.ultraThinMaterial)
+                .shadow(radius: 4)
+            Text(isFlipped ? card.definition : card.term)
+                .font(.title2)
+                .padding()
+                .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+        }
+        .frame(height: 220)
+        .rotation3DEffect(.degrees(isFlipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
+        .onTapGesture {
+            withAnimation(.spring()) { isFlipped.toggle() }
+        }
     }
 }
 
