@@ -48,6 +48,7 @@
 		E35643912E40F9E700F76F73 /* AdyenSession in Frameworks */ = {isa = PBXBuildFile; productRef = E35643902E40F9E700F76F73 /* AdyenSession */; };
 		E35643932E40F9E700F76F73 /* AdyenSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E35643922E40F9E700F76F73 /* AdyenSwiftUI */; };
 		E35643952E40F9E700F76F73 /* AdyenTwint in Frameworks */ = {isa = PBXBuildFile; productRef = E35643942E40F9E700F76F73 /* AdyenTwint */; };
+		E35643972E40FDD200F76F73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35643962E40FDD200F76F73 /* SceneDelegate.swift */; };
 		E39C607F2E0DBAB2006B4C39 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60602E0DBAB2006B4C39 /* AuthenticationView.swift */; };
 		E39C60802E0DBAB2006B4C39 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */; };
 		E39C60812E0DBAB2006B4C39 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60632E0DBAB2006B4C39 /* SignUpView.swift */; };
@@ -124,6 +125,7 @@
 		E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdyenPaymentManager.swift; sourceTree = "<group>"; };
 		E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		E356437F2E40F88A00F76F73 /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
+		E35643962E40FDD200F76F73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		E39C603B2E0DBAB2006B4C39 /* GamificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamificationManager.swift; sourceTree = "<group>"; };
 		E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		E39C603E2E0DBAB2006B4C39 /* GoogleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleManager.swift; sourceTree = "<group>"; };
@@ -459,6 +461,7 @@
 				E39C60512E0DBAB2006B4C39 /* Utilities */,
 				E39C60562E0DBAB2006B4C39 /* ViewModels */,
 				E39C607D2E0DBAB2006B4C39 /* Views */,
+				E35643962E40FDD200F76F73 /* SceneDelegate.swift */,
 			);
 			path = "Study Bro";
 			sourceTree = "<group>";
@@ -595,6 +598,7 @@
 				E39C60922E0DBAB2006B4C39 /* TaskManager.swift in Sources */,
 				E39C60932E0DBAB2006B4C39 /* LegalView.swift in Sources */,
 				E39C60942E0DBAB2006B4C39 /* GamificationView.swift in Sources */,
+				E35643972E40FDD200F76F73 /* SceneDelegate.swift in Sources */,
 				E31A18B82E393367000B08DE /* TrophiesView.swift in Sources */,
 				E31A18B62E38E97C000B08DE /* FocusStatusCenter.swift in Sources */,
 				E39C60952E0DBAB2006B4C39 /* HomeTab.swift in Sources */,

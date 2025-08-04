@@ -32,6 +32,16 @@
         }
       }
     },
+    "%lld / %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "%1$lld / %2$lld"
+          }
+        }
+      }
+    },
     "%lld min" : {
       "localizations" : {
         "de" : {
@@ -511,9 +521,6 @@
           }
         }
       }
-    },
-    "Auto" : {
-
     },
     "Auto-activate Work Focus during Pomodoro" : {
 
@@ -2802,9 +2809,6 @@
         }
       }
     },
-    "Prev" : {
-
-    },
     "Privacy Policy" : {
       "localizations" : {
         "de" : {
@@ -3523,9 +3527,6 @@
         }
       }
     },
-    "Stop" : {
-
-    },
     "Streak: %lld" : {
       "localizations" : {
         "de" : {
@@ -3695,6 +3696,9 @@
       }
     },
     "Studying branches" : {
+
+    },
+    "Subscribe" : {
 
     },
     "Take 20 min break" : {

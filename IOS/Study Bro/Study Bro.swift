@@ -114,12 +114,6 @@ class AppDelegate: NSObject, UIApplicationDelegate,
               let uid = Auth.auth().currentUser?.uid else { return }
         UserManager.shared.saveFCMTokenToFirestore(token: token, userId: uid)  // :contentReference[oaicite:14]{index=14}
     }
-    func application(_ app: UIApplication,
-                     open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any] = [:]) -> Bool {
-        RedirectComponent.applicationDidOpen(from: url)
-    }
-
 }
 
 

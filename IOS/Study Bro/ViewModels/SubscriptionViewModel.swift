@@ -4,7 +4,8 @@ import FirebaseCoreExtension
 import UIKit
 import Adyen
 
-final class SubscriptionViewModel: NSObject, ObservableObject, @MainActor AdyenSessionDelegate {
+@MainActor
+final class SubscriptionViewModel: NSObject, ObservableObject, AdyenSessionDelegate {
     
     @Published var paymentStatus: String?
 
