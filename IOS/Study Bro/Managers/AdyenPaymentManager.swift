@@ -4,6 +4,8 @@ import AdyenSession
 import Adyen
 import FirebaseFunctions
 import UIKit
+import FirebaseAuth
+
 
 @MainActor
 final class AdyenPaymentManager: @MainActor NSObject, @MainActor PresentationDelegate {
@@ -32,10 +34,24 @@ final class AdyenPaymentManager: @MainActor NSObject, @MainActor PresentationDel
     private var dropInComponent: DropInComponent?
 
     func startSubscription(paymentAmount: Int, delegate: AdyenSessionDelegate) {
+        
+        guard Auth.auth().currentUser != nil else {
+            print("[AdyenPaymentManager] No authenticated user")
+            return
+        }
+        
         print("[AdyenPaymentManager] startSubscription called with amount: \(paymentAmount)")
         print("[AdyenPaymentManager] Calling createPaymentSession Cloud Function...")
         Functions.functions(region: "europe-west3").httpsCallable("createPaymentSession").call { [weak self] result, error in
             print("[AdyenPaymentManager] Received response from createPaymentSession. Error: \(String(describing: error)), Result: \(String(describing: result))")
+            // If the backend said “UNAUTHENTICATED,” sign in and retry
+            if let nsError = error as NSError?,
+               nsError.domain == FunctionsErrorDomain,
+               nsError.code == FunctionsErrorCode.unauthenticated.rawValue {
+                print("[AdyenPaymentManager] UNAUTHENTICATED")
+                return
+            }
+
             guard
                 error == nil,
                 let data = result?.data as? [String: Any],
@@ -43,7 +59,7 @@ final class AdyenPaymentManager: @MainActor NSObject, @MainActor PresentationDel
                 let sessionData = data["sessionData"] as? String,
                 let self = self
             else {
-                print("Failed to create payment session: \(error?.localizedDescription ?? "Unknown error")")
+                print("[AdyenPaymentManager] Failed to create payment session: \(error?.localizedDescription ?? "Unknown error")")
                 return
             }
             print("[AdyenPaymentManager] Successfully got sessionId: \(sessionId), sessionData: (hidden)")
