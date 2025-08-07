@@ -2,11 +2,13 @@ import SwiftUI
 
 struct SubscribeView: View {
     @StateObject private var viewModel = SubscriptionViewModel()
+    
+    let userEmail: String
 
     var body: some View {
         VStack(spacing: 20) {
             Button("Subscribe") {
-                viewModel.subscribe()
+                viewModel.subscribe(email: userEmail)
             }
             .buttonStyle(.borderedProminent)
 
@@ -24,5 +26,5 @@ struct SubscribeView: View {
 }
 
 #Preview {
-    SubscribeView()
+    SubscribeView(userEmail: "jim@example.com")
 }

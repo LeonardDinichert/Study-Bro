@@ -11,6 +11,12 @@
 		6B5BB6B07029239DCEFEF2DF /* FriendDiscoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = D1D7D21246204CB638B09098 /* FriendDiscoveryViewModel.swift */; };
 		72A63EB05B564AFC91DA64B1 /* ChatBotViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 006862F6BB534A48A14D7455 /* ChatBotViewModel.swift */; };
 		A8E97B777F47403D92056A18 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 260C8ED5EBAD496CB5D8CFA0 /* ChatMessage.swift */; };
+		E304F8632E44F83C0038B25D /* Stripe in Frameworks */ = {isa = PBXBuildFile; productRef = E304F8622E44F83C0038B25D /* Stripe */; };
+		E304F8652E44F83C0038B25D /* StripeApplePay in Frameworks */ = {isa = PBXBuildFile; productRef = E304F8642E44F83C0038B25D /* StripeApplePay */; };
+		E304F8672E44F83C0038B25D /* StripeConnect in Frameworks */ = {isa = PBXBuildFile; productRef = E304F8662E44F83C0038B25D /* StripeConnect */; };
+		E304F8692E44F83C0038B25D /* StripePaymentSheet in Frameworks */ = {isa = PBXBuildFile; productRef = E304F8682E44F83C0038B25D /* StripePaymentSheet */; };
+		E304F86B2E44F83C0038B25D /* StripePayments in Frameworks */ = {isa = PBXBuildFile; productRef = E304F86A2E44F83C0038B25D /* StripePayments */; };
+		E304F86D2E44F83C0038B25D /* StripePaymentsUI in Frameworks */ = {isa = PBXBuildFile; productRef = E304F86C2E44F83C0038B25D /* StripePaymentsUI */; };
 		E31A18AC2E37A0DD000B08DE /* DetailNoteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AB2E37A0DD000B08DE /* DetailNoteView.swift */; };
 		E31A18AE2E38D4A6000B08DE /* CHooseStudyBranches.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AD2E38D4A6000B08DE /* CHooseStudyBranches.swift */; };
 		E31A18B12E38D8F8000B08DE /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E31A18AF2E38D8F8000B08DE /* CalendarView.swift */; };
@@ -35,19 +41,9 @@
 		E3405F3A2DA80F7900216E57 /* FirebaseStorageCombine-Community in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F392DA80F7900216E57 /* FirebaseStorageCombine-Community */; };
 		E3405F3D2DA8118700216E57 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F3C2DA8118700216E57 /* GoogleSignIn */; };
 		E3405F3F2DA8118700216E57 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = E3405F3E2DA8118700216E57 /* GoogleSignInSwift */; };
-		E356437C2E40F85100F76F73 /* AdyenPaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */; };
+		E356437C2E40F85100F76F73 /* StripePaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437B2E40F85100F76F73 /* StripePaymentManager.swift */; };
 		E356437E2E40F86B00F76F73 /* SubscriptionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */; };
 		E35643802E40F88A00F76F73 /* SubscribeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E356437F2E40F88A00F76F73 /* SubscribeView.swift */; };
-		E35643832E40F9E700F76F73 /* Adyen in Frameworks */ = {isa = PBXBuildFile; productRef = E35643822E40F9E700F76F73 /* Adyen */; };
-		E35643852E40F9E700F76F73 /* AdyenActions in Frameworks */ = {isa = PBXBuildFile; productRef = E35643842E40F9E700F76F73 /* AdyenActions */; };
-		E35643872E40F9E700F76F73 /* AdyenCard in Frameworks */ = {isa = PBXBuildFile; productRef = E35643862E40F9E700F76F73 /* AdyenCard */; };
-		E35643892E40F9E700F76F73 /* AdyenCashAppPay in Frameworks */ = {isa = PBXBuildFile; productRef = E35643882E40F9E700F76F73 /* AdyenCashAppPay */; };
-		E356438B2E40F9E700F76F73 /* AdyenComponents in Frameworks */ = {isa = PBXBuildFile; productRef = E356438A2E40F9E700F76F73 /* AdyenComponents */; };
-		E356438D2E40F9E700F76F73 /* AdyenDropIn in Frameworks */ = {isa = PBXBuildFile; productRef = E356438C2E40F9E700F76F73 /* AdyenDropIn */; };
-		E356438F2E40F9E700F76F73 /* AdyenEncryption in Frameworks */ = {isa = PBXBuildFile; productRef = E356438E2E40F9E700F76F73 /* AdyenEncryption */; };
-		E35643912E40F9E700F76F73 /* AdyenSession in Frameworks */ = {isa = PBXBuildFile; productRef = E35643902E40F9E700F76F73 /* AdyenSession */; };
-		E35643932E40F9E700F76F73 /* AdyenSwiftUI in Frameworks */ = {isa = PBXBuildFile; productRef = E35643922E40F9E700F76F73 /* AdyenSwiftUI */; };
-		E35643952E40F9E700F76F73 /* AdyenTwint in Frameworks */ = {isa = PBXBuildFile; productRef = E35643942E40F9E700F76F73 /* AdyenTwint */; };
 		E35643972E40FDD200F76F73 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E35643962E40FDD200F76F73 /* SceneDelegate.swift */; };
 		E39C607F2E0DBAB2006B4C39 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C60602E0DBAB2006B4C39 /* AuthenticationView.swift */; };
 		E39C60802E0DBAB2006B4C39 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E39C603D2E0DBAB2006B4C39 /* AuthManager.swift */; };
@@ -122,7 +118,7 @@
 		E31A18C12E394270000B08DE /* CardsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsViewModel.swift; sourceTree = "<group>"; };
 		E31A18C32E39429C000B08DE /* CardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardsView.swift; sourceTree = "<group>"; };
 		E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SchoolAssisstant.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdyenPaymentManager.swift; sourceTree = "<group>"; };
+		E356437B2E40F85100F76F73 /* StripePaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StripePaymentManager.swift; sourceTree = "<group>"; };
 		E356437D2E40F86B00F76F73 /* SubscriptionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewModel.swift; sourceTree = "<group>"; };
 		E356437F2E40F88A00F76F73 /* SubscribeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscribeView.swift; sourceTree = "<group>"; };
 		E35643962E40FDD200F76F73 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -188,28 +184,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E304F8692E44F83C0038B25D /* StripePaymentSheet in Frameworks */,
+				E304F8632E44F83C0038B25D /* Stripe in Frameworks */,
+				E304F86B2E44F83C0038B25D /* StripePayments in Frameworks */,
 				E3405F362DA80F7900216E57 /* FirebaseMessaging in Frameworks */,
-				E35643832E40F9E700F76F73 /* Adyen in Frameworks */,
-				E356438D2E40F9E700F76F73 /* AdyenDropIn in Frameworks */,
-				E35643952E40F9E700F76F73 /* AdyenTwint in Frameworks */,
-				E356438B2E40F9E700F76F73 /* AdyenComponents in Frameworks */,
 				E3405F282DA80F7900216E57 /* FirebaseAppDistribution-Beta in Frameworks */,
-				E35643872E40F9E700F76F73 /* AdyenCard in Frameworks */,
 				E3405F3D2DA8118700216E57 /* GoogleSignIn in Frameworks */,
+				E304F86D2E44F83C0038B25D /* StripePaymentsUI in Frameworks */,
+				E304F8672E44F83C0038B25D /* StripeConnect in Frameworks */,
 				E3405F3F2DA8118700216E57 /* GoogleSignInSwift in Frameworks */,
 				E3405F3A2DA80F7900216E57 /* FirebaseStorageCombine-Community in Frameworks */,
-				E356438F2E40F9E700F76F73 /* AdyenEncryption in Frameworks */,
-				E35643852E40F9E700F76F73 /* AdyenActions in Frameworks */,
 				E3405F382DA80F7900216E57 /* FirebaseStorage in Frameworks */,
 				E3405F342DA80F7900216E57 /* FirebaseInAppMessaging-Beta in Frameworks */,
-				E35643912E40F9E700F76F73 /* AdyenSession in Frameworks */,
-				E35643892E40F9E700F76F73 /* AdyenCashAppPay in Frameworks */,
 				E3405F2E2DA80F7900216E57 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				E3405F302DA80F7900216E57 /* FirebaseFunctions in Frameworks */,
 				E3405F2A2DA80F7900216E57 /* FirebaseAuth in Frameworks */,
 				E3405F2C2DA80F7900216E57 /* FirebaseFirestore in Frameworks */,
-				E35643932E40F9E700F76F73 /* AdyenSwiftUI in Frameworks */,
 				E3405F322DA80F7900216E57 /* FirebaseFunctionsCombine-Community in Frameworks */,
+				E304F8652E44F83C0038B25D /* StripeApplePay in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -270,7 +262,7 @@
 				E39C60432E0DBAB2006B4C39 /* TextManager.swift */,
 				E31A18BD2E394242000B08DE /* StudySetManager.swift */,
 				E39C60442E0DBAB2006B4C39 /* UserManager.swift */,
-				E356437B2E40F85100F76F73 /* AdyenPaymentManager.swift */,
+				E356437B2E40F85100F76F73 /* StripePaymentManager.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -495,16 +487,12 @@
 				E3405F392DA80F7900216E57 /* FirebaseStorageCombine-Community */,
 				E3405F3C2DA8118700216E57 /* GoogleSignIn */,
 				E3405F3E2DA8118700216E57 /* GoogleSignInSwift */,
-				E35643822E40F9E700F76F73 /* Adyen */,
-				E35643842E40F9E700F76F73 /* AdyenActions */,
-				E35643862E40F9E700F76F73 /* AdyenCard */,
-				E35643882E40F9E700F76F73 /* AdyenCashAppPay */,
-				E356438A2E40F9E700F76F73 /* AdyenComponents */,
-				E356438C2E40F9E700F76F73 /* AdyenDropIn */,
-				E356438E2E40F9E700F76F73 /* AdyenEncryption */,
-				E35643902E40F9E700F76F73 /* AdyenSession */,
-				E35643922E40F9E700F76F73 /* AdyenSwiftUI */,
-				E35643942E40F9E700F76F73 /* AdyenTwint */,
+				E304F8622E44F83C0038B25D /* Stripe */,
+				E304F8642E44F83C0038B25D /* StripeApplePay */,
+				E304F8662E44F83C0038B25D /* StripeConnect */,
+				E304F8682E44F83C0038B25D /* StripePaymentSheet */,
+				E304F86A2E44F83C0038B25D /* StripePayments */,
+				E304F86C2E44F83C0038B25D /* StripePaymentsUI */,
 			);
 			productName = SchoolAssisstant;
 			productReference = E346A1DE2E33BBC600ECBE88 /* SchoolAssisstant.app */;
@@ -539,7 +527,7 @@
 			packageReferences = (
 				E3405F262DA80F7900216E57 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				E3405F3B2DA8118700216E57 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
-				E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */,
+				E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */,
 			);
 			productRefGroup = E3405EE82DA80F2100216E57;
 			projectDirPath = "";
@@ -602,7 +590,7 @@
 				E31A18B82E393367000B08DE /* TrophiesView.swift in Sources */,
 				E31A18B62E38E97C000B08DE /* FocusStatusCenter.swift in Sources */,
 				E39C60952E0DBAB2006B4C39 /* HomeTab.swift in Sources */,
-				E356437C2E40F85100F76F73 /* AdyenPaymentManager.swift in Sources */,
+				E356437C2E40F85100F76F73 /* StripePaymentManager.swift in Sources */,
 				E39C60962E0DBAB2006B4C39 /* UserWantsToAddInfoView.swift in Sources */,
 				E39C60972E0DBAB2006B4C39 /* PrivacyView.swift in Sources */,
 				E39C60982E0DBAB2006B4C39 /* StudySessionView.swift in Sources */,
@@ -869,6 +857,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/stripe/stripe-ios-spm";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 24.19.0;
+			};
+		};
 		E3405F262DA80F7900216E57 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -885,17 +881,39 @@
 				minimumVersion = 8.0.0;
 			};
 		};
-		E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Adyen/adyen-ios.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.19.2;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		E304F8622E44F83C0038B25D /* Stripe */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = Stripe;
+		};
+		E304F8642E44F83C0038B25D /* StripeApplePay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripeApplePay;
+		};
+		E304F8662E44F83C0038B25D /* StripeConnect */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripeConnect;
+		};
+		E304F8682E44F83C0038B25D /* StripePaymentSheet */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripePaymentSheet;
+		};
+		E304F86A2E44F83C0038B25D /* StripePayments */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripePayments;
+		};
+		E304F86C2E44F83C0038B25D /* StripePaymentsUI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E304F8612E44F83C0038B25D /* XCRemoteSwiftPackageReference "stripe-ios-spm" */;
+			productName = StripePaymentsUI;
+		};
 		E3405F272DA80F7900216E57 /* FirebaseAppDistribution-Beta */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = E3405F262DA80F7900216E57 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
@@ -955,56 +973,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = E3405F3B2DA8118700216E57 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
 			productName = GoogleSignInSwift;
-		};
-		E35643822E40F9E700F76F73 /* Adyen */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = Adyen;
-		};
-		E35643842E40F9E700F76F73 /* AdyenActions */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenActions;
-		};
-		E35643862E40F9E700F76F73 /* AdyenCard */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenCard;
-		};
-		E35643882E40F9E700F76F73 /* AdyenCashAppPay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenCashAppPay;
-		};
-		E356438A2E40F9E700F76F73 /* AdyenComponents */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenComponents;
-		};
-		E356438C2E40F9E700F76F73 /* AdyenDropIn */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenDropIn;
-		};
-		E356438E2E40F9E700F76F73 /* AdyenEncryption */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenEncryption;
-		};
-		E35643902E40F9E700F76F73 /* AdyenSession */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenSession;
-		};
-		E35643922E40F9E700F76F73 /* AdyenSwiftUI */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenSwiftUI;
-		};
-		E35643942E40F9E700F76F73 /* AdyenTwint */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = E35643812E40F9E700F76F73 /* XCRemoteSwiftPackageReference "adyen-ios" */;
-			productName = AdyenTwint;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

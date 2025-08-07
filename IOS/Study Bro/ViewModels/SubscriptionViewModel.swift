@@ -1,58 +1,75 @@
+import SwiftUI
 import Foundation
-import AdyenSession
 import FirebaseCoreExtension
-import UIKit
-import Adyen
+import StripePaymentSheet
+import Stripe
 import FirebaseAuth
 
+// 1. Decode your backend’s subscription-creation response
+struct SubscriptionsResponse: Decodable {
+    let subscriptionId: String
+    let clientSecret: String
+}
+
 @MainActor
-final class SubscriptionViewModel: NSObject, ObservableObject, @MainActor AdyenSessionDelegate {
-    
+final class SubscriptionViewModel: NSObject, ObservableObject {
     @Published var paymentStatus: String?
+    private var paymentSheet: PaymentSheet?
 
-    func subscribe(paymentAmount: Int = 1000) {
-        AdyenPaymentManager.shared.startSubscription(paymentAmount: paymentAmount, delegate: self)
-    }
-
-    func didComplete(with result: AdyenSessionResult, component: Adyen.Component, session: AdyenSession) {
-        switch result.resultCode {
-        case .authorised:
-            paymentStatus = "Subscription purchase successful! 🎉"
-            markSubscriptionActive(uid: Auth.auth().currentUser?.uid ?? "unknown", nextPayment: Calendar.current.date(byAdding: .month, value: 1, to: Date()) ?? Date()) { error in
-                if let error = error {
-                    print("Error marking subscription active: \(error.localizedDescription)")
-                }
+    // 2. Create or fetch a Stripe Customer
+    func subscribe(email: String) {
+        Task {
+            var req = URLRequest(url: URL(string: "http://localhost:4242/create-customer")!)
+            req.httpMethod = "POST"
+            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+            req.httpBody = try! JSONEncoder().encode(["email": email])
+            let (data, _) = try! await URLSession.shared.data(for: req)
+            let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
+            guard let customerId = json?["customerId"] as? String else {
+                paymentStatus = "Failed to parse customer ID"
+                return
             }
-        case .cancelled:
-            paymentStatus = "Payment was cancelled."
-        case .refused:
-            paymentStatus = "Payment was refused. Please try another method."
-        case .error:
-            paymentStatus = "Payment error occurred."
-        case .pending, .received:
-            paymentStatus = "Payment is pending confirmation."
-        case .presentToShopper:
-            paymentStatus = "Additional action required. Please follow the instructions."
+            // 3. Once you have the customer, start the subscription flow
+            startPayment(priceId: "your_price_id_here", customerId: customerId)
         }
     }
 
-    func didFail(with error: Error, from component: Adyen.Component, session: AdyenSession) {
-        paymentStatus = "Payment error: \(error.localizedDescription)"
+    // 4. Call your backend to create a Subscription and retrieve client secret
+    private func createSubscription(priceId: String, customerId: String) async -> SubscriptionsResponse {
+        var req = URLRequest(url: URL(string: "http://localhost:4242/create-subscription")!)
+        req.httpMethod = "POST"
+        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        req.httpBody = try! JSONEncoder().encode([
+            "customerId": customerId,
+            "priceId": priceId
+        ])
+        let (data, _) = try! await URLSession.shared.data(for: req)
+        return try! JSONDecoder().decode(SubscriptionsResponse.self, from: data)
     }
-}
 
-import FirebaseFirestore
-
-func markSubscriptionActive(uid: String, nextPayment: Date, completion: @escaping (Error?) -> Void) {
-  let db = Firestore.firestore()
-  let subRef = db.collection("users").document(uid).collection("subscription").document("status")
-
-  let data: [String: Any] = [
-    "status": "active",
-    "nextPaymentDate": Timestamp(date: nextPayment)
-  ]
-
-  subRef.setData(data, merge: true) { error in
-    completion(error)
-  }
+    // 5. Initialize and present Stripe’s PaymentSheet
+    func startPayment(priceId: String, customerId: String) {
+        Task {
+            let resp = await createSubscription(priceId: priceId, customerId: customerId)
+            var config = PaymentSheet.Configuration()
+            config.merchantDisplayName = "Your Merchant"
+            // (Optional) config.customer = .init(id: customerId, ephemeralKeySecret: ...)
+            self.paymentSheet = PaymentSheet(
+                paymentIntentClientSecret: resp.clientSecret,
+                configuration: config
+            )
+            DispatchQueue.main.async {
+                self.paymentSheet?.present(from: UIApplication.shared.windows.first!.rootViewController!) { result in
+                    switch result {
+                    case .completed:
+                        self.paymentStatus = "Payment complete ✅"
+                    case .canceled:
+                        self.paymentStatus = "Payment canceled ⚠️"
+                    case .failed(let error):
+                        self.paymentStatus = "Payment failed: \(error.localizedDescription)"
+                    }
+                }
+            }
+        }
+    }
 }

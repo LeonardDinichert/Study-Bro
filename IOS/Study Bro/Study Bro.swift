@@ -11,6 +11,7 @@ import FirebaseMessaging
 import FirebaseAuth
 import UserNotifications
 import Adyen
+import StripePaymentSheet
 
 @main
 struct StudyBro: App {
@@ -40,6 +41,8 @@ struct HasSeenWelcomingMessage: View {
 class AppDelegate: NSObject, UIApplicationDelegate,
                    UNUserNotificationCenterDelegate,
                    MessagingDelegate {
+    
+    
 
     func application(
         _ application: UIApplication,
@@ -47,6 +50,8 @@ class AppDelegate: NSObject, UIApplicationDelegate,
     ) -> Bool {
         // Configure Firebase
         FirebaseApp.configure()  // :contentReference[oaicite:4]{index=4}
+        
+        StripeAPI.defaultPublishableKey = "pk_test_51RtVPCAgKukMvTmDbG8vNZCcJN2gEt3WEyTGGXLZtCYMH0PFm9OrjfGaxQ5HZ8ln0c71iH4w4YcBiVA0LQ9ubFdG00uzQ2gIi2"
 
         // Notification center delegate
         UNUserNotificationCenter.current().delegate = self  // :contentReference[oaicite:5]{index=5}
