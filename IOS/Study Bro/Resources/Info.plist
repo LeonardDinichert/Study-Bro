@@ -19,7 +19,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>studybro-payments</string>
+				<string>studybro://stripe-redirect</string>
 			</array>
 		</dict>
 	</array>
