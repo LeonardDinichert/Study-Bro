@@ -19,15 +19,15 @@ final class SubscriptionViewModel: ObservableObject {
             do {
                 let functions = Functions.functions(region: "europe-west6")
                 let resp = try await functions.httpsCallable("createSubscription").call([
-                    "price_id": monthly ? "price_1RtVTfAgKukMvTmDkFEWOT8c" : "price_1RtymZAgKukMvTmD2SHnlU4w",
-                    "ephemeral_key_api_version": "2024-06-20"
+                    "priceId": monthly ? "price_1RtVTfAgKukMvTmDkFEWOT8c" : "price_1RtymZAgKukMvTmD2SHnlU4w",
+                    "ephemeralKeyApiVersion": "2024-06-20"
                 ])
                 guard
                     let dict = resp.data as? [String: Any],
-                    let clientSecret = dict["payment_intent_client_secret"] as? String,
-                    let customerId = dict["customer_id"] as? String,
-                    let ephemeralKey = dict["ephemeral_key"] as? String,
-                    let subscriptionId = dict["subscription_id"] as? String
+                    let clientSecret = dict["paymentIntentClientSecret"] as? String,
+                    let customerId = dict["customerId"] as? String,
+                    let ephemeralKey = dict["ephemeralKey"] as? String,
+                    let subscriptionId = dict["subscriptionId"] as? String
                 else {
                     statusMessage = "Malformed server response."
                     return
@@ -37,12 +37,19 @@ final class SubscriptionViewModel: ObservableObject {
                 self.subscriptionId = subscriptionId
 
                 var config = PaymentSheet.Configuration()
+                config.returnURL = "studybro-payments://stripe"
                 config.merchantDisplayName = "Study Bro"
                 config.customer = .init(id: customerId, ephemeralKeySecret: ephemeralKey)
                 config.applePay = .init(merchantId: "merchant.studybro.stripe", merchantCountryCode: "CH")
 
                 self.paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: config)
-                self.isPaymentSheetPresented = true
+                if let sheet = self.paymentSheet, let presenter = Self.topMostViewController() {
+                    sheet.present(from: presenter) { result in
+                        self.onPaymentCompletion(result: result)
+                    }
+                } else {
+                    self.statusMessage = "UI error: no presenter available."
+                }
 
                 if let uid = Auth.auth().currentUser?.uid {
                     try await Firestore.firestore().collection("users").document(uid)
@@ -50,6 +57,7 @@ final class SubscriptionViewModel: ObservableObject {
                 }
             } catch {
                 statusMessage = "Start failed: \(error.localizedDescription)"
+                print("Start failed: \(error.localizedDescription)")
             }
         }
     }
@@ -89,10 +97,10 @@ final class SubscriptionViewModel: ObservableObject {
     func cancel(subscriptionId: String) {
         Task {
             do {
-                let functions = Functions.functions(region: "europe-west3")
+                let functions = Functions.functions(region: "europe-west6")
                 _ = try await functions.httpsCallable("cancelSubscription").call([
-                    "subscription_id": subscriptionId,
-                    "cancel_at_period_end": true
+                    "subscriptionId": subscriptionId,
+                    "cancelAtPeriodEnd": true
                 ])
                 if let uid = Auth.auth().currentUser?.uid {
                     try await Firestore.firestore().collection("users").document(uid)
@@ -103,5 +111,14 @@ final class SubscriptionViewModel: ObservableObject {
                 await MainActor.run { self.statusMessage = "Cancel failed: \(error.localizedDescription)" }
             }
         }
+    }
+}
+
+private extension SubscriptionViewModel {
+    static func topMostViewController(base: UIViewController? = UIApplication.shared.connectedScenes.compactMap { ($0 as? UIWindowScene)?.keyWindow }.first?.rootViewController) -> UIViewController? {
+        if let nav = base as? UINavigationController { return topMostViewController(base: nav.visibleViewController) }
+        if let tab = base as? UITabBarController, let selected = tab.selectedViewController { return topMostViewController(base: selected) }
+        if let presented = base?.presentedViewController { return topMostViewController(base: presented) }
+        return base
     }
 }

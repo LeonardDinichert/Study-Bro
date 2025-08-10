@@ -129,9 +129,6 @@
     "<1 min" : {
 
     },
-    "🌟 You are a Premium user!" : {
-
-    },
     "🎉 Great job! 🎉" : {
       "localizations" : {
         "de" : {
@@ -428,6 +425,9 @@
         }
       }
     },
+    "All AI features unlocked." : {
+
+    },
     "Already have an account?" : {
       "localizations" : {
         "de" : {
@@ -555,6 +555,9 @@
           }
         }
       }
+    },
+    "Best value" : {
+
     },
     "Birthdate" : {
       "localizations" : {
@@ -1378,6 +1381,9 @@
         }
       }
     },
+    "Enjoy unlimited tutoring, summaries, OCR, and smart revision." : {
+
+    },
     "Enter your email" : {
       "localizations" : {
         "de" : {
@@ -1608,6 +1614,9 @@
           }
         }
       }
+    },
+    "Go Premium" : {
+
     },
     "Hi %@, let's work !" : {
       "localizations" : {
@@ -2380,6 +2389,9 @@
         }
       }
     },
+    "Monthly" : {
+
+    },
     "More about my profile" : {
       "localizations" : {
         "de" : {
@@ -2771,6 +2783,9 @@
         }
       }
     },
+    "Plan" : {
+
+    },
     "Please complete the information below to continue your registration" : {
       "localizations" : {
         "de" : {
@@ -2798,6 +2813,9 @@
           }
         }
       }
+    },
+    "Premium Active" : {
+
     },
     "Prepare yourself to work ?" : {
       "localizations" : {
@@ -3517,6 +3535,12 @@
     "Spell the word you hear" : {
 
     },
+    "Start Monthly" : {
+
+    },
+    "Start Yearly" : {
+
+    },
     "Stats" : {
       "localizations" : {
         "de" : {
@@ -3717,9 +3741,6 @@
 
     },
     "Subscribe" : {
-
-    },
-    "Subscribe Now" : {
 
     },
     "Subscription" : {
@@ -3930,7 +3951,7 @@
     "Type here" : {
 
     },
-    "Upgrade to Premium to unlock all features." : {
+    "Unlock all AI features: smart tutoring, instant summaries, flashcards, OCR notes, and more." : {
 
     },
     "Username" : {
@@ -4245,6 +4266,9 @@
       }
     },
     "Write here" : {
+
+    },
+    "Yearly" : {
 
     },
     "yes" : {
