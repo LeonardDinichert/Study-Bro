@@ -3,6 +3,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("com.google.gms.google-services")
+
 }
 android {
     namespace = "com.studybro.app"
@@ -64,5 +65,10 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("io.coil-kt:coil-compose:2.4.0")
     implementation("com.stripe:stripe-android:20.44.2")
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore:26.0.0")
+    implementation("com.google.firebase:firebase-storage:22.0.0")
+    implementation("com.google.firebase:firebase-auth:24.0.1")
 }
 
