@@ -24,12 +24,15 @@ struct DBUser: Codable {
     let lastName: String?
     let profileImagePathUrl: String?
     let biography: String?
+    let isPremium: Bool?
     let lastConnection: Date?
     var fcmToken: String?
     var isStudying: [String]?
     var trophies: [String]?
     let friends: [String]?
     let pendingFriends: [String]?
+    let stripeCustomerId: String?
+    let stripeSubscriptionId: String?
     
     // MARK: - Initializers
     
@@ -42,12 +45,15 @@ struct DBUser: Codable {
         self.username = nil
         self.profileImagePathUrl = nil
         self.biography = nil
+        self.isPremium = nil
         self.lastConnection = nil
         self.fcmToken = nil
         self.isStudying = nil
         self.trophies = []
         self.friends = nil
         self.pendingFriends = nil
+        self.stripeCustomerId = nil
+        self.stripeSubscriptionId = nil
     }
 
     init(
@@ -59,12 +65,15 @@ struct DBUser: Codable {
         lastName: String? = nil,
         profileImagePathUrl: String? = nil,
         biography: String? = nil,
+        isPremium: Bool? = nil,
         fcmToken: String? = nil,
         isStudying: [String]? = nil,
         trophies: [String]? = nil,
         lastConnection: Date? = nil,
         friends: [String]? = nil,
-        pendingFriends: [String]? = nil
+        pendingFriends: [String]? = nil,
+        stripeCustomerId: String? = nil,
+        stripeSubscriptionId: String? = nil
     ) {
         self.userId = userId
         self.email = email
@@ -74,15 +83,18 @@ struct DBUser: Codable {
         self.username = username
         self.profileImagePathUrl = profileImagePathUrl
         self.biography = biography
+        self.isPremium = isPremium
         self.lastConnection = lastConnection
         self.fcmToken = fcmToken
         self.isStudying = isStudying
         self.trophies = trophies
         self.friends = friends
         self.pendingFriends = pendingFriends
+        self.stripeCustomerId = stripeCustomerId
+        self.stripeSubscriptionId = stripeSubscriptionId
     }
     
-    init(userId: String, email: String?, age: Int?, username: String?, firstName: String?, lastName: String?, profileImagePathUrl: String?, biography: String?, fcmToken: String?, isStudying: [String]?, lastConnection: Date?, friends: [String]?, pendingFriends: [String]?) {
+    init(userId: String, email: String?, age: Int?, username: String?, firstName: String?, lastName: String?, profileImagePathUrl: String?, biography: String?, isPremium: Bool?, fcmToken: String?, isStudying: [String]?, lastConnection: Date?, friends: [String]?, pendingFriends: [String]?, stripeCustomerId: String? = nil, stripeSubscriptionId: String? = nil) {
         self.userId = userId
         self.email = email
         self.age = age
@@ -91,12 +103,15 @@ struct DBUser: Codable {
         self.lastName = lastName
         self.profileImagePathUrl = profileImagePathUrl
         self.biography = biography
+        self.isPremium = isPremium
         self.fcmToken = fcmToken
         self.isStudying = isStudying
         self.lastConnection = lastConnection
         self.friends = friends
         self.pendingFriends = pendingFriends
         self.trophies = nil
+        self.stripeCustomerId = stripeCustomerId
+        self.stripeSubscriptionId = stripeSubscriptionId
     }
     
     // MARK: - Coding Keys
@@ -110,6 +125,7 @@ struct DBUser: Codable {
         case lastName = "last_name"
         case profileImagePathUrl = "profile_image_path_url"
         case biography = "biography"
+        case isPremium = "is_premium"
         // Store the FCM token under "fcm_token" in Firestore
         case fcmToken = "fcm_token"
         case isStudying = "is_studying"
@@ -117,6 +133,8 @@ struct DBUser: Codable {
         case lastConnection = "last_connection"
         case friends = "friends"
         case pendingFriends = "pending_friends"
+        case stripeCustomerId = "stripe_customer_id"
+        case stripeSubscriptionId = "stripe_subscription_id"
     }
     
     // MARK: - Decoder Initializer
@@ -131,12 +149,15 @@ struct DBUser: Codable {
         self.username = try container.decodeIfPresent(String.self, forKey: .username)
         self.profileImagePathUrl = try container.decodeIfPresent(String.self, forKey: .profileImagePathUrl)
         self.biography = try container.decodeIfPresent(String.self, forKey: .biography)
+        self.isPremium = try container.decodeIfPresent(Bool.self, forKey: .isPremium)
         self.fcmToken = try container.decodeIfPresent(String.self, forKey: .fcmToken)
         self.isStudying = try container.decodeIfPresent([String].self, forKey: .isStudying)
         self.trophies = try container.decodeIfPresent([String].self, forKey: .trophies)
         self.lastConnection = try container.decodeIfPresent(Date.self, forKey: .lastConnection)
         self.friends = try container.decodeIfPresent([String].self, forKey: .friends)
         self.pendingFriends = try container.decodeIfPresent([String].self, forKey: .pendingFriends)
+        self.stripeCustomerId = try container.decodeIfPresent(String.self, forKey: .stripeCustomerId)
+        self.stripeSubscriptionId = try container.decodeIfPresent(String.self, forKey: .stripeSubscriptionId)
     }
     
     // MARK: - Encoder Method
@@ -151,12 +172,15 @@ struct DBUser: Codable {
         try container.encodeIfPresent(self.age, forKey: .age)
         try container.encodeIfPresent(self.profileImagePathUrl, forKey: .profileImagePathUrl)
         try container.encodeIfPresent(self.biography, forKey: .biography)
+        try container.encodeIfPresent(self.isPremium, forKey: .isPremium)
         try container.encodeIfPresent(self.fcmToken, forKey: .fcmToken)
         try container.encodeIfPresent(self.isStudying, forKey: .isStudying)
         try container.encodeIfPresent(self.trophies, forKey: .trophies)
         try container.encodeIfPresent(self.lastConnection, forKey: .lastConnection)
         try container.encodeIfPresent(self.friends, forKey: .friends)
         try container.encodeIfPresent(self.pendingFriends, forKey: .pendingFriends)
+        try container.encodeIfPresent(self.stripeCustomerId, forKey: .stripeCustomerId)
+        try container.encodeIfPresent(self.stripeSubscriptionId, forKey: .stripeSubscriptionId)
     }
 
     init?(id: String, data: [String: Any]) {
@@ -168,11 +192,14 @@ struct DBUser: Codable {
         self.lastName = data[CodingKeys.lastName.rawValue] as? String
         self.profileImagePathUrl = data[CodingKeys.profileImagePathUrl.rawValue] as? String
         self.biography = data[CodingKeys.biography.rawValue] as? String
+        self.isPremium = data[CodingKeys.isPremium.rawValue] as? Bool
         self.fcmToken = data[CodingKeys.fcmToken.rawValue] as? String
         self.isStudying = data[CodingKeys.isStudying.rawValue] as? [String]
         self.trophies = data[CodingKeys.trophies.rawValue] as? [String]
         self.friends = data[CodingKeys.friends.rawValue] as? [String]
         self.pendingFriends = data[CodingKeys.pendingFriends.rawValue] as? [String]
+        self.stripeCustomerId = data[CodingKeys.stripeCustomerId.rawValue] as? String
+        self.stripeSubscriptionId = data[CodingKeys.stripeSubscriptionId.rawValue] as? String
         if let ts = data[CodingKeys.lastConnection.rawValue] as? Timestamp {
             self.lastConnection = ts.dateValue()
         } else {
@@ -191,12 +218,15 @@ struct DBUser: Codable {
         if let lastName = lastName { dict[CodingKeys.lastName.rawValue] = lastName }
         if let profileImagePathUrl = profileImagePathUrl { dict[CodingKeys.profileImagePathUrl.rawValue] = profileImagePathUrl }
         if let biography = biography { dict[CodingKeys.biography.rawValue] = biography }
+        if let isPremium = isPremium { dict[CodingKeys.isPremium.rawValue] = isPremium }
         if let fcmToken = fcmToken { dict[CodingKeys.fcmToken.rawValue] = fcmToken }
         if let isStudying = isStudying { dict[CodingKeys.isStudying.rawValue] = isStudying }
         if let trophies = trophies { dict[CodingKeys.trophies.rawValue] = trophies }
         if let lastConnection = lastConnection { dict[CodingKeys.lastConnection.rawValue] = Timestamp(date: lastConnection) }
         if let friends = friends { dict[CodingKeys.friends.rawValue] = friends }
         if let pendingFriends = pendingFriends { dict[CodingKeys.pendingFriends.rawValue] = pendingFriends }
+        if let stripeCustomerId = stripeCustomerId { dict[CodingKeys.stripeCustomerId.rawValue] = stripeCustomerId }
+        if let stripeSubscriptionId = stripeSubscriptionId { dict[CodingKeys.stripeSubscriptionId.rawValue] = stripeSubscriptionId }
         return dict
     }
 }

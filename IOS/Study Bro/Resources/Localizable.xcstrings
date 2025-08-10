@@ -129,6 +129,9 @@
     "<1 min" : {
 
     },
+    "🌟 You are a Premium user!" : {
+
+    },
     "🎉 Great job! 🎉" : {
       "localizations" : {
         "de" : {
@@ -668,6 +671,12 @@
         }
       }
     },
+    "Cancel Subscription" : {
+
+    },
+    "Cancel subscription?" : {
+
+    },
     "Cards" : {
 
     },
@@ -790,6 +799,9 @@
 
     },
     "Choose Your Subjects" : {
+
+    },
+    "Confirm Cancel" : {
 
     },
     "Connect with friends to see their progress" : {
@@ -1937,6 +1949,9 @@
     "Items" : {
 
     },
+    "Keep Subscription" : {
+
+    },
     "Key" : {
       "extractionState" : "manual",
       "localizations" : {
@@ -2245,6 +2260,9 @@
           }
         }
       }
+    },
+    "Manage Subscription" : {
+
     },
     "Math" : {
       "extractionState" : "stale",
@@ -3701,6 +3719,12 @@
     "Subscribe" : {
 
     },
+    "Subscribe Now" : {
+
+    },
+    "Subscription" : {
+
+    },
     "Take 20 min break" : {
       "localizations" : {
         "de" : {
@@ -3904,6 +3928,9 @@
 
     },
     "Type here" : {
+
+    },
+    "Upgrade to Premium to unlock all features." : {
 
     },
     "Username" : {

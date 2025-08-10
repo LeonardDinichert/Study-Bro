@@ -10,7 +10,6 @@ import FirebaseCore
 import FirebaseMessaging
 import FirebaseAuth
 import UserNotifications
-import Adyen
 import StripePaymentSheet
 
 @main
@@ -23,6 +22,7 @@ struct StudyBro: App {
         }
     }
 }
+    
 
 struct HasSeenWelcomingMessage: View {
     
@@ -38,9 +38,8 @@ struct HasSeenWelcomingMessage: View {
     }
 }
 
-class AppDelegate: NSObject, UIApplicationDelegate,
-                   UNUserNotificationCenterDelegate,
-                   MessagingDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate,
+                   UNUserNotificationCenterDelegate, MessagingDelegate {
     
     
 
@@ -182,3 +181,4 @@ enum Tab {
     case tasks
     case progress
 }
+

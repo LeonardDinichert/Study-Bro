@@ -305,7 +305,6 @@ struct AccountTab: View {
         }
         .onAppear() {
             Task {
-                print("yes")
                 try await viewModel.loadCurrentUser()
             }
         }

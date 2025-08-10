@@ -1,74 +1,106 @@
 import SwiftUI
-import Foundation
-import FirebaseCoreExtension
 import StripePaymentSheet
-import Stripe
 import FirebaseAuth
+import FirebaseFirestore
+import FirebaseFunctions
 
-// 1. Decode your backend’s subscription-creation response
-struct SubscriptionsResponse: Decodable {
-    let subscriptionId: String
-    let clientSecret: String
-}
+final class SubscriptionViewModel: ObservableObject {
+    @Published var paymentSheet: PaymentSheet?
+    @Published var isPaymentSheetPresented = false
+    @Published var statusMessage: String?
+    @Published var showManage = false
 
-@MainActor
-final class SubscriptionViewModel: NSObject, ObservableObject {
-    @Published var paymentStatus: String?
-    private var paymentSheet: PaymentSheet?
+    private var customerId: String?
+    private var subscriptionId: String?
 
-    // 2. Create or fetch a Stripe Customer
-    func subscribe(email: String) {
+    @MainActor
+    func subscribe(monthly: Bool) {
         Task {
-            var req = URLRequest(url: URL(string: "http://localhost:4242/create-customer")!)
-            req.httpMethod = "POST"
-            req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-            req.httpBody = try! JSONEncoder().encode(["email": email])
-            let (data, _) = try! await URLSession.shared.data(for: req)
-            let json = try! JSONSerialization.jsonObject(with: data) as? [String: Any]
-            guard let customerId = json?["customerId"] as? String else {
-                paymentStatus = "Failed to parse customer ID"
-                return
+            do {
+                let functions = Functions.functions(region: "europe-west6")
+                let resp = try await functions.httpsCallable("createSubscription").call([
+                    "price_id": monthly ? "price_1RtVTfAgKukMvTmDkFEWOT8c" : "price_1RtymZAgKukMvTmD2SHnlU4w",
+                    "ephemeral_key_api_version": "2024-06-20"
+                ])
+                guard
+                    let dict = resp.data as? [String: Any],
+                    let clientSecret = dict["payment_intent_client_secret"] as? String,
+                    let customerId = dict["customer_id"] as? String,
+                    let ephemeralKey = dict["ephemeral_key"] as? String,
+                    let subscriptionId = dict["subscription_id"] as? String
+                else {
+                    statusMessage = "Malformed server response."
+                    return
+                }
+
+                self.customerId = customerId
+                self.subscriptionId = subscriptionId
+
+                var config = PaymentSheet.Configuration()
+                config.merchantDisplayName = "Study Bro"
+                config.customer = .init(id: customerId, ephemeralKeySecret: ephemeralKey)
+                config.applePay = .init(merchantId: "merchant.studybro.stripe", merchantCountryCode: "CH")
+
+                self.paymentSheet = PaymentSheet(paymentIntentClientSecret: clientSecret, configuration: config)
+                self.isPaymentSheetPresented = true
+
+                if let uid = Auth.auth().currentUser?.uid {
+                    try await Firestore.firestore().collection("users").document(uid)
+                        .setData(["stripe_customer_id": customerId], merge: true)
+                }
+            } catch {
+                statusMessage = "Start failed: \(error.localizedDescription)"
             }
-            // 3. Once you have the customer, start the subscription flow
-            startPayment(priceId: "your_price_id_here", customerId: customerId)
         }
     }
 
-    // 4. Call your backend to create a Subscription and retrieve client secret
-    private func createSubscription(priceId: String, customerId: String) async -> SubscriptionsResponse {
-        var req = URLRequest(url: URL(string: "http://localhost:4242/create-subscription")!)
-        req.httpMethod = "POST"
-        req.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        req.httpBody = try! JSONEncoder().encode([
-            "customerId": customerId,
-            "priceId": priceId
-        ])
-        let (data, _) = try! await URLSession.shared.data(for: req)
-        return try! JSONDecoder().decode(SubscriptionsResponse.self, from: data)
+    func onPaymentCompletion(result: PaymentSheetResult) {
+        DispatchQueue.main.async {
+            switch result {
+            case .completed:
+                if let uid = Auth.auth().currentUser?.uid,
+                   let customerId = self.customerId,
+                   let subscriptionId = self.subscriptionId {
+                    Firestore.firestore().collection("users").document(uid).setData([
+                        "is_premium": true,
+                        "stripe_customer_id": customerId,
+                        "stripe_subscription_id": subscriptionId,
+                        "subscription_status": "active",
+                        "premium_since": FieldValue.serverTimestamp()
+                    ], merge: true)
+
+                    Firestore.firestore().collection("users").document(uid)
+                        .collection("transactions").addDocument(data: [
+                            "type": "subscription_initial",
+                            "subscription_id": subscriptionId,
+                            "currency": "CHF",
+                            "created": FieldValue.serverTimestamp()
+                        ])
+                }
+                self.statusMessage = "Subscription successful."
+            case .canceled:
+                self.statusMessage = "Subscription canceled."
+            case .failed(let error):
+                self.statusMessage = "Payment failed: \(error.localizedDescription)"
+            }
+        }
     }
 
-    // 5. Initialize and present Stripe’s PaymentSheet
-    func startPayment(priceId: String, customerId: String) {
+    func cancel(subscriptionId: String) {
         Task {
-            let resp = await createSubscription(priceId: priceId, customerId: customerId)
-            var config = PaymentSheet.Configuration()
-            config.merchantDisplayName = "Your Merchant"
-            // (Optional) config.customer = .init(id: customerId, ephemeralKeySecret: ...)
-            self.paymentSheet = PaymentSheet(
-                paymentIntentClientSecret: resp.clientSecret,
-                configuration: config
-            )
-            DispatchQueue.main.async {
-                self.paymentSheet?.present(from: UIApplication.shared.windows.first!.rootViewController!) { result in
-                    switch result {
-                    case .completed:
-                        self.paymentStatus = "Payment complete ✅"
-                    case .canceled:
-                        self.paymentStatus = "Payment canceled ⚠️"
-                    case .failed(let error):
-                        self.paymentStatus = "Payment failed: \(error.localizedDescription)"
-                    }
+            do {
+                let functions = Functions.functions(region: "europe-west3")
+                _ = try await functions.httpsCallable("cancelSubscription").call([
+                    "subscription_id": subscriptionId,
+                    "cancel_at_period_end": true
+                ])
+                if let uid = Auth.auth().currentUser?.uid {
+                    try await Firestore.firestore().collection("users").document(uid)
+                        .setData(["subscription_status": "canceled", "is_premium": false], merge: true)
                 }
+                await MainActor.run { self.statusMessage = "Subscription canceled." }
+            } catch {
+                await MainActor.run { self.statusMessage = "Cancel failed: \(error.localizedDescription)" }
             }
         }
     }
