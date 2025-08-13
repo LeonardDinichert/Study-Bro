@@ -14,26 +14,16 @@ struct IntroPagesView: View {
     @State private var currentPage = 0
     
     var body: some View {
-        ZStack {
-            Rectangle()
-                .fill(.ultraThinMaterial)
-                .ignoresSafeArea()
             VStack {
                 TabView(selection: $currentPage) {
                     ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
                         ZStack {
                             VStack(spacing: 16) {
-//                                Image(systemName: page.systemImage)
-//                                    .resizable()
-//                                    .scaledToFit()
-//                                    .frame(width: 120, height: 120)
-//                                    .padding()
 
                                 Text(page.title)
                                     .font(.title)
                                     .fontWeight(.bold)
                                 
-
                                 Text(page.description)
                                     .font(.body)
                                     .multilineTextAlignment(.center)
@@ -41,28 +31,32 @@ struct IntroPagesView: View {
                             }
                             .padding()
                         }
-                        .glassEffect()
-                        .shadow(radius: 10)
                         .tag(index)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
-
-                Button {
-                    if currentPage < pages.count - 1 {
+                
+                
+                
+                if currentPage < pages.count - 1 {
+                    Button {
                         currentPage += 1
-                    } else {
-                        hasShownWelcome = true
+                    } label: {
+                        Text("Continue")
+                            .foregroundStyle(.primary)
+                            .padding()
                     }
-                } label: {
-                    Text("Continue")
-                        .foregroundStyle(.primary)
-                        .padding()
+                } else {
+                    NavigationLink {
+                        
+                    } label: {
+                        Text("Continue")
+                            .foregroundStyle(.primary)
+                            .padding()
+                    }
                 }
-                .glassEffect()
-                .padding()
             }
-        }
+        
     }
 }
 
