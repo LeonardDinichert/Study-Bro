@@ -115,7 +115,6 @@ struct DayView: View {
     }
 
     var body: some View {
-        let tasks = model.tasks(on: date)
         let notes = model.notes(on: date)
 
         ScrollView {
@@ -123,32 +122,6 @@ struct DayView: View {
                 Text(formatter.string(from: date))
                     .font(.title.weight(.semibold))
                     .padding(.bottom, 8)
-
-                if tasks.isEmpty && notes.isEmpty {
-                    Text("No reminders")
-                        .foregroundStyle(.secondary)
-                }
-
-                ForEach(tasks) { task in
-                    HStack(spacing: 8) {
-                        Circle()
-                            .fill(Color.orange)
-                            .frame(width: 8, height: 8)
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(task.title)
-                                .font(.headline)
-                            Text(task.dueDate, style: .time)
-                                .font(.caption)
-                                .foregroundStyle(.secondary)
-                        }
-                    }
-                    .padding()
-                    .frame(maxWidth: .infinity, alignment: .leading)
-                    .background(
-                        RoundedRectangle(cornerRadius: 16, style: .continuous)
-                            .fill(.ultraThinMaterial)
-                    )
-                }
 
                 ForEach(notes) { note in
                     HStack(spacing: 8) {

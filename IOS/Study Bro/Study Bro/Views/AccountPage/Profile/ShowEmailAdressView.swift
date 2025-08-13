@@ -1,8 +1,8 @@
 //
 //  ShowEmailAdressView.swift
+//  Study Bro
 //
-//
-//  Created by Léonard Dinichert on 10.04.25
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

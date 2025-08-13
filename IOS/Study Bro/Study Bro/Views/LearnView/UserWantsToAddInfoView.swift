@@ -1,8 +1,8 @@
 //
 //  UserWantsToAddInfoView.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 26.05.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

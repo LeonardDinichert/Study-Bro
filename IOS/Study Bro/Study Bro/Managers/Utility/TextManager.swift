@@ -1,8 +1,8 @@
 //
 //  TextManager.swift
-//  Jobb
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 13.11.2024.
+//  Created by Léonard Dinichert
 //
 import SwiftUI
 import UIKit

@@ -1,14 +1,14 @@
 //
-//  CHooseStudyBranches.swift
-//  SchoolAssisstant
+//  ChooseStudyBranches.swift
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 29.07.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI
 import FirebaseFirestore
 
-struct CHooseStudyBranches: View {
+struct ChooseStudyBranches: View {
     @State private var selectedSubjects: Set<String> = []
     @State private var userId: String? = nil
     @State private var isLoading = true
@@ -134,5 +134,5 @@ struct CHooseStudyBranches: View {
 }
 
 #Preview {
-    CHooseStudyBranches()
+    ChooseStudyBranches()
 }

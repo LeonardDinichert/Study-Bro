@@ -1,8 +1,8 @@
 //
 //  IntroPagesView.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by OpenAI on 2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

@@ -1,8 +1,8 @@
 //
 //  AuthManager.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 07.04.2025.
+//  Created by Léonard Dinichert
 //
 
 import Foundation

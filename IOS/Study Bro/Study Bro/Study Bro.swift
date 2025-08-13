@@ -48,18 +48,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
         // Configure Firebase
-        FirebaseApp.configure()  // :contentReference[oaicite:4]{index=4}
+        FirebaseApp.configure()
         
         StripeAPI.defaultPublishableKey = "pk_test_51RtVPCAgKukMvTmDbG8vNZCcJN2gEt3WEyTGGXLZtCYMH0PFm9OrjfGaxQ5HZ8ln0c71iH4w4YcBiVA0LQ9ubFdG00uzQ2gIi2"
 
         // Notification center delegate
-        UNUserNotificationCenter.current().delegate = self  // :contentReference[oaicite:5]{index=5}
+        UNUserNotificationCenter.current().delegate = self
         UNUserNotificationCenter.current()
-            .requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }  // :contentReference[oaicite:6]{index=6}
-        application.registerForRemoteNotifications()  // :contentReference[oaicite:7]{index=7}
+            .requestAuthorization(options: [.alert, .badge, .sound]) { _, _ in }
+        application.registerForRemoteNotifications()
 
         // FCM delegate & initial token fetch
-        Messaging.messaging().delegate = self  // :contentReference[oaicite:8]{index=8}
+        Messaging.messaging().delegate = self
         Messaging.messaging().token { token, error in
             guard let token = token, error == nil else { return }
             if let uid = Auth.auth().currentUser?.uid {

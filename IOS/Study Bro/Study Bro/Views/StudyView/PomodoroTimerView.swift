@@ -1,11 +1,10 @@
 //
 //  PomodoroTimerView.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 27.04.2025.
+//  Created by Léonard Dinichert
 //
-//  Added Pomodoro mode picker (traditional/double) at launch; users can change mode from toolbar.
-//
+
 
 import SwiftUI
 import UserNotifications

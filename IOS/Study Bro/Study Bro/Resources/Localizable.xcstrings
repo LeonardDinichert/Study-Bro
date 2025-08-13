@@ -1269,6 +1269,7 @@
 
     },
     "Due Date" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2452,6 +2453,7 @@
 
     },
     "New Task" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2545,9 +2547,6 @@
 
     },
     "No cards available" : {
-
-    },
-    "No reminders" : {
 
     },
     "No sessions yet" : {
@@ -3775,6 +3774,7 @@
       }
     },
     "Tasks" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4067,6 +4067,7 @@
       }
     },
     "Welcome Back to Jobb" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -4093,6 +4094,9 @@
           }
         }
       }
+    },
+    "Welcome Back to Study Bro" : {
+
     },
     "Welcome to StuddyBuddy" : {
       "localizations" : {

@@ -1,8 +1,8 @@
 //
 //  DetailNoteView.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 28.07.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

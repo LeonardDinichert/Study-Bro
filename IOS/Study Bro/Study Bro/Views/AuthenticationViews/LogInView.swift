@@ -1,8 +1,8 @@
 //
-//  EmailSignInPageView.swift.swift
+//  EmailSignInPageView.swift
 //  Study Bro
 //
-//  Created by Léonard Dinichert on 08.07.25.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

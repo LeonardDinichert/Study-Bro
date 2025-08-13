@@ -1,8 +1,8 @@
 //
 //  StudySessionModel.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 26.07.2025.
+//  Created by Léonard Dinichert
 //
 
 import Foundation

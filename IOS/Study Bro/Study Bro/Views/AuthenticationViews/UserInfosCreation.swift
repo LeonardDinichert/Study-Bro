@@ -1,8 +1,8 @@
 //
 //  CollectInformationView.swift
-//  StuddyBuddy
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 11.04.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

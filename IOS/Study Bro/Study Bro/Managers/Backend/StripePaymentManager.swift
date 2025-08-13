@@ -13,7 +13,8 @@ class SubscriptionManager {
     private let db = Firestore.firestore()
     
     // 1. Call backend to create subscription
-    func createSubscriptionCheckout(completion: @escaping (Result<CheckoutResponse, Error>) -> Void) {
+    @MainActor
+    func createSubscriptionCheckout(priceId: String, completion: @escaping (Result<CheckoutResponse, Error>) -> Void) {
         // Prepare the request to your Cloud Function endpoint
         guard let url = URL(string: "https://createsubscription-lyg2ibnyqq-oa.a.run.app") else {
             return completion(.failure(CustomError.invalidURL))
@@ -23,24 +24,27 @@ class SubscriptionManager {
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         // Include the price ID and user’s UID (or token) in the request body
         let body = [
-            "priceId": "price_1RtVTfAgKukMvTmDkFEWOT8c",
+            "priceId": priceId,
             "uid": Auth.auth().currentUser?.uid ?? ""   // ensure user is logged in
         ]
         request.httpBody = try? JSONEncoder().encode(body)
         
         URLSession.shared.dataTask(with: request) { data, response, error in
             if let err = error {
-                completion(.failure(err))
+                Task { @MainActor in completion(.failure(err)) }
                 return
             }
             guard let data = data else {
-                return completion(.failure(CustomError.emptyResponse))
+                Task { @MainActor in completion(.failure(CustomError.emptyResponse)) }
+                return
             }
-            do {
-                let checkoutInfo = try JSONDecoder().decode(CheckoutResponse.self, from: data)
-                completion(.success(checkoutInfo))
-            } catch {
-                completion(.failure(error))
+            Task { @MainActor in
+                do {
+                    let checkoutInfo = try JSONDecoder().decode(CheckoutResponse.self, from: data)
+                    completion(.success(checkoutInfo))
+                } catch {
+                    completion(.failure(error))
+                }
             }
         }.resume()
     }
@@ -105,6 +109,7 @@ class SubscriptionManager {
 
 // Define the expected response structure from the backend for convenience
 struct CheckoutResponse: Codable {
+    
     let customerId: String
     let ephemeralKey: String
     let paymentIntentClientSecret: String

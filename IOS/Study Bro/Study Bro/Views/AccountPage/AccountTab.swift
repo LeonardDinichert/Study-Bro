@@ -1,8 +1,8 @@
 //
 //  AccountTab.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 07.04.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI
@@ -188,7 +188,7 @@ struct AccountTab: View {
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
                             NavigationLink {
-                                CHooseStudyBranches()
+                                ChooseStudyBranches()
                             } label: {
                                 HStack {
                                     Text("Studying branches")

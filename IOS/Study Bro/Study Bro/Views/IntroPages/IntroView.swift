@@ -1,8 +1,8 @@
 //
 //  JobIntroView.swift
-//  SchoolAssisstant
+//  Study BroStudy Bro
 //
-//  Created by OpenAI on 2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

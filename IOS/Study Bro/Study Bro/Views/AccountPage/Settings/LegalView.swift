@@ -1,8 +1,8 @@
 //
 //  LegalView.swift
-//  SchoolAssisstant
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 11.06.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

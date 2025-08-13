@@ -1,8 +1,8 @@
 //
 //  PrivacyView.swift
-//  Jobb
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 10.04.2025.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI

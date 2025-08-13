@@ -1,8 +1,8 @@
 //
 //  SignInWithApple.swift
-//  Jobb
+//  Study Bro
 //
-//  Created by Léonard Dinichert on 16.12.2024.
+//  Created by Léonard Dinichert
 //
 
 import SwiftUI
