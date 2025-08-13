@@ -44,11 +44,22 @@
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
+/* Begin PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+		E30C6F892E4D211500D8CC22 /* Exceptions for "Study Bro" folder in "Compile Sources" phase from "Study Bro" target */ = {
+			isa = PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet;
+			buildPhase = E3B5CC3F2E48FDE30010371D /* Sources */;
+			membershipExceptions = (
+				"/Localized: Resources/terms.md",
+			);
+		};
+/* End PBXFileSystemSynchronizedGroupBuildPhaseMembershipExceptionSet section */
+
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		E3B5CC452E48FDE30010371D /* Study Bro */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			exceptions = (
 				E3B5CD252E48FF4D0010371D /* Exceptions for "Study Bro" folder in "Study Bro" target */,
+				E30C6F892E4D211500D8CC22 /* Exceptions for "Study Bro" folder in "Compile Sources" phase from "Study Bro" target */,
 			);
 			path = "Study Bro";
 			sourceTree = "<group>";
@@ -170,6 +181,10 @@
 			knownRegions = (
 				en,
 				Base,
+				fr,
+				ru,
+				es,
+				de,
 			);
 			mainGroup = E3B5CC3A2E48FDE30010371D;
 			minimizedProjectReferenceProxies = 1;

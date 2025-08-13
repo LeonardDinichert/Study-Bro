@@ -396,35 +396,6 @@
         }
       }
     },
-    "All" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Alle"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Todos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tous"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Все"
-          }
-        }
-      }
-    },
     "All AI features unlocked." : {
 
     },
@@ -496,6 +467,9 @@
           }
         }
       }
+    },
+    "App Usage Conditions" : {
+
     },
     "Are you sure you want to delete your account? You cannot undo it" : {
       "localizations" : {
@@ -1180,35 +1154,6 @@
         }
       }
     },
-    "Describe it here" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Beschreiben Sie es hier"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Descríbalo aquí"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Décrivez-le ici"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Опишите это здесь"
-          }
-        }
-      }
-    },
     "Don't have an account yet?" : {
       "localizations" : {
         "de" : {
@@ -1268,35 +1213,6 @@
     "Double Pomodoro (50/10)" : {
 
     },
-    "Due Date" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fälligkeitsdatum"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fecha de vencimiento"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Date d’échéance"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Срок выполнения"
-          }
-        }
-      }
-    },
     "Edit Profile" : {
       "localizations" : {
         "de" : {
@@ -1349,35 +1265,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Адрес электронной почты:"
-          }
-        }
-      }
-    },
-    "English" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Englisch"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Inglés"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Anglais"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Английский"
           }
         }
       }
@@ -1555,35 +1442,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Забыли пароль?"
-          }
-        }
-      }
-    },
-    "French" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Französisch"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Francés"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Français"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Французский"
           }
         }
       }
@@ -1787,6 +1645,9 @@
         }
       }
     },
+    "I have read and acknowledge the usage conditions." : {
+
+    },
     "I learned something new" : {
       "localizations" : {
         "de" : {
@@ -1811,35 +1672,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Я узнал(а) что-то новое"
-          }
-        }
-      }
-    },
-    "I want to revise" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ich möchte wiederholen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Quiero repasar"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Je veux réviser"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Я хочу повторить"
           }
         }
       }
@@ -2274,35 +2106,6 @@
     "Manage Subscription" : {
 
     },
-    "Math" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mathematik"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Matemáticas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mathématiques"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Математика"
-          }
-        }
-      }
-    },
     "Me déconnecter" : {
       "localizations" : {
         "de" : {
@@ -2451,35 +2254,6 @@
     },
     "New Set" : {
 
-    },
-    "New Task" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Neue Aufgabe"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nueva tarea"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nouvelle tâche"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Новая задача"
-          }
-        }
-      }
     },
     "Next" : {
       "localizations" : {
@@ -3773,35 +3547,6 @@
         }
       }
     },
-    "Tasks" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Aufgaben"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tareas"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Tâches"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Задания"
-          }
-        }
-      }
-    },
     "Term" : {
 
     },
@@ -4062,35 +3807,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добро пожаловать"
-          }
-        }
-      }
-    },
-    "Welcome Back to Jobb" : {
-      "extractionState" : "stale",
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Willkommen zurück bei Jobb"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bienvenido de nuevo a Jobb"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bienvenue à nouveau sur Jobb"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "С возвращением в Jobb"
           }
         }
       }
