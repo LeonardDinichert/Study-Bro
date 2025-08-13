@@ -21,6 +21,7 @@ struct IntroPagesView: View {
                 .ignoresSafeArea()
                 .animation(.easeInOut, value: currentPage)
 
+
             VStack {
                 TabView(selection: $currentPage) {
                     ForEach(Array(pages.enumerated()), id: \.element.id) { index, page in
@@ -38,6 +39,8 @@ struct IntroPagesView: View {
                                                        endPoint: .bottomTrailing)
                                     )
                                 
+                            VStack(spacing: 16) {
+
                                 Text(page.title)
                                     .font(.title)
                                     .fontWeight(.bold)
@@ -49,13 +52,10 @@ struct IntroPagesView: View {
                             }
                             .padding()
                         }
-                        .glassEffect()
-                        .shadow(radius: 10)
                         .tag(index)
                     }
                 }
                 .tabViewStyle(PageTabViewStyle())
-
                 HStack(spacing: 8) {
                     ForEach(pages.indices, id: \.self) { index in
                         Circle()
@@ -89,9 +89,27 @@ struct IntroPagesView: View {
                 )
                 .foregroundColor(.white)
                 .shadow(radius: 5)
-                .padding()
+                .padding()         
+                
+                if currentPage < pages.count - 1 {
+                    Button {
+                        currentPage += 1
+                    } label: {
+                        Text("Continue")
+                            .foregroundStyle(.primary)
+                            .padding()
+                    }
+                } else {
+                    NavigationLink {
+                        
+                    } label: {
+                        Text("Continue")
+                            .foregroundStyle(.primary)
+                            .padding()
+                    }
+                }
             }
-        }
+        
     }
 }
 

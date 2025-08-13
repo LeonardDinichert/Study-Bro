@@ -31,7 +31,7 @@ struct HasSeenWelcomingMessage: View {
     var body: some View {
         
         if !hasShownWelcome {
-            IntroView()
+            IntroPagesView()
         } else {
             MainInterfaceView()
         }
