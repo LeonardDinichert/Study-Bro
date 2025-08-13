@@ -2,13 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>CFBundleDocumentTypes</key>
-	<array>
-		<dict>
-			<key>LSHandlerRank</key>
-			<string>Default</string>
-		</dict>
-	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -16,21 +9,17 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.584612985350-54b9cfeu08ai3mrtpf4ncotv8c0vok9e</string>
+				<string>studybro://stripe-redirect</string>
 			</array>
 		</dict>
 		<dict>
-			<key>CFBundleIdentifier</key>
-			<string></string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>studybro://stripe-redirect</string>
+				<string>com.googleusercontent.apps.584612985350-krg265lmchpkaj0sl1mkhntgvdu9hfub</string>
 			</array>
 		</dict>
 	</array>
-	<key>GIDClientID</key>
-	<string>584612985350-54b9cfeu08ai3mrtpf4ncotv8c0vok9e.apps.googleusercontent.com</string>
 </dict>
 </plist>

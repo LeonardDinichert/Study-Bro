@@ -6,6 +6,8 @@ import StripePaymentSheet
 private enum Plan: String, CaseIterable, Identifiable { case monthly, yearly; var id: String { rawValue } }
 
 struct SubscribeView: View {
+    @Environment(\.dismiss) private var dismiss
+    
     @StateObject private var viewModel = SubscriptionViewModel()
     @StateObject private var userViewModel = userManagerViewModel()
 
@@ -37,6 +39,15 @@ struct SubscribeView: View {
                     }
                     .background(backgroundDecor.ignoresSafeArea())
                 }
+            }
+        }
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button(action: { dismiss() }) {
+                    Image(systemName: "xmark")
+                }
+                .buttonStyle(.borderless)
+                .accessibilityLabel("Close")
             }
         }
         .onAppear {

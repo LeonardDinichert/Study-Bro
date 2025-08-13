@@ -16,7 +16,7 @@ struct LogInView: View {
     
     @StateObject private var viewModel = SignUpEmailViewModel()
     @StateObject private var googleVm = SignInWithGoogleModel()
-    @ObservedObject var appleVM = AppleSignInViewModel()
+    @StateObject private var appleVM = AppleSignInViewModel()
     
     @AppStorage("showSignInView") private var showSignInView: Bool = false
     
@@ -141,9 +141,7 @@ struct LogInView: View {
     func signInWithGoogle() async {
         do {
             try await googleVm.signInGoogle()
-            print("done")
             self.showSignInView = false
-            print("double done", self.showSignInView, showSignInView)
             
         } catch {
             print("Error signing in with Google: \(error)")
@@ -151,7 +149,9 @@ struct LogInView: View {
     }
     
     func signUpWithApple() async {
-        appleVM.signUpWithApple()
+            appleVM.signUpWithApple()
+            self.showSignInView = false
+        
     }
 }
 

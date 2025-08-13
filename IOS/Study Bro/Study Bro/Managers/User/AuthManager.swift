@@ -21,6 +21,7 @@ struct AuthDataResultModel: Identifiable {
         self.uid = user.uid
         self.email = user.email
         self.photoUrl = user.photoURL?.absoluteString
+        print("[AuthDataResultModel] Initialized with uid: \(uid), email: \(String(describing: email)), photoUrl: \(String(describing: photoUrl))")
     }
 }
 
@@ -38,6 +39,7 @@ final class AuthService {
     
     func getAuthenticatedUser() throws -> AuthDataResultModel {
         guard let user = Auth.auth().currentUser else {
+            print("[AuthService] getAuthenticatedUser failed: No current user")
             throw URLError(.badServerResponse )
         }
         
@@ -46,6 +48,7 @@ final class AuthService {
     
     func getProviders() throws -> [authProviderOption] {
         guard let providerData = Auth.auth().currentUser?.providerData else {
+            print("[AuthService] getProviders failed: No provider data")
             throw URLError(.badServerResponse)
         }
         var providers: [authProviderOption] = []
@@ -62,7 +65,12 @@ final class AuthService {
     }
     
     func signOut() throws {
-        try Auth.auth().signOut()
+        do {
+            try Auth.auth().signOut()
+        } catch {
+            print("[AuthService] signOut failed: \(error)")
+            throw error
+        }
     }
     
     func getCurrentUserID() -> String {
@@ -71,15 +79,28 @@ final class AuthService {
     
     func deleteAccount(userId: String) async throws {
         guard let user = Auth.auth().currentUser else {
+            print("[AuthService] deleteAccount failed: No current user")
             throw URLError(.badURL)
         }
-        try await user.delete()
-        //try await UserManager.shared.deleteUsersData(userId: userId)
+        do {
+            try await user.delete()
+            //try await UserManager.shared.deleteUsersData(userId: userId)
+        } catch {
+            print("[AuthService] deleteAccount failed: \(error)")
+            throw error
+        }
     }
     
     func signIn(credential: AuthCredential) async throws -> AuthDataResultModel {
-        let authDataResult = try await Auth.auth().signIn(with: credential)
-        return AuthDataResultModel(user: authDataResult.user)
+        print("[AuthService] Starting signIn with credential: \(credential)")
+        do {
+            let authDataResult = try await Auth.auth().signIn(with: credential)
+            print("[AuthService] signIn succeeded for uid: \(authDataResult.user.uid)")
+            return AuthDataResultModel(user: authDataResult.user)
+        } catch {
+            print("[AuthService] signIn failed: \(error)")
+            throw error
+        }
     }
     
     @discardableResult
@@ -90,40 +111,75 @@ final class AuthService {
     
     @discardableResult
     func signInWithApple(tokens: SigninWithAppleResult, appleIDCredential: ASAuthorizationAppleIDCredential) async throws -> AuthDataResultModel {
+        print("[AuthService] signInWithApple called with token: \(tokens.token), nonce: \(tokens.nonce), fullName: \(String(describing: appleIDCredential.fullName))")
         let credential = OAuthProvider.appleCredential(withIDToken: tokens.token, rawNonce: tokens.nonce, fullName: appleIDCredential.fullName)
-        return try await signIn(credential: credential)
+        print("[AuthService] OAuthProvider.appleCredential created: \(credential)")
+        do {
+            let result = try await signIn(credential: credential)
+            print("[AuthService] signInWithApple completed successfully for uid: \(result.uid)")
+            return result
+        } catch {
+            print("[AuthService] signInWithApple failed: \(error)")
+            throw error
+        }
     }
     
     @discardableResult
     func createUser(email: String, password: String) async throws -> AuthDataResultModel {
-        let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        do {
+            let authDataResult = try await Auth.auth().createUser(withEmail: email, password: password)
+            return AuthDataResultModel(user: authDataResult.user)
+        } catch {
+            print("[AuthService] createUser failed: \(error)")
+            throw error
+        }
     }
     
     @discardableResult
     func signInUser(email: String, password: String) async throws -> AuthDataResultModel {
-        let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
-        return AuthDataResultModel(user: authDataResult.user)
+        do {
+            let authDataResult = try await Auth.auth().signIn(withEmail: email, password: password)
+            return AuthDataResultModel(user: authDataResult.user)
+        } catch {
+            print("[AuthService] signInUser failed: \(error)")
+            throw error
+        }
     }
     
     func resetPassword(email: String) async throws {
-        try await Auth.auth().sendPasswordReset(withEmail: email)
+        do {
+            try await Auth.auth().sendPasswordReset(withEmail: email)
+        } catch {
+            print("[AuthService] resetPassword failed: \(error)")
+            throw error
+        }
     }
     
     func updatePassword(password: String) async throws {
         guard let user =  Auth.auth().currentUser else {
+            print("[AuthService] updatePassword failed: No current user")
             throw URLError(.badServerResponse)
         }
-        
-        try await user.updatePassword(to: password)
+        do {
+            try await user.updatePassword(to: password)
+        } catch {
+            print("[AuthService] updatePassword failed: \(error)")
+            throw error
+        }
     }
     
     func updateEmail(email: String) async throws {
         guard let user = Auth.auth().currentUser else {
+            print("[AuthService] updateEmail failed: No current user")
             throw URLError(.badServerResponse)
         }
 
-        // Send email verification before updating the email
-        try await user.sendEmailVerification(beforeUpdatingEmail: email)
+        do {
+            // Send email verification before updating the email
+            try await user.sendEmailVerification(beforeUpdatingEmail: email)
+        } catch {
+            print("[AuthService] updateEmail failed: \(error)")
+            throw error
+        }
     }
 }

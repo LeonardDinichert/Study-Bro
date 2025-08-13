@@ -14,7 +14,7 @@ enum TermsLoader {
         let bundle = Bundle.main
 
         // Try preferred localization, then base, then English as fallback
-        let tryOrder: [String?] = [Locale.current.languageCode, nil, "en"]
+        let tryOrder: [String?] = [Locale.current.language.languageCode?.identifier, nil, "en"]
 
         for loc in tryOrder {
             if let url = bundle.url(forResource: "terms", withExtension: "md",

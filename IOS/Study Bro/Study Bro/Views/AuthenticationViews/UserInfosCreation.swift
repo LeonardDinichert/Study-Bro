@@ -22,11 +22,14 @@ struct UserInfosCreation: View {
     @State private var selectedItem: PhotosPickerItem? = nil
     
     @State private var displayNotFilledAlert = false
+    @State private var missingFields: [String] = []
     
     @StateObject private var viewModel = userManagerViewModel()
     @State private var profileImageData: Data? = nil
     
     @FocusState private var focusedField: Field?
+    
+    @State private var navigateToMoreInfo = false
     
     enum Field: Hashable {
         case firstName
@@ -34,142 +37,155 @@ struct UserInfosCreation: View {
         case username
     }
     
+    var isContinueDisabled: Bool {
+        firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil
+    }
+    
     var body: some View {
         NavigationStack {
-                VStack(spacing: 20) {
-                    
-                    Text("Please complete the information below to continue your registration")
-                        .font(.title2)
-                        .fontWeight(.semibold)
-                        .multilineTextAlignment(.center)
-                        .padding(.vertical, 8)
-                        .padding(.horizontal)
-                    
-                    // First Name
-                    CustomTextField(text: $firstName, placeholder: "Surname")
-                        .focused($focusedField, equals: .firstName)
-                        .cardStyle()
-                        .padding(.horizontal)
-                        .frame(maxHeight: 50)
-                    
-                    
-                    // Last Name
-                    CustomTextField(text: $lastName, placeholder: "Name")
-                        .focused($focusedField, equals: .lastName)
-                        .cardStyle()
-                        .padding(.horizontal)
-                        .frame(maxHeight: 50)
-
-                    
-                    // Username
-                    CustomTextField(text: $username, placeholder: "Username")
-                        .focused($focusedField, equals: .username)
-                        .cardStyle()
-                        .padding(.horizontal)
-                        .frame(maxHeight: 50)
-
-                    
-                    // Birth Date
-                    DatePicker("Birthdate", selection: $birthDate, displayedComponents: .date)
-                        .datePickerStyle(CompactDatePickerStyle())
-                        .cardStyle()
-                        .padding(.horizontal)
-                    
-                    
-                    // Profile Image Picker
-                    PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
-                        HStack {
-                            Image(systemName: "photo")
-                                .resizable()
-                                .frame(width: 24, height: 24)
-                                .foregroundColor(.gray)
-                        
-                            
-                            Text("Add a profile picture")
-                                .font(.headline)
-                                .fontWeight(.semibold)
-                                .foregroundColor(.black)
-                            
-                            Spacer()
-                        }
-                       
-                    }
+            VStack(spacing: 20) {
+                
+                Text("Please complete the information below to continue your registration")
+                    .font(.title2)
+                    .fontWeight(.semibold)
+                    .multilineTextAlignment(.center)
+                    .padding(.vertical, 8)
+                    .padding(.horizontal)
+                
+                // First Name
+                CustomTextField(text: $firstName, placeholder: "Surname")
+                    .focused($focusedField, equals: .firstName)
                     .cardStyle()
                     .padding(.horizontal)
-                    .onChange(of: selectedItem) { oldItem, newItem in
-                        Task {
-                            if let data = try? await newItem?.loadTransferable(type: Data.self) {
-                                self.profileImageData = data
-                            } else {
-                                print("Failed to load image data")
-                            }
+                    .frame(maxHeight: 50)
+                
+                
+                // Last Name
+                CustomTextField(text: $lastName, placeholder: "Name")
+                    .focused($focusedField, equals: .lastName)
+                    .cardStyle()
+                    .padding(.horizontal)
+                    .frame(maxHeight: 50)
+
+                
+                // Username
+                CustomTextField(text: $username, placeholder: "Username")
+                    .focused($focusedField, equals: .username)
+                    .cardStyle()
+                    .padding(.horizontal)
+                    .frame(maxHeight: 50)
+
+                
+                // Birth Date
+                DatePicker("Birthdate", selection: $birthDate, displayedComponents: .date)
+                    .datePickerStyle(CompactDatePickerStyle())
+                    .cardStyle()
+                    .padding(.horizontal)
+                
+                
+                // Profile Image Picker
+                PhotosPicker(selection: $selectedItem, matching: .images, photoLibrary: .shared()) {
+                    HStack {
+                        Image(systemName: "photo")
+                            .resizable()
+                            .frame(width: 24, height: 24)
+                            .foregroundColor(.gray)
+                    
+                        
+                        Text("Add a profile picture")
+                            .font(.headline)
+                            .fontWeight(.semibold)
+                            .foregroundColor(.black)
+                        
+                        Spacer()
+                    }
+                   
+                }
+                .cardStyle()
+                .padding(.horizontal)
+                .onChange(of: selectedItem) { oldItem, newItem in
+                    Task {
+                        if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                            self.profileImageData = data
+                        } else {
+                            print("Failed to load image data")
                         }
                     }
-                    
-                    // Display the selected image if available
-                    if let imageData = profileImageData, let uiImage = UIImage(data: imageData) {
-                        Image(uiImage: uiImage)
-                            .resizable()
-                            .aspectRatio(contentMode: .fill)
-                            .frame(width: 100, height: 100)
-                            .clipShape(Circle())
-                            .padding()
-                            .glassEffect()
-                            .clipShape(Circle())
-
-                    }
-                    
-                    Spacer()
-                    
-                    // Finish Registration Button
-                    NavigationLink{
-                        moreInfoAboutUser(
-                            firstName: $firstName,
-                            lastName: $lastName,
-                            username: $username,
-                            birthDate: $birthDate,
-                            selectedItem: $selectedItem,
-                            profileImageData: $profileImageData,
-                            displayNotFilledAlert: $displayNotFilledAlert,
-                            showSignInView: $showSignInView
-                        )
-                        .glassEffect()
-                        .clipShape(.rect(cornerRadius: 28))
-                        .shadow(color: AppTheme.primaryColor.opacity(0.4), radius: 14, x: 0, y: 8)
-                        .tint(AppTheme.primaryColor)
-                        .padding(.horizontal)
-                    } label: {
-                        Text("Continue")
-                            .font(.title3)
-                            .bold()
-                            .frame(maxWidth: .infinity)
-                            .padding()
-                            .background(AppTheme.primaryColor)
-                            .foregroundColor(.white)
-                            .clipShape(.rect(cornerRadius: 28))
-                            .shadow(color: AppTheme.primaryColor.opacity(0.7), radius: 10, x: 0, y: 6)
-                    }
-                    .padding(.horizontal)
-                    .disabled(firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil)
-                    
                 }
-            
+                
+                // Display the selected image if available
+                if let imageData = profileImageData, let uiImage = UIImage(data: imageData) {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: 100, height: 100)
+                        .clipShape(Circle())
+                        .padding()
+                        .glassEffect()
+                        .clipShape(Circle())
+
+                }
+                
+                Spacer()
+                
+                // Finish Registration Button (replacing NavigationLink with Button + NavigationLink)
+                Button {
+                    // Check missing fields before navigation
+                    missingFields = []
+                    if firstName.isEmpty { missingFields.append("First Name") }
+                    if lastName.isEmpty { missingFields.append("Last Name") }
+                    if username.isEmpty { missingFields.append("Username") }
+                    if profileImageData == nil { missingFields.append("Profile Photo") }
+                    
+                    if missingFields.isEmpty {
+                        navigateToMoreInfo = true
+                    } else {
+                        displayNotFilledAlert = true
+                    }
+                } label: {
+                    Text("Continue")
+                        .font(.title3)
+                        .bold()
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(AppTheme.primaryColor)
+                        .foregroundColor(.white)
+                        .clipShape(.rect(cornerRadius: 28))
+                        .shadow(color: AppTheme.primaryColor.opacity(0.7), radius: 10, x: 0, y: 6)
+                }
+                .padding(.horizontal)
+                .disabled(isContinueDisabled)
+                
+            }
+            .alert(isPresented: $displayNotFilledAlert) {
+                Alert(
+                    title: Text("Missing Information"),
+                    message: Text(missingFields.isEmpty ? "Please fill in all the required information." : "Please complete the following fields:\n" + missingFields.joined(separator: "\n")),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
+            .navigationDestination(isPresented: $navigateToMoreInfo) {
+                moreInfoAboutUser(
+                    firstName: $firstName,
+                    lastName: $lastName,
+                    username: $username,
+                    birthDate: $birthDate,
+                    selectedItem: $selectedItem,
+                    profileImageData: $profileImageData,
+                    displayNotFilledAlert: $displayNotFilledAlert,
+                    showSignInView: $showSignInView
+                )
+                .padding(.horizontal)
+            }
             .padding(.top)
             .onTapGesture {
                 focusedField = nil
             }
-            .alert(isPresented: $displayNotFilledAlert) {
-                Alert(
-                    title: Text("Informations manquantes"),
-                    message: Text("Veuillez remplir toutes les informations demandées."),
-                    dismissButton: .default(Text("OK"))
-                )
-            }
-        }
-        .navigationBarBackButtonHidden()
-        .onAppear {
-            Task {
-                try await viewModel.loadCurrentUser()
+            .navigationBarBackButtonHidden()
+            .onAppear {
+                Task {
+                    try await viewModel.loadCurrentUser()
+                }
             }
         }
     }
@@ -195,6 +211,7 @@ struct moreInfoAboutUser: View {
     
     @State private var discoverySource: String = ""
     @State private var usagePurpose: String = ""
+    @State private var missingFields: [String] = []
     
     var discoveryOptions = ["School", "Instagram", "TikTok", "Friends", "Family"]
     var usageOptions = ["Middle School", "High School", "University", "Day to Day Life"]
@@ -248,7 +265,7 @@ struct moreInfoAboutUser: View {
             Spacer()
             
             VStack {
-                Text("Thank you for using StuddyBuddy !")
+                Text("Thank you for using Study Bro!")
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundStyle(AppTheme.primaryColor)
@@ -275,14 +292,31 @@ struct moreInfoAboutUser: View {
             .disabled(discoverySource.isEmpty || usagePurpose.isEmpty)
             .padding(.horizontal)
             .padding(.vertical)
+            .alert(isPresented: $displayNotFilledAlert) {
+                Alert(
+                    title: Text("Missing Information"),
+                    message: Text(missingFields.isEmpty ? "Please fill in all the required information." : "Please complete the following fields:\n" + missingFields.joined(separator: "\n")),
+                    dismissButton: .default(Text("OK"))
+                )
+            }
             
         }
     }
     
     // Function to finish registration
     func finishRegistration() async {
-        if firstName.isEmpty || lastName.isEmpty || username.isEmpty || profileImageData == nil || discoverySource.isEmpty || usagePurpose.isEmpty {
-            self.displayNotFilledAlert = true
+        missingFields = []
+        if firstName.isEmpty { missingFields.append("First Name") }
+        if lastName.isEmpty { missingFields.append("Last Name") }
+        if username.isEmpty { missingFields.append("Username") }
+        if profileImageData == nil { missingFields.append("Profile Photo") }
+        if discoverySource.isEmpty { missingFields.append("Discovery Source") }
+        if usagePurpose.isEmpty { missingFields.append("Intended Usage") }
+        
+        if !missingFields.isEmpty {
+            DispatchQueue.main.async {
+                self.displayNotFilledAlert = true
+            }
             return
         }
 
@@ -298,7 +332,10 @@ struct moreInfoAboutUser: View {
                     profileImageURL = url.absoluteString
                 } catch {
                     print("Failed to upload profile image: \(error)")
-                    self.displayNotFilledAlert = true
+                    DispatchQueue.main.async {
+                        self.missingFields = ["Error uploading profile photo"]
+                        self.displayNotFilledAlert = true
+                    }
                     return
                 }
             }
@@ -309,7 +346,10 @@ struct moreInfoAboutUser: View {
             // Ensure age is not negative or invalid
             if age <= 0 {
                 print("age is invalid")
-                self.displayNotFilledAlert = true
+                DispatchQueue.main.async {
+                    self.missingFields = ["Invalid birth date"]
+                    self.displayNotFilledAlert = true
+                }
                 return
             }
 
@@ -332,15 +372,23 @@ struct moreInfoAboutUser: View {
                 try await UserManager.shared.userDocument(userId: userId).setData(data, merge: true)
             } catch {
                 print("Failed to save user info: \(error)")
-                self.displayNotFilledAlert = true
+                DispatchQueue.main.async {
+                    self.missingFields = ["Error saving user information"]
+                    self.displayNotFilledAlert = true
+                }
                 return
             }
 
             print("Informations registered successfully")
-            showSignInView = false
+            DispatchQueue.main.async {
+                showSignInView = false
+            }
         } catch {
             print("Unexpected error: \(error)")
-            self.displayNotFilledAlert = true
+            DispatchQueue.main.async {
+                self.missingFields = ["Unexpected error"]
+                self.displayNotFilledAlert = true
+            }
         }
     }
     

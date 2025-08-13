@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>584612985350-54b9cfeu08ai3mrtpf4ncotv8c0vok9e.apps.googleusercontent.com</string>
+	<string>584612985350-krg265lmchpkaj0sl1mkhntgvdu9hfub.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.584612985350-54b9cfeu08ai3mrtpf4ncotv8c0vok9e</string>
+	<string>com.googleusercontent.apps.584612985350-krg265lmchpkaj0sl1mkhntgvdu9hfub</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCsRYaJiIU5l00aWLyWKtoQs6aWZp8cbPE</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +13,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.LeonardDinichert.SchoolAssisstant</string>
+	<string>com.LeonardDinichert.Study-Bro</string>
 	<key>PROJECT_ID</key>
 	<string>schoolassisstant</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +29,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:584612985350:ios:4ea6b75b2d3ab06aad6187</string>
+	<string>1:584612985350:ios:cef4d7fbb9436614ad6187</string>
 </dict>
 </plist>

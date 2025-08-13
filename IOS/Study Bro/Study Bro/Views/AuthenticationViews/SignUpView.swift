@@ -13,7 +13,7 @@ struct SignUpView: View {
         
     @StateObject private var googleVm = SignInWithGoogleModel()
     @ObservedObject var viewModel = SignUpEmailViewModel()
-    @ObservedObject var appleVM = AppleSignInViewModel()
+    @StateObject private var appleVM = AppleSignInViewModel()
     
     @State private var signInGoogleFinished: Bool = false
     @State private var signUpSuccessful: Bool = false
@@ -161,8 +161,9 @@ struct SignUpView: View {
     }
     
     func signUpWithApple() async {
-        appleVM.signUpWithApple()
         
+        appleVM.signUpWithApple()
+        signUpSuccessful = true
         
     }
 }
@@ -172,3 +173,4 @@ struct SignUpView_Previews: PreviewProvider {
         SignUpView()
     }
 }
+

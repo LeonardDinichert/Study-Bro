@@ -34,6 +34,14 @@ struct FriendDiscoveryView: View {
                 }
                 .padding(.vertical, 4)
             }
+            if viewModel.canLoadMore {
+                Section {
+                    Button("Load More") {
+                        viewModel.loadMoreUsers()
+                    }
+                    .frame(maxWidth: .infinity, alignment: .center)
+                }
+            }
         }
         .listStyle(.plain)
         .navigationTitle("Find Friends")

@@ -41,12 +41,6 @@ struct SettingsView: View {
                             settingsRow(title: "Edit Profile")
                         }
 
-                        NavigationLink {
-                            LegalView()
-                        } label: {
-                            settingsRow(title: "Legal")
-                        }
-
                     }
                     .padding(.horizontal)
                     

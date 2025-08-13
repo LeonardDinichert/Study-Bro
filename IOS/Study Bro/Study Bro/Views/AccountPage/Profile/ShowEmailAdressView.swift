@@ -20,25 +20,46 @@ struct ShowEmailAdressView: View {
     @StateObject private var settingsVm = SettingViewModel()
     
     var body: some View {
-        VStack {
-            Text("Email adress :")
-                .font(.title3)
-                .foregroundColor(.primary)
-                .fontWeight(.medium)
+        VStack(spacing: 36) {
+            Text("Email Address")
+                .font(.title2.bold())
+                .foregroundStyle(.primary)
+                .padding(.top, 16)
             
             if let user = viewModel.user {
-                Text(user.email ?? "No data")
-                
-                Button(action: {
-                    Task {
-                        try await settingsVm.updateEmail(email: user.email ?? "")
+                VStack(spacing: 16) {
+                    Image(systemName: "envelope.fill")
+                        .font(.system(size: 40))
+                        .foregroundStyle(.blue)
+                        .padding(.bottom, 8)
+                    Text(user.email ?? "No data")
+                        .font(.title3)
+                        .foregroundStyle(.secondary)
+                    Button(action: {
+                        Task {
+                            try? await settingsVm.updateEmail(email: user.email ?? "")
+                        }
+                    }) {
+                        Label("Change my email address", systemImage: "pencil")
+                            .font(.headline)
+                            .padding(.vertical, 8)
+                            .frame(maxWidth: .infinity)
                     }
-                }) {
-                    Text("Change my email adress")
+                    .buttonStyle(.borderedProminent)
+                    .tint(.blue)
                 }
-                .buttonStyle(.borderedProminent)
+                .padding()
+                .frame(maxWidth: 350)
+                .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 20, style: .continuous))
+                .shadow(radius: 12, y: 4)
+            } else {
+                ProgressView()
+                    .progressViewStyle(.circular)
+                    .padding()
             }
+            Spacer()
         }
+        .padding()
         .task {
             try? await viewModel.loadCurrentUser()
         }

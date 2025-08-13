@@ -126,6 +126,9 @@
         }
       }
     },
+    "• Tap the button → runs your Shortcut to enable Work Focus.\n• Also silences this app: clears notifications and stops remote pushes.\n• Optionally open Notification settings to turn off alerts for this app." : {
+
+    },
     "<1 min" : {
 
     },
@@ -195,6 +198,12 @@
       }
     },
     "0 min" : {
+
+    },
+    "1) In Shortcuts: New → Add Action → Set Focus → Work → Until turned off. Name it “%@”." : {
+
+    },
+    "2) (Optional) Auto-activate when this app opens:\nSettings → Focus → Work → Add Schedule → App → select this app." : {
 
     },
     "Accept" : {
@@ -280,6 +289,9 @@
           }
         }
       }
+    },
+    "Add “Work Focus On” Shortcut" : {
+
     },
     "Add a new friend" : {
       "localizations" : {
@@ -458,16 +470,6 @@
     "Answer" : {
 
     },
-    "App Appearance" : {
-      "localizations" : {
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Apparence de l’application"
-          }
-        }
-      }
-    },
     "App Usage Conditions" : {
 
     },
@@ -498,9 +500,6 @@
           }
         }
       }
-    },
-    "Auto-activate Work Focus during Pomodoro" : {
-
     },
     "Begin the pomodoro timer" : {
       "localizations" : {
@@ -589,34 +588,6 @@
         }
       }
     },
-    "By using SchoolAssisstant you agree to use the app for personal study only. We do not guarantee the accuracy of provided data and reserve the right to modify the service at any time." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Durch die Nutzung von SchoolAssistant stimmen Sie zu, die App nur für persönliches Lernen zu verwenden. Wir garantieren nicht die Richtigkeit der bereitgestellten Daten und behalten uns das Recht vor, den Dienst jederzeit zu ändern."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al usar SchoolAssistant, usted acepta utilizar la aplicación solo para estudio personal. No garantizamos la exactitud de los datos proporcionados y nos reservamos el derecho de modificar el servicio en cualquier momento."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "En utilisant SchoolAssistant, vous acceptez d'utiliser l'application uniquement pour des études personnelles. Nous ne garantissons pas l'exactitude des données fournies et nous nous réservons le droit de modifier le service à tout moment."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Используя приложение SchoolAssistant, вы соглашаетесь использовать его только для личных учебных целей. Мы не гарантируем точность предоставляемых данных и оставляем за собой право изменять сервис в любое время."
-          }
-        }
-      }
-    },
     "Calendar" : {
 
     },
@@ -685,33 +656,8 @@
         }
       }
     },
-    "Change my email adress" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Meine E-Mail-Adresse ändern"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Cambiar mi dirección de correo electrónico"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Changer mon adresse e-mail"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Изменить мой адрес электронной почты"
-          }
-        }
-      }
+    "Change my email address" : {
+
     },
     "Chat" : {
       "localizations" : {
@@ -741,34 +687,6 @@
         }
       }
     },
-    "Chatbot" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chatbot"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chatbot"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Chatbot"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Чат-бот"
-          }
-        }
-      }
-    },
     "Check" : {
 
     },
@@ -776,6 +694,9 @@
 
     },
     "Choose Your Subjects" : {
+
+    },
+    "Close" : {
 
     },
     "Confirm Cancel" : {
@@ -805,34 +726,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Добавьте друзей, чтобы видеть их прогресс."
-          }
-        }
-      }
-    },
-    "Contact" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Kontakt"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contacto"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Contact"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Контакты"
           }
         }
       }
@@ -921,6 +814,9 @@
         }
       }
     },
+    "Create the Shortcut first" : {
+
+    },
     "Current streak: %lld days" : {
       "localizations" : {
         "de" : {
@@ -952,64 +848,8 @@
     "Customization" : {
 
     },
-    "Customization options coming soon" : {
+    "Danger Zone" : {
 
-    },
-    "Dark Mode" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Dunkelmodus"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Modo oscuro"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Mode sombre"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Темная тема"
-          }
-        }
-      }
-    },
-    "Data Deletion" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datenlöschung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Eliminación de datos"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Suppression des données"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Удаление данных"
-          }
-        }
-      }
     },
     "Day" : {
       "localizations" : {
@@ -1126,33 +966,8 @@
         }
       }
     },
-    "Deleting your account permanently removes your notes, study history and any personal information from our servers." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Wenn Sie Ihr Konto löschen, werden Ihre Notizen, Ihr Lernverlauf und alle persönlichen Informationen dauerhaft von unseren Servern entfernt."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Al eliminar su cuenta, se eliminarán permanentemente sus notes, su historial de estudio y cualquier información personal de nuestros servidores."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "La suppression de votre compte supprimera définitivement vos notes, votre historique d'étude ainsi que toutes vos informations personnelles de nos serveurs."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "При удалении вашего аккаунта все ваши заметки, история обучения и любая личная информация будут навсегда удалены с наших серверов."
-          }
-        }
-      }
+    "Deleting your account is irreversible. All your data will be permanently removed." : {
+
     },
     "Don't have an account yet?" : {
       "localizations" : {
@@ -1241,35 +1056,19 @@
         }
       }
     },
-    "Email adress :" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "E-Mail-Adresse:"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Correo electrónico:"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Adresse e-mail :"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Адрес электронной почты:"
-          }
-        }
-      }
+    "Email Address" : {
+
+    },
+    "Enable Work Focus & Silence" : {
+
+    },
+    "Enable Work Focus now" : {
+
     },
     "Enjoy unlimited tutoring, summaries, OCR, and smart revision." : {
+
+    },
+    "Enter username" : {
 
     },
     "Enter your email" : {
@@ -1473,6 +1272,9 @@
           }
         }
       }
+    },
+    "Go premium" : {
+
     },
     "Go Premium" : {
 
@@ -1704,6 +1506,9 @@
         }
       }
     },
+    "If you want to become premium click on this button." : {
+
+    },
     "Importance" : {
       "localizations" : {
         "de" : {
@@ -1760,33 +1565,8 @@
         }
       }
     },
-    "Informations manquantes" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fehlende Informationen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Información faltante"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Informations manquantes"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Отсутствующая информация"
-          }
-        }
-      }
+    "iOS won’t let apps toggle Focus or mute other apps. This method uses your Shortcut + app-only controls." : {
+
     },
     "Items" : {
 
@@ -1879,34 +1659,6 @@
         }
       }
     },
-    "Legal Information" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Rechtliche Informationen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Información legal"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Informations légales"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Правовая информация"
-          }
-        }
-      }
-    },
     "Load more" : {
       "localizations" : {
         "de" : {
@@ -1934,6 +1686,9 @@
           }
         }
       }
+    },
+    "Load More" : {
+
     },
     "Loading..." : {
       "localizations" : {
@@ -2103,7 +1858,13 @@
         }
       }
     },
+    "Make a shortcut named “%@” with the action: Set Focus → Work → Until turned off." : {
+
+    },
     "Manage Subscription" : {
+
+    },
+    "Manage your privacy settings and account information." : {
 
     },
     "Me déconnecter" : {
@@ -2161,6 +1922,9 @@
           }
         }
       }
+    },
+    "Missing Information" : {
+
     },
     "Mode" : {
 
@@ -2441,6 +2205,9 @@
         }
       }
     },
+    "Notes" : {
+
+    },
     "Notifications" : {
 
     },
@@ -2471,6 +2238,18 @@
           }
         }
       }
+    },
+    "One-time setup" : {
+
+    },
+    "Only Study Pro users can use the AI capabilities of this app." : {
+
+    },
+    "Open app Notification settings" : {
+
+    },
+    "Open Shortcuts" : {
+
     },
     "OR" : {
       "localizations" : {
@@ -2618,33 +2397,8 @@
         }
       }
     },
-    "Privacy Policy" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Datenschutzerklärung"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Política de privacidad"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Politique de confidentialité"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Политика конфиденциальности"
-          }
-        }
-      }
+    "Privacy" : {
+
     },
     "Profile" : {
       "localizations" : {
@@ -2702,33 +2456,8 @@
         }
       }
     },
-    "Questions or concerns? Email support@schoolassistant.app." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Fragen oder Anliegen? Senden Sie eine E-Mail an support@schoolassistant.app."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¿Preguntas o inquietudes? Envíe un correo electrónico a support@schoolassistant.app."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Des questions ou des préoccupations ? Envoyez un e-mail à support@schoolassistant.app."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Вопросы или problèmes? Напишите на support@schoolassistant.app."
-          }
-        }
-      }
+    "Quiet Mode" : {
+
     },
     "Quit" : {
       "localizations" : {
@@ -2984,6 +2713,9 @@
           }
         }
       }
+    },
+    "Save Changes" : {
+
     },
     "Save Note" : {
       "localizations" : {
@@ -3550,61 +3282,8 @@
     "Term" : {
 
     },
-    "Terms of Use" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Nutzungsbedingungen"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Términos de uso"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conditions d'utilisation"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Условия использования"
-          }
-        }
-      }
-    },
-    "Thank you for using StuddyBuddy !" : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Danke, dass Sie StuddyBuddy verwenden!"
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "¡Gracias por usar StuddyBuddy!"
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Merci d'utiliser StuddyBuddy !"
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Спасибо, что пользуетесь StuddyBuddy!"
-          }
-        }
-      }
+    "Thank you for using Study Bro!" : {
+
     },
     "The forgetting curve illustrates how memory retention declines over time when there are no attempts to review information. The horizontal axis represents days since the initial learning or any subsequent review, and the vertical axis shows the percentage of information retained. Spacing these reviews farther apart over time optimizes long-term retention by slowing the rate of forgetting with each repetition." : {
       "localizations" : {
@@ -3699,6 +3378,9 @@
     "Unlock all AI features: smart tutoring, instant summaries, flashcards, OCR notes, and more." : {
 
     },
+    "Use it" : {
+
+    },
     "Username" : {
       "localizations" : {
         "de" : {
@@ -3723,34 +3405,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Имя пользователя"
-          }
-        }
-      }
-    },
-    "Veuillez remplir toutes les informations demandées." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Bitte füllen Sie alle erforderlichen informations aus."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Por favor, rellene toda la información solicitada."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Veuillez remplir toutes les informations demandées."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Пожалуйста, заполните всю запрашиваемую информацию."
           }
         }
       }
@@ -3898,6 +3552,9 @@
         }
       }
     },
+    "What happens" : {
+
+    },
     "What will you study %@?" : {
       "localizations" : {
         "de" : {
@@ -3953,9 +3610,6 @@
           }
         }
       }
-    },
-    "When enabled, your iPhone will automatically enable the 'Work' Focus whenever a Pomodoro work session starts." : {
-
     },
     "Work" : {
       "localizations" : {
@@ -4242,34 +3896,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Ваши данные об учебе появятся здесь."
-          }
-        }
-      }
-    },
-    "Your study sessions and profile details are stored securely in your iCloud account. They are not shared with third parties. You may remove all data by deleting your account." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ihre Lernsitzungen und Profildetails werden sicher in Ihrem iCloud-Konto gespeichert. Sie werden nicht mit Dritten geteilt. Sie können alle Daten entfernen, indem Sie Ihr Konto löschen."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Sus sesiones de estudio y los detalles de su perfil se almacenan de forma segura en su cuenta de iCloud. No se comparten con terceros. Puede eliminar todos los datos eliminando su cuenta."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Vos sessions d'étude et les détails de votre profil sont stockés en toute sécurité dans votre compte iCloud. Ils ne sont pas partagés avec des tiers. Vous pouvez supprimer toutes les données en supprimant votre compte."
-          }
-        },
-        "ru" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Ваши учебные сессии и данные профиля надежно хранятся в вашем аккаунте iCloud. Они не передаются третьим лицам. Вы можете удалить все данные, удалив свой аккаунт."
           }
         }
       }

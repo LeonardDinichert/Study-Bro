@@ -7,10 +7,12 @@ import Combine
 final class FriendDiscoveryViewModel: ObservableObject {
     @Published var users: [DBUser] = []
     @Published var searchText: String = ""
+    @Published var displayedCount: Int = 20
+    var canLoadMore: Bool { users.count > displayedCount }
 
     var filteredUsers: [DBUser] {
-        guard !searchText.isEmpty else { return users }
-        return users.filter { ($0.username ?? "").localizedCaseInsensitiveContains(searchText) }
+        let filtered = searchText.isEmpty ? users : users.filter { ($0.username ?? "").localizedCaseInsensitiveContains(searchText) }
+        return Array(filtered.prefix(displayedCount))
     }
 
     func loadUsers() async {
@@ -56,5 +58,9 @@ final class FriendDiscoveryViewModel: ObservableObject {
                 completion(.success(()))
             }
         }
+    }
+    
+    func loadMoreUsers() {
+        displayedCount += 20
     }
 }
