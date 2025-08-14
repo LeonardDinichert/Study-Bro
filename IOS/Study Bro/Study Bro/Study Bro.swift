@@ -11,6 +11,14 @@ import FirebaseMessaging
 import FirebaseAuth
 import UserNotifications
 import StripePaymentSheet
+import FirebaseAppCheck
+
+class ProviderFactory: NSObject, AppCheckProviderFactory {
+    func createProvider(with app: FirebaseApp) -> AppCheckProvider? {
+        // Use the Debug provider for local development; for production, use DeviceCheck or AppAttest
+        return AppCheckDebugProvider(app: app)
+    }
+}
 
 @main
 struct StudyBro: App {
@@ -47,7 +55,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil
     ) -> Bool {
-        // Configure Firebase
+        
+        AppCheck.setAppCheckProviderFactory(ProviderFactory()) // returns AppAttestProvider or DeviceCheckProvider
         FirebaseApp.configure()
         
         StripeAPI.defaultPublishableKey = "pk_test_51RtVPCAgKukMvTmDbG8vNZCcJN2gEt3WEyTGGXLZtCYMH0PFm9OrjfGaxQ5HZ8ln0c71iH4w4YcBiVA0LQ9ubFdG00uzQ2gIi2"

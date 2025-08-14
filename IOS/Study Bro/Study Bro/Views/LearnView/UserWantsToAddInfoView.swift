@@ -9,7 +9,6 @@ import SwiftUI
 import FirebaseAuth
 import UserNotifications
 
-
 struct AddNoteView: View {
     @State private var category = ""
     @State private var learned = ""
@@ -21,57 +20,41 @@ struct AddNoteView: View {
     }
     @State private var importance: Importance = .low
     @Binding var isPresented: Bool
-    
+
     var body: some View {
         NavigationStack {
             VStack {
                 Form {
-                    Section(header: Text("Category")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)) {
-                            
-                            Picker("Category", selection: $category) {
-                                ForEach(userCategories, id: \.self) { category in
-                                    Text(category).tag(category)
-                                }
+                    Section(header: Text("Category").font(.callout).foregroundStyle(.secondary)) {
+                        Picker("Category", selection: $category) {
+                            ForEach(userCategories, id: \.self) { cat in
+                                Text(cat).tag(cat)
                             }
                         }
-                        .listRowBackground(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.thinMaterial)
-                        )
-                    
-                    Section(header: Text("What did you learn?")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)) {
-                            TextEditor(text: $learned)
-                                .frame(minHeight: 80, maxHeight: 160, alignment: .topLeading)
-                                .scrollContentBackground(.hidden)
-                                .autocorrectionDisabled(false)
-                                .textInputAutocapitalization(.sentences)
-                                .padding(.vertical, 6)
-                        }
-                        .listRowBackground(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.thinMaterial)
-                        )
-                    
-                    Section(header: Text("Importance")
-                        .font(.callout)
-                        .foregroundStyle(.secondary)) {
-                            Picker(selection: $importance) {
-                                ForEach(Importance.allCases) { level in
-                                    Text(level.rawValue).tag(level)
-                                }
-                            } label: {
-                                Label("Importance", systemImage: "flag.fill")
+                    }
+                    .listRowBackground(RoundedRectangle(cornerRadius: 16).fill(.thinMaterial))
+
+                    Section(header: Text("What did you learn?").font(.callout).foregroundStyle(.secondary)) {
+                        TextEditor(text: $learned)
+                            .frame(minHeight: 80, maxHeight: 160, alignment: .topLeading)
+                            .scrollContentBackground(.hidden)
+                            .autocorrectionDisabled(false)
+                            .textInputAutocapitalization(.sentences)
+                            .padding(.vertical, 6)
+                    }
+                    .listRowBackground(RoundedRectangle(cornerRadius: 16).fill(.thinMaterial))
+
+                    Section(header: Text("Importance").font(.callout).foregroundStyle(.secondary)) {
+                        Picker(selection: $importance) {
+                            ForEach(Importance.allCases) { level in
+                                Text(level.rawValue).tag(level)
                             }
-                            .pickerStyle(.segmented)
+                        } label: {
+                            Label("Importance", systemImage: "flag.fill")
                         }
-                        .listRowBackground(
-                            RoundedRectangle(cornerRadius: 16)
-                                .fill(.thinMaterial)
-                        )
+                        .pickerStyle(.segmented)
+                    }
+                    .listRowBackground(RoundedRectangle(cornerRadius: 16).fill(.thinMaterial))
                 }
                 .clipShape(RoundedRectangle(cornerRadius: 20))
                 .background(
@@ -81,9 +64,9 @@ struct AddNoteView: View {
                 )
                 .padding([.horizontal, .top], 18)
                 .animation(.smooth, value: category + learned + String(describing: importance))
-                
+
                 Spacer(minLength: 16)
-                
+
                 VStack(spacing: 12) {
                     Button {
                         Task { await save() }
@@ -95,7 +78,7 @@ struct AddNoteView: View {
                     .tint(.accentColor)
                     .clipShape(RoundedRectangle(cornerRadius: 12))
                     .shadow(color: .accentColor.opacity(0.3), radius: 6, x: 0, y: 3)
-                    
+
                     Button(role: .cancel) {
                         isPresented = false
                     } label: {
@@ -110,14 +93,15 @@ struct AddNoteView: View {
                 .padding([.horizontal, .bottom], 24)
             }
             .background(.ultraThinMaterial)
+            .navigationTitle("Add New Info")
+            .navigationBarTitleDisplayMode(.inline)
         }
         .onAppear {
             Task { await loadUserCategories() }
         }
-        .navigationTitle("Add New Info")
-        .navigationBarTitleDisplayMode(.inline)
     }
-    
+
+    // MARK: - Data
     private func loadUserCategories() async {
         guard let userId = Auth.auth().currentUser?.uid else { return }
         do {
@@ -128,30 +112,73 @@ struct AddNoteView: View {
                 } else {
                     self.userCategories = ["All"]
                 }
+                if self.category.isEmpty { self.category = self.userCategories.first ?? "" }
             }
         } catch {
             print("Error loading user categories: \(error)")
         }
     }
-    
+
+    // MARK: - Notifications
+    private func getNotificationSettings() async -> UNNotificationSettings {
+        await withCheckedContinuation { continuation in
+            UNUserNotificationCenter.current().getNotificationSettings { settings in
+                continuation.resume(returning: settings)
+            }
+        }
+    }
+
+    private func ensureNotificationAuth() async -> Bool {
+        let center = UNUserNotificationCenter.current()
+        let settings = await getNotificationSettings()
+        switch settings.authorizationStatus {
+        case .authorized, .provisional, .ephemeral:
+            return true
+        default:
+            do { return try await center.requestAuthorization(options: [.alert, .sound, .badge]) }
+            catch { return false }
+        }
+    }
+
+    private func scheduleLocalNotification(body: String, at date: Date, id: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Study Bro"
+        content.body = body
+        content.sound = .default
+
+        let comps = Calendar.current.dateComponents([.year, .month, .day, .hour, .minute, .second], from: date)
+        let trigger = UNCalendarNotificationTrigger(dateMatching: comps, repeats: false)
+        let req = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(req)
+    }
+
+    private func scheduleImmediate(body: String, id: String) {
+        let content = UNMutableNotificationContent()
+        content.title = "Study Bro"
+        content.body = body
+        content.sound = .default
+
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
+        let req = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
+        UNUserNotificationCenter.current().add(req)
+    }
+
+    // MARK: - Save
     func save() async {
         guard let userId = Auth.auth().currentUser?.uid else {
             isPresented = false
             return
         }
-        
+
         let now = Date()
         let offsets: [(value: Int, component: Calendar.Component)] = [
-            (1, .day),
-            (4, .day),
-            (8, .day),
-            (1, .month),
-            (4, .month)
+            (1, .day),          // +1 day
+            (4, .day),          // +4 days
+            (1, .weekOfYear),   // +1 week
+            (1, .month),        // +1 month
+            (4, .month)         // +4 months
         ]
-
-        let reminderDates = offsets.compactMap { offset in
-            Calendar.current.date(byAdding: offset.component, value: offset.value, to: now)
-        }
+        let reminderDates = offsets.compactMap { Calendar.current.date(byAdding: $0.component, value: $0.value, to: now) }
 
         let note = LearningNote(
             category: category,
@@ -160,15 +187,20 @@ struct AddNoteView: View {
             reviewCount: 0,
             nextReview: reminderDates.first ?? now,
             createdAt: now,
-            firstReminderDate: reminderDates.count > 0 ? reminderDates[0] : nil,
-            secondReminderDate: reminderDates.count > 1 ? reminderDates[1] : nil,
-            thirdReminderDate: reminderDates.count > 2 ? reminderDates[2] : nil,
-            forthReminderDate: reminderDates.count > 3 ? reminderDates[3] : nil,
-            fifthReminderDate: reminderDates.count > 4 ? reminderDates[4] : nil
         )
-        
+
         do {
             try await NotesManager.shared.addNote(note, userId: userId)
+
+            if await ensureNotificationAuth(),
+               !learned.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                let baseId = "learningnote-\(userId)-\(now.timeIntervalSince1970)"
+                scheduleImmediate(body: learned, id: "\(baseId)-now")
+                for (idx, date) in reminderDates.enumerated() {
+                    scheduleLocalNotification(body: learned, at: date, id: "\(baseId)-\(idx+1)")
+                }
+            }
+
             isPresented = false
         } catch {
             print("Failed to save note: \(error)")
