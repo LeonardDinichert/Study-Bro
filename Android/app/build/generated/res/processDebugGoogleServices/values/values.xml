@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="default_web_client_id" translatable="false">584612985350-1sqi4ml8sjvgl7dr5qj8h7jsg12ndncn.apps.googleusercontent.com</string>
+    <string name="gcm_defaultSenderId" translatable="false">584612985350</string>
+    <string name="google_api_key" translatable="false">AIzaSyAy-OIHMxH1AQ_hCyXPb-oDdyyR-JjSYYc</string>
+    <string name="google_app_id" translatable="false">1:584612985350:android:a4698963612381efad6187</string>
+    <string name="google_crash_reporting_api_key" translatable="false">AIzaSyAy-OIHMxH1AQ_hCyXPb-oDdyyR-JjSYYc</string>
+    <string name="google_storage_bucket" translatable="false">schoolassisstant.firebasestorage.app</string>
+    <string name="project_id" translatable="false">schoolassisstant</string>
+</resources>

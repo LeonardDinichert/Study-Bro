@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.studybro.app-mergeDebugResources-102:/values-es-rES/values-es-rES.xml",
+            "map": [
+                {
+                    "source": "/Users/leonarddinichert/.gradle/caches/8.14.3/transforms/768b8a925d7fbc10abffffec5f825631/transformed/jetified-stripe-3ds2-android-6.1.8/res/values-es-rES/values-es-rES.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8",
+                        "startColumns": "4,4,4,4,4,4,4",
+                        "startOffsets": "55,142,246,312,379,445,527",
+                        "endColumns": "86,103,65,66,65,81,67",
+                        "endOffsets": "137,241,307,374,440,522,590"
+                    }
+                }
+            ]
+        }
+    ]
+}

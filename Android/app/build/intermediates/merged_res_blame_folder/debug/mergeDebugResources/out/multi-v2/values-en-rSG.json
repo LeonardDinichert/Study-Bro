@@ -1,0 +1,26 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.studybro.app-mergeDebugResources-102:/values-en-rSG/values-en-rSG.xml",
+            "map": [
+                {
+                    "source": "/Users/leonarddinichert/.gradle/caches/8.14.3/transforms/98e28419382f53946cb9bc4e8c4872c9/transformed/jetified-play-services-wallet-19.3.0/res/values-en-rSG/values.xml",
+                    "from": {
+                        "startLines": "4,5",
+                        "startColumns": "0,0",
+                        "startOffsets": "206,263",
+                        "endColumns": "56,70",
+                        "endOffsets": "262,333"
+                    },
+                    "to": {
+                        "startLines": "2,3",
+                        "startColumns": "4,4",
+                        "startOffsets": "55,116",
+                        "endColumns": "60,74",
+                        "endOffsets": "111,186"
+                    }
+                }
+            ]
+        }
+    ]
+}
