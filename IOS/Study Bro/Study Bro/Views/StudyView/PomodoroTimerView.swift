@@ -60,9 +60,12 @@ struct PomodoroTimerView: View {
     @State private var isFocusMode = false
     @State private var showHistoryFullScreen = false
 
+
     @Binding var startSession: Bool
     @Binding var userWillStudy: String
     @Binding var userId: String
+    @Binding var noteId: String
+
 
     @AppStorage("autoActivateWorkFocus") private var autoActivateWorkFocus: Bool = false
 
@@ -76,10 +79,11 @@ struct PomodoroTimerView: View {
         let subject: String
     }
 
-    init(startSession: Binding<Bool>, userWillStudy: Binding<String>, userId: Binding<String>) {
+    init(startSession: Binding<Bool>, userWillStudy: Binding<String>, userId: Binding<String>, noteId: Binding<String>) {
         self._startSession = startSession
         self._userWillStudy = userWillStudy
         self._userId = userId
+        self._noteId = noteId
     }
 
     var body: some View { mainBody }
@@ -137,8 +141,8 @@ struct PomodoroTimerView: View {
                         Button("Reset", role: .destructive) { resetPhase() }
                         Button("Cancel", role: .cancel) { }
                     }
-                    .alert("Quit session?", isPresented: $showQuit) {
-                        Button("Quit", role: .destructive) { startSession = false }
+                    .alert("Finish session?", isPresented: $showQuit) {
+                        Button("Finish", role: .destructive) { startSession = false }
                         Button("Cancel", role: .cancel) { }
                     }
                     .onChange(of: isRunning, initial: false) { oldValue, newValue in
@@ -167,6 +171,7 @@ struct PomodoroTimerView: View {
                         }
                     }
                     .onAppear {
+                        
                         UIApplication.shared.isIdleTimerDisabled = true
                         Task {
                             await fetchSessions(initial: true)
@@ -309,7 +314,7 @@ struct PomodoroTimerView: View {
                                 showReset = true
                             }
                         }
-                        Button("Quit session") { showQuit = true }
+                        Button("Finish session") { showQuit = true }
                             .font(.callout)
                             .foregroundColor(.red)
                             .padding()
@@ -392,7 +397,6 @@ struct PomodoroTimerView: View {
             workCount += 1
             let end = now
             Task {
-                print("UserId 1 is \(userId)")
                 do {
                     try await UserManager
                       .shared
@@ -400,7 +404,8 @@ struct PomodoroTimerView: View {
                         userId: userId,
                         studiedSubject: userWillStudy,
                         start: startTime ?? end,
-                        end: end
+                        end: end,
+                        noteId: noteId
                       )
                     await fetchSessions(initial: true)
                 } catch {

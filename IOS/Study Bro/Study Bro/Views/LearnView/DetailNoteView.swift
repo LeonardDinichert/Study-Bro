@@ -8,31 +8,41 @@
 import SwiftUI
 import Charts
 import Foundation
+import PDFKit
+import FirebaseAuth
+import FirebaseFirestore
 
 struct DetailNoteView: View {
     
     let note: LearningNote
     
     @State private var wordForCount: String = ""
+    @State private var showDocumentViewer = false
+    @State private var showJointScan = false
+    @State private var promptAutoTest: Bool = false
+    
+    @State private var showSessionRequired = false
+
+    
+    // Pomodoro Timer State
+    @State private var showPomodoro = false
+    @State private var pomodoroUserId: String = ""
     
     var body: some View {
         ScrollView {
-            Rectangle().fill(.ultraThinMaterial).ignoresSafeArea()
+            
             VStack(spacing: 32) {
+                
+               // graph ne s'update pas
                 
                 // Category Section
                 VStack(alignment: .leading, spacing: 8) {
-                    HStack {
-                        Text("Note category :")
-                            .font(.title2.weight(.semibold))
-                            .foregroundStyle(.primary)
-                        Spacer()
+  
                         Text(note.category)
                             .font(.title2.weight(.semibold))
                             .foregroundStyle(.primary)
                             .padding(.trailing)
-                        
-                    }
+   
                 }
                 .padding()
                 .background(.regularMaterial)
@@ -49,6 +59,107 @@ struct DetailNoteView: View {
                         .lineLimit(nil)
                         .fixedSize(horizontal: false, vertical: true)
                         .multilineTextAlignment(.leading)
+                    
+                    if let documentURL = note.documentURL, !documentURL.isEmpty {
+                        let trimmedDocumentURL = documentURL.trimmingCharacters(in: .whitespacesAndNewlines)
+                        if let remoteURL = URL(string: trimmedDocumentURL), (remoteURL.scheme == "http" || remoteURL.scheme == "https") {
+                            let ext = remoteURL.pathExtension.lowercased()
+                            if ext == "pdf" {
+                                Button("Open Attached Document") {
+                                    showDocumentViewer = true
+                                }
+                                .font(.headline)
+                                .padding()
+                                .frame(maxWidth: .infinity)
+                                .background(Color.blue.opacity(0.2))
+                                .foregroundColor(.blue)
+                                .cornerRadius(12)
+                                .sheet(isPresented: $showDocumentViewer) {
+                                    PDFKitView(url: remoteURL)
+                                }
+                            } else if ["jpg","jpeg","png"].contains(ext) {
+                                AsyncImage(url: remoteURL) { phase in
+                                    switch phase {
+                                    case .empty:
+                                        ProgressView()
+                                            .frame(height: 300)
+                                    case .success(let image):
+                                        image
+                                            .resizable()
+                                            .scaledToFit()
+                                            .frame(maxWidth: .infinity, maxHeight: 300)
+                                            .cornerRadius(12)
+                                    case .failure:
+                                        VStack {
+                                            Image(systemName: "exclamationmark.triangle")
+                                                .font(.largeTitle)
+                                                .foregroundColor(.red)
+                                            Text("Failed to load image")
+                                                .foregroundColor(.secondary)
+                                        }
+                                        .frame(height: 300)
+                                    @unknown default:
+                                        Text("No joint documents")
+                                    }
+                                }
+                            } else {
+                                Text("[DEBUG] Unsupported file extension: \(remoteURL.lastPathComponent)")
+                            }
+                        } else {
+                            // Assume it's a local file reference
+                            let fileManager = FileManager.default
+                            let docs = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first
+                            if let docs = docs {
+                                let fileURL = docs.appendingPathComponent(trimmedDocumentURL)
+                                let ext = fileURL.pathExtension.lowercased()
+                                if fileManager.fileExists(atPath: fileURL.path) {
+                                    if ext == "pdf" {
+                                        Button("Open Attached Document") {
+                                            showDocumentViewer = true
+                                        }
+                                        .font(.headline)
+                                        .padding()
+                                        .frame(maxWidth: .infinity)
+                                        .background(Color.blue.opacity(0.2))
+                                        .foregroundColor(.blue)
+                                        .cornerRadius(12)
+                                        .sheet(isPresented: $showDocumentViewer) {
+                                            PDFKitView(url: fileURL)
+                                        }
+                                    } else if ["jpg","jpeg","png"].contains(ext) {
+                                        AsyncImage(url: fileURL) { phase in
+                                            switch phase {
+                                            case .empty:
+                                                ProgressView()
+                                                    .frame(height: 300)
+                                            case .success(let image):
+                                                image
+                                                    .resizable()
+                                                    .scaledToFit()
+                                                    .frame(maxWidth: .infinity, maxHeight: 300)
+                                                    .cornerRadius(12)
+                                            case .failure:
+                                                VStack {
+                                                    Image(systemName: "exclamationmark.triangle")
+                                                        .font(.largeTitle)
+                                                        .foregroundColor(.red)
+                                                    Text("Failed to load image")
+                                                        .foregroundColor(.secondary)
+                                                }
+                                                .frame(height: 300)
+                                            @unknown default:
+                                                Text("No joint documents")
+                                            }
+                                        }
+                                    } else {
+                                        Text("[DEBUG] Unsupported file extension: \(fileURL.lastPathComponent)")
+                                    }
+                                } else {
+                                    Text("[DEBUG] File does not exist at path: \(fileURL.path)")
+                                }
+                            }
+                        }
+                    }
                 }
                 .padding()
                 .background(.regularMaterial)
@@ -121,10 +232,61 @@ struct DetailNoteView: View {
                 .cornerRadius(16)
                 .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
                 
+                // Pomodoro study session button
+                Button {
+                    guard let uid = Auth.auth().currentUser?.uid else { return }
+                    let db = Firestore.firestore()
+                    db.collection("users")
+                        .document(uid).collection("learning_notes")
+                        .document(note.id ?? "noID").collection("sessions_on_note")
+                        .whereField("has_been_revised", isEqualTo: false)
+                        .getDocuments { snapshot, error in
+                            if let error = error {
+                                print("[DEBUG] Firestore query error: \(error.localizedDescription)")
+                                // fallback to show pomodoro if error
+                                pomodoroUserId = uid
+                                showPomodoro = true
+                            } else if let snapshot = snapshot, !snapshot.isEmpty {
+                                pomodoroUserId = uid
+                                showSessionRequired = true
+                            } else {
+                                pomodoroUserId = uid
+                                showPomodoro = true
+                            }
+                        }
+                } label: {
+                    Label("Study this set", systemImage: "timer")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .glassEffect()
+                        .tint(.accentColor)
+                }
+                .padding([.horizontal, .top])
+                
                 Spacer()
                     .frame(maxHeight: .infinity, alignment: .bottom)
             }
             .padding()
+            .fullScreenCover(isPresented: $showPomodoro) {
+                PomodoroTimerView(
+                    startSession: $showPomodoro,
+                    userWillStudy: .constant(note.text),
+                    userId: $pomodoroUserId, noteId: .constant(note.id ?? "none")
+                ).onDisappear {
+                    promptAutoTest = true
+                    
+                }
+            }
+            .fullScreenCover(isPresented: $promptAutoTest) {
+                DelayedAutoTestView(noteId: note.id ?? "none")
+            }
+            .fullScreenCover(isPresented: $showSessionRequired) {
+                QuizView()
+                    .onDisappear {
+                        showPomodoro = true
+                    }
+            }
             
         }
         .onAppear(perform: {
@@ -145,6 +307,51 @@ struct DetailNoteView: View {
     }
 }
 
+struct PDFKitView: UIViewRepresentable {
+    let url: URL
+    
+    func makeUIView(context: Context) -> PDFView {
+        let pdfView = PDFView()
+        pdfView.autoScales = true
+        pdfView.displayDirection = .vertical
+        pdfView.backgroundColor = .secondarySystemBackground
+        
+        print("[DEBUG] PDFKitView loading from URL: \(url)")
+        if let document = PDFDocument(url: url) {
+            print("[DEBUG] PDF document loaded successfully")
+            pdfView.document = document
+        } else {
+            print("[DEBUG] Failed to load PDF document")
+        }
+        
+        return pdfView
+    }
+    
+    func updateUIView(_ uiView: PDFView, context: Context) {
+        // Nothing to update
+    }
+}
+
+struct JointScanPlaceholderView: View {
+    var body: some View {
+        VStack(spacing: 20) {
+            Image(systemName: "viewfinder.circle")
+                .resizable()
+                .scaledToFit()
+                .frame(width: 80, height: 80)
+                .foregroundColor(.accentColor)
+            Text("Joint Scan")
+                .font(.title)
+                .fontWeight(.bold)
+            Text("This is a placeholder for the joint scan of this learning note. Replace with actual scan functionality.")
+                .font(.body)
+                .multilineTextAlignment(.center)
+                .foregroundColor(.secondary)
+        }
+        .padding()
+    }
+}
+
 #Preview {
     DetailNoteView(note: LearningNote(
         category: "Sample Category",
@@ -157,6 +364,7 @@ struct DetailNoteView: View {
         reminder_2: false,
         reminder_3: false,
         reminder_4: false,
-        reminder_5: false
+        reminder_5: false,
+        documentURL: nil
     ))
 }

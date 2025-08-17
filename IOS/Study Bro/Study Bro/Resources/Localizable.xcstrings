@@ -4,6 +4,12 @@
     "..." : {
 
     },
+    "[DEBUG] File does not exist at path: %@" : {
+
+    },
+    "[DEBUG] Unsupported file extension: %@" : {
+
+    },
     "%@" : {
       "localizations" : {
         "de" : {
@@ -69,6 +75,9 @@
           }
         }
       }
+    },
+    "%lld pairs ready" : {
+
     },
     "• Once 7 days have data out of your last 7 days, your graph will appear here." : {
       "localizations" : {
@@ -349,6 +358,9 @@
         }
       }
     },
+    "Add a question" : {
+
+    },
     "Add friend" : {
       "localizations" : {
         "de" : {
@@ -407,6 +419,9 @@
           }
         }
       }
+    },
+    "Add or create your study questions 📝" : {
+
     },
     "All AI features unlocked." : {
 
@@ -501,6 +516,9 @@
         }
       }
     },
+    "Attach Document" : {
+
+    },
     "Begin the pomodoro timer" : {
       "localizations" : {
         "de" : {
@@ -589,6 +607,9 @@
       }
     },
     "Calendar" : {
+
+    },
+    "Camera access is required to scan documents. Please enable it in Settings." : {
 
     },
     "Cancel" : {
@@ -690,6 +711,9 @@
     "Check" : {
 
     },
+    "Check your answer" : {
+
+    },
     "Choose Pomodoro Mode" : {
 
     },
@@ -757,6 +781,12 @@
           }
         }
       }
+    },
+    "Correct answer" : {
+
+    },
+    "Correct!" : {
+
     },
     "Create an Account" : {
       "localizations" : {
@@ -1099,6 +1129,9 @@
         }
       }
     },
+    "Error: %@" : {
+
+    },
     "Etes-vous sur de vouloir vous déconnecter?" : {
       "localizations" : {
         "de" : {
@@ -1126,6 +1159,9 @@
           }
         }
       }
+    },
+    "Failed to load image" : {
+
     },
     "Find Friends" : {
       "localizations" : {
@@ -1211,6 +1247,12 @@
         }
       }
     },
+    "Finish session" : {
+
+    },
+    "Finish session?" : {
+
+    },
     "Flashcards" : {
 
     },
@@ -1277,6 +1319,9 @@
 
     },
     "Go Premium" : {
+
+    },
+    "Go to next unanswered question" : {
 
     },
     "Hi %@, let's work !" : {
@@ -1509,6 +1554,9 @@
     "If you want to become premium click on this button." : {
 
     },
+    "Import PDF" : {
+
+    },
     "Importance" : {
       "localizations" : {
         "de" : {
@@ -1565,10 +1613,22 @@
         }
       }
     },
+    "Incorrect answer. Correct answer is %@" : {
+
+    },
+    "Incorrect. Correct: %@" : {
+
+    },
     "iOS won’t let apps toggle Focus or mute other apps. This method uses your Shortcut + app-only controls." : {
 
     },
     "Items" : {
+
+    },
+    "Joint Scan" : {
+
+    },
+    "Jot down what you learned and their answers. The more you write, the better you'll remember!" : {
 
     },
     "Keep Subscription" : {
@@ -1688,6 +1748,9 @@
       }
     },
     "Load More" : {
+
+    },
+    "Loading questions..." : {
 
     },
     "Loading..." : {
@@ -2087,6 +2150,12 @@
     "No cards available" : {
 
     },
+    "No joint documents" : {
+
+    },
+    "No questions available." : {
+
+    },
     "No sessions yet" : {
       "localizations" : {
         "de" : {
@@ -2178,6 +2247,7 @@
       }
     },
     "Note category :" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2246,6 +2316,9 @@
 
     },
     "Open app Notification settings" : {
+
+    },
+    "Open Attached Document" : {
 
     },
     "Open Shortcuts" : {
@@ -2456,6 +2529,19 @@
         }
       }
     },
+    "Question" : {
+
+    },
+    "Question %lld of %lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Question %1$lld of %2$lld"
+          }
+        }
+      }
+    },
     "Quiet Mode" : {
 
     },
@@ -2487,7 +2573,11 @@
         }
       }
     },
+    "Quit Quiz?" : {
+
+    },
     "Quit session" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2516,6 +2606,7 @@
       }
     },
     "Quit session?" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2542,6 +2633,12 @@
           }
         }
       }
+    },
+    "Quit the quiz" : {
+
+    },
+    "Quit without saving or adding new values" : {
+
     },
     "Reset" : {
       "localizations" : {
@@ -2744,6 +2841,9 @@
           }
         }
       }
+    },
+    "Scan Document" : {
+
     },
     "Score: %lld" : {
 
@@ -3214,6 +3314,9 @@
         }
       }
     },
+    "Study this set" : {
+
+    },
     "Study Timer" : {
       "localizations" : {
         "de" : {
@@ -3312,6 +3415,9 @@
           }
         }
       }
+    },
+    "This is a placeholder for the joint scan of this learning note. Replace with actual scan functionality." : {
+
     },
     "Title" : {
       "localizations" : {
@@ -3639,6 +3745,9 @@
         }
       }
     },
+    "Write a maximum of questions about what you worked on and the answers to it." : {
+
+    },
     "Write here" : {
 
     },
@@ -3760,6 +3869,9 @@
         }
       }
     },
+    "You've completed all questions!" : {
+
+    },
     "You’ve completed four sessions." : {
       "localizations" : {
         "de" : {
@@ -3787,6 +3899,9 @@
           }
         }
       }
+    },
+    "Your answer" : {
+
     },
     "Your friends :" : {
       "localizations" : {

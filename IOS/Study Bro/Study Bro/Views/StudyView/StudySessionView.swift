@@ -62,7 +62,7 @@ struct StudySessionView: View {
                 MeditationPreWorkView(openMeditationView: $openMeditationView)
             }
             .sheet(isPresented: $startSession) {
-                PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId)
+                PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId, noteId: .constant(""))
             }
             .task {
                 Task {

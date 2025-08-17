@@ -22,7 +22,9 @@ struct LearningNote: Codable, Identifiable {
     var forthReminderDate: Date?
     var fifthReminderDate: Date?
 
-    init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, firstReminderDate: Date? = nil, secondReminderDate: Date? = nil, thirdReminderDate: Date? = nil, forthReminderDate: Date? = nil, fifthReminderDate: Date? = nil) {
+    var documentURL: String?
+
+    init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, firstReminderDate: Date? = nil, secondReminderDate: Date? = nil, thirdReminderDate: Date? = nil, forthReminderDate: Date? = nil, fifthReminderDate: Date? = nil, documentURL: String? = nil) {
         self.id = id
         self.category = category
         self.text = text
@@ -40,9 +42,10 @@ struct LearningNote: Codable, Identifiable {
         self.thirdReminderDate = thirdReminderDate
         self.forthReminderDate = forthReminderDate
         self.fifthReminderDate = fifthReminderDate
+        self.documentURL = documentURL
     }
 
-    init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, reminder_1: Bool = false, reminder_2: Bool = false, reminder_3: Bool = false, reminder_4: Bool = false, reminder_5: Bool = false, firstReminderDate: Date? = nil, secondReminderDate: Date? = nil, thirdReminderDate: Date? = nil, forthReminderDate: Date? = nil, fifthReminderDate: Date? = nil) {
+    init(id: String? = nil, category: String, text: String, importance: String, reviewCount: Int, nextReview: Date, createdAt: Date, reminder_1: Bool = false, reminder_2: Bool = false, reminder_3: Bool = false, reminder_4: Bool = false, reminder_5: Bool = false, firstReminderDate: Date? = nil, secondReminderDate: Date? = nil, thirdReminderDate: Date? = nil, forthReminderDate: Date? = nil, fifthReminderDate: Date? = nil, documentURL: String? = nil) {
         self.id = id
         self.category = category
         self.text = text
@@ -60,6 +63,7 @@ struct LearningNote: Codable, Identifiable {
         self.thirdReminderDate = thirdReminderDate
         self.forthReminderDate = forthReminderDate
         self.fifthReminderDate = fifthReminderDate
+        self.documentURL = documentURL
     }
 
     init?(document: DocumentSnapshot) {
@@ -110,6 +114,8 @@ struct LearningNote: Codable, Identifiable {
         } else {
             self.fifthReminderDate = nil
         }
+
+        self.documentURL = data["documentURL"] as? String
     }
 
     var dictionary: [String: Any] {
@@ -141,6 +147,10 @@ struct LearningNote: Codable, Identifiable {
         }
         if let fifthReminderDate = fifthReminderDate {
             dict["fifthReminderDate"] = Timestamp(date: fifthReminderDate)
+        }
+
+        if let documentURL = documentURL {
+            dict["documentURL"] = documentURL
         }
 
         return dict

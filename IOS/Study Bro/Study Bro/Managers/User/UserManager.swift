@@ -303,12 +303,13 @@ final class UserManager: ObservableObject {
         try await userDocument(userId: userId).setData(["username": username], merge: true)
     }
     
-    func addStudySessionRegisteredToUser(userId: String, studiedSubject: String, start: Date, end: Date) async throws {
+    func addStudySessionRegisteredToUser(userId: String, studiedSubject: String, start: Date, end: Date, noteId: String?) async throws {
         let data: [String: Any] = [
             "id": userId,
             "session_start": start,
             "session_end": end,
-            "studied_subject": studiedSubject
+            "studied_subject": studiedSubject,
+            "session_linked_to_note": noteId ?? "none"
         ]
         
         print("userid 2: \(userId)")

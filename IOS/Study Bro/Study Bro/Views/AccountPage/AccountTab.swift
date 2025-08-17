@@ -353,11 +353,3 @@ struct AccountViewSub: View {
     
 }
 
-struct PomodoroTimerViewWrapper: View {
-    @State private var startSession = false
-    @State private var userWillStudy = ""
-    @State private var userId = ""
-    var body: some View {
-        PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId)
-    }
-}

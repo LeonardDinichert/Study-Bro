@@ -13,8 +13,10 @@ final class NotesManager {
         userCollection.document(userId).collection("learning_notes")
     }
 
-    func addNote(_ note: LearningNote, userId: String) async throws {
-        try await notesCollection(userId: userId).addDocument(data: note.dictionary)
+    func addNote(_ note: LearningNote, userId: String) async throws -> String {
+        let docRef = try await notesCollection(userId: userId).addDocument(data: note.dictionary)
+        try await docRef.updateData(["id": docRef.documentID])
+        return docRef.documentID
     }
 
     func fetchNotes(userId: String) async throws -> [LearningNote] {
