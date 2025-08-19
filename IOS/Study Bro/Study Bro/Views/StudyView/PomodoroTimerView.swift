@@ -149,7 +149,7 @@ struct PomodoroTimerView: View {
                         if newValue {
                             // started
                             if startTime == nil { startTime = now }
-                            scheduleNotification()
+                            // Removed scheduleNotification call from isRunning change to avoid premature notifications
                         } else {
                             // paused
                             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -166,9 +166,7 @@ struct PomodoroTimerView: View {
                         } else if autoActivateWorkFocus {
                             deactivateWorkFocusIfNeeded()
                         }
-                        if phase != .congratulations {
-                            scheduleNotification()
-                        }
+                        // Removed scheduleNotification call from phase change to schedule notifications only in completePhase()
                     }
                     .onAppear {
                         
@@ -393,9 +391,10 @@ struct PomodoroTimerView: View {
 
     private func completePhase() {
         isRunning = false
+        let end = now
+        
         if phase == .work {
             workCount += 1
-            let end = now
             Task {
                 do {
                     try await UserManager
@@ -413,29 +412,77 @@ struct PomodoroTimerView: View {
                 }
             }
         }
+        
+        // Determine next phase and schedule notifications appropriately
         switch phase {
         case .work:
-            phase = workCount < totalWorkSessions ? .shortBreak : .congratulations
+            let nextPhase: Phase = workCount < totalWorkSessions ? .shortBreak : .congratulations
+            phase = nextPhase
+            // Schedule notification only if traditional (25-min) work session ending and transitioning to break
+            if modeSelection == .traditional && nextPhase == .shortBreak {
+                // Scheduling "Time to rest" notification for short break start
+                scheduleNotification(for: .shortBreak)
+            }
+            else if modeSelection == .traditional && nextPhase == .congratulations {
+                // No notification here; congrats screen shows, longBreak will be next
+                // No notification scheduled here to avoid premature notification
+            }
+            
         case .shortBreak:
             phase = .work
+            // Schedule "Time to work" notification after short break ends
+            scheduleNotification(for: .work)
+            
         case .congratulations:
             isRunning = false
             showCongrats = true
+            // Notification scheduling will happen when user continues to long break
+            
         case .longBreak:
             workCount = 0
             phase = .work
+            // Schedule "Time to work" notification after long break ends
+            scheduleNotification(for: .work)
         }
     }
 
-    private func scheduleNotification() {
+    // Modified scheduleNotification to accept phase and send proper notification titles/messages
+    private func scheduleNotification(for phase: Phase) {
+        // Only schedule notifications for specific cases:
+        // - Work phase: notify "Time to work"
+        // - ShortBreak or LongBreak phase AND traditional mode: notify "Time to rest"
+        
+        // Determine if notification should be scheduled
+        let mode = modeSelection ?? .traditional
+        
+        var title: String?
+        
+        switch phase {
+        case .work:
+            title = "Time to work"
+        case .shortBreak, .longBreak:
+            if mode == .traditional {
+                title = "Time to rest"
+            } else {
+                // For double mode, do not schedule notifications for breaks
+                title = nil
+            }
+        case .congratulations:
+            // No notification for congratulations phase
+            title = nil
+        }
+        
+        guard let notificationTitle = title else { return } // No notification needed
+        
+        // Calculate the remaining time interval until notification
         let interval = TimeInterval(max(currentDuration - elapsedSeconds, 0))
         guard interval > 0 else { return }  // Prevent invalid 0-second trigger
-
+        
         let center = UNUserNotificationCenter.current()
         center.requestAuthorization(options: [.alert, .sound]) { _, _ in }
 
         let content = UNMutableNotificationContent()
-        content.title = phase == .work ? "Work completed" : "Time to work"
+        content.title = notificationTitle
         content.sound = .default
 
         let trigger = UNTimeIntervalNotificationTrigger(timeInterval: interval, repeats: false)
