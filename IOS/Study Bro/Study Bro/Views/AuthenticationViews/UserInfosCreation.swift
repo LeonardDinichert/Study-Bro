@@ -352,6 +352,14 @@ struct moreInfoAboutUser: View {
                 }
                 return
             }
+            
+            let isUsernameTaken = try await UserManager.shared.checkUsernameExists(username: username)
+            
+            if isUsernameTaken {
+                self.missingFields = ["Username is already taken"]
+                self.displayNotFilledAlert = true
+            }
+            
 
             // Batch user information (with age, profileImageURL, discoverySource, usagePurpose)
             var data: [String: Any] = [

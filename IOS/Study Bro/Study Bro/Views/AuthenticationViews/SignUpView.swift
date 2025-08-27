@@ -145,6 +145,11 @@ struct SignUpView: View {
 
     func signUpWithEmail() async {
         do {
+            let isEmailAlreadyInUse = try await UserManager.shared.checkEmailExists(email: viewModel.email)
+            if isEmailAlreadyInUse {
+                viewModel.errorMessage = "An account with this email already exists."
+                return
+            }
             try await viewModel.signUp()
         } catch {
             viewModel.errorMessage = error.localizedDescription

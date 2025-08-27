@@ -26,6 +26,8 @@ struct AddNoteView: View {
     @State private var alertMessage = ""
     @State private var showCameraPermissionAlert = false
     
+
+    
     enum Importance: String, CaseIterable, Identifiable {
         case low = "Low", medium = "Medium", high = "High"
         var id: String { rawValue }
@@ -198,6 +200,7 @@ struct AddNoteView: View {
                 Task { await loadUserCategories() }
             }
         }
+        
     }
     
     // MARK: - PDF creation helper
@@ -271,17 +274,6 @@ struct AddNoteView: View {
         UNUserNotificationCenter.current().add(req)
     }
 
-    private func scheduleImmediate(body: String, id: String) {
-        let content = UNMutableNotificationContent()
-        content.title = "Study Bro"
-        content.body = body
-        content.sound = .default
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let req = UNNotificationRequest(identifier: id, content: content, trigger: trigger)
-        UNUserNotificationCenter.current().add(req)
-    }
-
     // MARK: - Save
     func save() async {
         guard let userId = Auth.auth().currentUser?.uid else {
@@ -290,14 +282,16 @@ struct AddNoteView: View {
         }
 
         let now = Date()
-        let offsets: [(value: Int, component: Calendar.Component)] = [
-            (1, .day),          // +1 day
-            (4, .day),          // +4 days
-            (1, .weekOfYear),   // +1 week
-            (1, .month),        // +1 month
-            (4, .month)         // +4 months
-        ]
-        let reminderDates = offsets.compactMap { Calendar.current.date(byAdding: $0.component, value: $0.value, to: now) }
+        let offsets: [TimeInterval]
+        switch importance {
+        case .high:
+            offsets = [1*24*60*60.0, 7*24*60*60.0, 30*24*60*60.0, 90*24*60*60.0, 180*24*60*60.0] // 1d, 1w, 1m, 3m, 6m
+        case .medium:
+            offsets = [1*24*60*60.0, 7*24*60*60.0, 30*24*60*60.0] // 1d, 1w, 1m
+        case .low:
+            offsets = [1*24*60*60.0, 7*24*60*60.0] // 1d, 1w
+        }
+        let reminderDates = offsets.compactMap { Calendar.current.date(byAdding: .second, value: Int($0), to: now) }
         
         // Upload document if available and get URL string using new StorageManager methods
         var documentURLString: String? = nil
@@ -351,10 +345,8 @@ struct AddNoteView: View {
 
             if await ensureNotificationAuth(),
                !learned.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                let baseId = "learningnote-\(userId)-\(now.timeIntervalSince1970)"
-                scheduleImmediate(body: learned, id: "\(baseId)-now")
                 for (idx, date) in reminderDates.enumerated() {
-                    scheduleLocalNotification(body: learned, at: date, id: "\(baseId)-\(idx+1)")
+                    scheduleLocalNotification(body: learned, at: date, id: "\(noteId)-\(idx+1)")
                 }
             }
 
@@ -450,4 +442,3 @@ struct DocumentScannerView: UIViewControllerRepresentable {
 #Preview {
     AddNoteView(isPresented: .constant(true))
 }
-

@@ -12,6 +12,7 @@ import FirebaseAuth
 import UserNotifications
 import StripePaymentSheet
 import FirebaseAppCheck
+import Combine
 
 class ProviderFactory: NSObject, AppCheckProviderFactory {
     func createProvider(with app: FirebaseApp) -> AppCheckProvider? {
@@ -117,6 +118,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate,
     ) {
         let userInfo = response.notification.request.content.userInfo
         print("Tapped notification with userInfo:", userInfo)  // :contentReference[oaicite:13]{index=13}
+        
+        // Deep link to Learn tab if notification requests it
+        if let openTab = userInfo["open_tab"] as? String, openTab == "learn" {
+            UserDefaults.standard.set("learn", forKey: "deepLinkTab")
+        }
+        
+        if let noteID = userInfo["note_id"] as? String {
+            UserDefaults.standard.set(noteID, forKey: "deepLinkNoteID")
+        }
+        
+        if let reminderNumber = userInfo["reminder_number"] as? Int {
+            UserDefaults.standard.set(reminderNumber, forKey: "deepLinkReminderNumber")
+        } else if let reminderNumberStr = userInfo["reminder_number"] as? String, let reminderNumber = Int(reminderNumberStr) {
+            UserDefaults.standard.set(reminderNumber, forKey: "deepLinkReminderNumber")
+        }
+        
         completionHandler()
     }
 
@@ -134,6 +151,9 @@ struct MainInterfaceView: View {
 
     @AppStorage("showSignInView") private var showSignInView = true
     @AppStorage("useDarkMode") private var useDarkMode = false
+    @AppStorage("deepLinkTab") private var deepLinkTab: String = ""
+    @AppStorage("deepLinkNoteID") private var deepLinkNoteID: String = ""
+    @AppStorage("deepLinkReminderNumber") private var deepLinkReminderNumber: Int = 0
     @State private var selectedTab: Tab = .home
     @State private var haptic = UIImpactFeedbackGenerator(style: .medium)
 
@@ -162,7 +182,7 @@ struct MainInterfaceView: View {
                     .tag(Tab.chatbot)
                 
 
-                LearnedSomethingView()
+                LearnedSomethingView(deepLinkNoteID: deepLinkNoteID, reminderNumber: deepLinkReminderNumber)
                     .tabItem { Label("Learn", systemImage: "graduationcap.fill") }
                     .tag(Tab.learnedSomething)
 
@@ -176,11 +196,25 @@ struct MainInterfaceView: View {
             .onChange(of: selectedTab) {
                 haptic.impactOccurred()
             }
+            .onChange(of: deepLinkTab) { _, newValue in
+                if deepLinkTab == "learn" {
+                    selectedTab = .learnedSomething
+                    deepLinkTab = ""
+                    deepLinkReminderNumber = 0
+                }
+            }
+            .onChange(of: deepLinkNoteID) { _, newValue in
+                if !deepLinkNoteID.isEmpty {
+                    selectedTab = .learnedSomething
+                    deepLinkNoteID = ""
+                    deepLinkReminderNumber = 0
+                }
+            }
         }
     }
 }
 
-enum Tab {
+enum Tab: Hashable {
     case home
     case account
     case studySession

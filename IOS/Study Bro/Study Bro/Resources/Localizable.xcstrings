@@ -11,6 +11,7 @@
 
     },
     "%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -139,6 +140,12 @@
 
     },
     "<1 min" : {
+
+    },
+    "✅ Correct!" : {
+
+    },
+    "❌ Wrong. Correct answer:" : {
 
     },
     "🎉 Great job! 🎉" : {
@@ -330,6 +337,9 @@
         }
       }
     },
+    "Add a new note" : {
+
+    },
     "Add a profile picture" : {
       "localizations" : {
         "de" : {
@@ -421,6 +431,9 @@
       }
     },
     "Add or create your study questions 📝" : {
+
+    },
+    "Add some notes to get started learning!" : {
 
     },
     "All AI features unlocked." : {
@@ -676,6 +689,9 @@
           }
         }
       }
+    },
+    "Category %@" : {
+
     },
     "Change my email address" : {
 
@@ -997,6 +1013,9 @@
       }
     },
     "Deleting your account is irreversible. All your data will be permanently removed." : {
+
+    },
+    "Dismiss" : {
 
     },
     "Don't have an account yet?" : {
@@ -1464,6 +1483,9 @@
         }
       }
     },
+    "How to study well" : {
+
+    },
     "I am a demo test user" : {
       "localizations" : {
         "de" : {
@@ -1496,6 +1518,7 @@
 
     },
     "I learned something new" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1586,6 +1609,7 @@
       }
     },
     "Importance :%@" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -1612,6 +1636,9 @@
           }
         }
       }
+    },
+    "Importance %@" : {
+
     },
     "Incorrect answer. Correct answer is %@" : {
 
@@ -2153,6 +2180,12 @@
     "No joint documents" : {
 
     },
+    "No note loaded." : {
+
+    },
+    "No notes found." : {
+
+    },
     "No questions available." : {
 
     },
@@ -2274,6 +2307,9 @@
           }
         }
       }
+    },
+    "Note preview: %@" : {
+
     },
     "Notes" : {
 
@@ -2542,6 +2578,9 @@
         }
       }
     },
+    "Quick Quiz" : {
+
+    },
     "Quiet Mode" : {
 
     },
@@ -2755,7 +2794,11 @@
     "Restart" : {
 
     },
+    "Review Progress" : {
+
+    },
     "Review Schedule Graph" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -2903,6 +2946,9 @@
           }
         }
       }
+    },
+    "Select category" : {
+
     },
     "Session %lld of %lld" : {
       "localizations" : {
@@ -3348,6 +3394,9 @@
     "Studying branches" : {
 
     },
+    "Submit" : {
+
+    },
     "Subscribe" : {
 
     },
@@ -3479,6 +3528,9 @@
 
     },
     "Type here" : {
+
+    },
+    "Type your answer here" : {
 
     },
     "Unlock all AI features: smart tutoring, instant summaries, flashcards, OCR notes, and more." : {
@@ -3842,6 +3894,7 @@
 
     },
     "You remembered this note" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

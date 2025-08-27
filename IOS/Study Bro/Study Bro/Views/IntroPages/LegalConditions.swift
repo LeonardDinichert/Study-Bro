@@ -39,6 +39,37 @@ enum TermsLoader {
     }
 }
 
+// MARK: - Load localized Markdown for Study Techniques
+enum StudyTechniquesLoader {
+    static func loadLocalizedMarkdown() throws -> String {
+        let bundle = Bundle.main
+
+        // Try preferred localization, then base, then English as fallback
+        let tryOrder: [String?] = [Locale.current.language.languageCode?.identifier, nil, "en"]
+
+        for loc in tryOrder {
+            if let url = bundle.url(forResource: "Study Techniques", withExtension: "md",
+                                    subdirectory: nil, localization: loc)
+                ?? bundle.url(forResource: "Study Techniques", withExtension: "md") {
+                do {
+                    return try String(contentsOf: url, encoding: .utf8)
+                } catch {
+                    // Fallback encodings if file isn't UTF-8
+                    let data = try Data(contentsOf: url)
+                    if let s = String(data: data, encoding: .utf8)
+                        ?? String(data: data, encoding: .isoLatin1) {
+                        return s
+                    }
+                    throw error
+                }
+            }
+        }
+
+        throw NSError(domain: "study_techniques", code: 404,
+                      userInfo: [NSLocalizedDescriptionKey: "study_techniques.md not found in bundle/localizations"])
+    }
+}
+
 // MARK: - Parse Markdown -> AttributedString
 enum TermsParser {
     static func parse(_ markdown: String) throws -> AttributedString {

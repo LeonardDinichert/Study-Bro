@@ -1,7 +1,7 @@
 import Foundation
 import FirebaseFirestore
 
-struct LearningNote: Codable, Identifiable {
+struct LearningNote: Codable, Identifiable, Equatable {
     var id: String?
 
     let category: String

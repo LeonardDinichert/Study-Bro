@@ -304,6 +304,16 @@ struct PomodoroTimerView: View {
                     // Portrait: original VStack
                     VStack(spacing: 24) {
                         timerCard.frame(width: 300, height: 300)
+                        
+                            NavigationLink(destination: StudyTipsView()) {
+                                Label("How to study well", systemImage: "info.circle")
+                                    .font(.footnote)
+                                    .foregroundColor(.accentColor)
+                                    .padding(.bottom, 4)
+                            }
+                            .padding()
+                            .glassEffect()
+                        
                         HStack(spacing: 60) {
                             ControlButton(systemName: isRunning ? "pause.fill" : "play.fill") {
                                 isRunning.toggle()

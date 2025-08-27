@@ -416,6 +416,20 @@ final class UserManager: ObservableObject {
             DBUser.CodingKeys.lastConnection.rawValue: Timestamp(date: date)
         ], merge: true)
     }
+    
+    func checkUsernameExists(username: String?) async throws -> Bool {
+        guard let username = username, !username.isEmpty else { return false }
+        let query = userCollection.whereField("username", isEqualTo: username)
+        let snapshot = try await query.limit(to: 1).getDocuments()
+        return !snapshot.documents.isEmpty
+    }
+
+    func checkEmailExists(email: String?) async throws -> Bool {
+        guard let email = email, !email.isEmpty else { return false }
+        let query = userCollection.whereField("email", isEqualTo: email)
+        let snapshot = try await query.limit(to: 1).getDocuments()
+        return !snapshot.documents.isEmpty
+    }
 }
 
 // MARK: - UserManagerViewModel
@@ -515,3 +529,4 @@ final class userManagerViewModel: ObservableObject {
 extension DBUser: Identifiable {
     public var id: String { userId }
 }
+
