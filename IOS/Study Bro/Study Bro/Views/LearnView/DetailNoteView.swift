@@ -59,8 +59,7 @@ struct DetailNoteView: View {
     
     var body: some View {
         ZStack {
-            warmGradient
-                .ignoresSafeArea()
+
             ScrollView {
                 
                 VStack(spacing: 32) {

@@ -4,6 +4,9 @@
     "..." : {
 
     },
+    "\"%@\"" : {
+
+    },
     "[DEBUG] File does not exist at path: %@" : {
 
     },
@@ -250,6 +253,9 @@
         }
       }
     },
+    "Accepted" : {
+
+    },
     "Account" : {
       "localizations" : {
         "de" : {
@@ -307,6 +313,9 @@
       }
     },
     "Add “Work Focus On” Shortcut" : {
+
+    },
+    "Add a message (optional)" : {
 
     },
     "Add a new friend" : {
@@ -1306,6 +1315,9 @@
         }
       }
     },
+    "Friend" : {
+
+    },
     "Friends" : {
       "localizations" : {
         "de" : {
@@ -1333,6 +1345,9 @@
           }
         }
       }
+    },
+    "From: %@" : {
+
     },
     "Go premium" : {
 
@@ -1577,6 +1592,12 @@
     "If you want to become premium click on this button." : {
 
     },
+    "Ignore" : {
+
+    },
+    "Ignored" : {
+
+    },
     "Import PDF" : {
 
     },
@@ -1638,6 +1659,9 @@
       }
     },
     "Importance %@" : {
+
+    },
+    "Incoming Shared Notes" : {
 
     },
     "Incorrect answer. Correct answer is %@" : {
@@ -2311,6 +2335,9 @@
     "Note preview: %@" : {
 
     },
+    "Note sent!" : {
+
+    },
     "Notes" : {
 
     },
@@ -2950,6 +2977,18 @@
     "Select category" : {
 
     },
+    "Send" : {
+
+    },
+    "Send %@ to a friend" : {
+
+    },
+    "Send Note" : {
+
+    },
+    "Sent: %@" : {
+
+    },
     "Session %lld of %lld" : {
       "localizations" : {
         "de" : {
@@ -3039,6 +3078,12 @@
           }
         }
       }
+    },
+    "Share with Friends" : {
+
+    },
+    "Shared Notes" : {
+
     },
     "Short Break" : {
       "localizations" : {

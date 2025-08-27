@@ -13,7 +13,7 @@ import Combine
 import FirebaseAuth
 import FirebaseMessaging
 
-struct DBUser: Codable {
+struct DBUser: Codable, Hashable {
     // MARK: - Properties
 
     let userId: String
@@ -229,6 +229,10 @@ struct DBUser: Codable {
         if let stripeSubscriptionId = stripeSubscriptionId { dict[CodingKeys.stripeSubscriptionId.rawValue] = stripeSubscriptionId }
         return dict
     }
+    
+    static func == (lhs: DBUser, rhs: DBUser) -> Bool { lhs.userId == rhs.userId }
+
+    func hash(into hasher: inout Hasher) { hasher.combine(userId) }
 }
 
 final class UserManager: ObservableObject {

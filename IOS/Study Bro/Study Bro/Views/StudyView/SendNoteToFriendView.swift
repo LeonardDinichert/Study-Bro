@@ -61,3 +61,4 @@ struct SendNoteToFriendView: View {
         isSending = false
     }
 }
+
