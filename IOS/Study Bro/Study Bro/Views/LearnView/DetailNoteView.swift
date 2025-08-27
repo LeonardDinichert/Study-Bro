@@ -197,6 +197,20 @@ struct DetailNoteView: View {
                     .cornerRadius(16)
                     .shadow(color: Color.black.opacity(0.1), radius: 6, x: 0, y: 3)
                     
+                    Button {
+                        showSendSheet = true
+                    } label: {
+                        Label("Share with Friends", systemImage: "person.2.fill")
+                            .font(.headline)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.orange.opacity(0.25))
+                            .foregroundColor(.orange)
+                            .cornerRadius(12)
+                            .shadow(color: Color.orange.opacity(0.08), radius: 4, x: 0, y: 2)
+                    }
+                    .padding(.vertical, 4)
+                    
                     // Review Schedule Graph Section
                     
                     VStack(spacing: 16) {
