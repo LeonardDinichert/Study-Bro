@@ -33,6 +33,12 @@ struct LearnedSomethingView: View {
     
     @State private var showIncomingShares = false
     
+    @State private var lastAcceptedNoteId: String? = nil
+    @State private var showSetImportanceSheet: Bool = false
+
+
+
+    
     @Environment(\.scenePhase) private var scenePhase
     
     init(deepLinkNoteID: String? = nil, reminderNumber: Int = 0) {
@@ -67,6 +73,25 @@ struct LearnedSomethingView: View {
     private let gridColumns = [
         GridItem(.adaptive(minimum: 200), spacing: 16)
     ]
+    
+//    private var flashcardDeck: Deck? {
+//        let cards = filteredNotes.map { note in
+//            Card(
+//                id: note.id ?? UUID().uuidString,
+//                front: note.category,          // or a question/title if you have one
+//                back: note.text,               // the answer
+//                imageURL: nil,
+//                audioLangCode: nil,
+//                tags: [note.category],
+//                isStarred: false
+//            )
+//        }
+//        return cards.isEmpty ? nil : Deck(
+//            id: "deck-\(selectedCategory)",
+//            title: "Review • \(selectedCategory)",
+//            cards: cards
+//        )
+//    }
     
     var body: some View {
         NavigationStack {
@@ -183,12 +208,18 @@ struct LearnedSomethingView: View {
                     }
                     .accessibilityLabel("Incoming Shared Notes")
                 }
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: CardsView()) {
-                        Image(systemName: "rectangle.on.rectangle")
-                    }
-                    .accessibilityLabel("Flashcards")
-                }
+//                ToolbarItem(placement: .navigationBarTrailing) {
+//                    if let deck = flashcardDeck {
+//                        NavigationLink {
+//                            FlashcardStackView(deck: deck)
+//                        } label: {
+//                            Image(systemName: "rectangle.on.rectangle")
+//                        }
+//                    } else {
+//                        Image(systemName: "rectangle.on.rectangle").foregroundStyle(.secondary)
+//                            .accessibilityLabel("Flashcards")
+//                    }
+//                }
             }
             // DetailNoteView sheet for selected note
             .sheet(item: $selectedNote) { note in
@@ -212,7 +243,16 @@ struct LearnedSomethingView: View {
                 })
             }
             .sheet(isPresented: $showIncomingShares) {
-                IncomingSharedNotesView(viewModel: noteShareVM)
+                IncomingSharedNotesView(viewModel: noteShareVM, lastAcceptedNoteId: $lastAcceptedNoteId, showIncomingShares: $showIncomingShares, showSetImportanceSheet: $showSetImportanceSheet)
+            }
+            
+            .sheet(isPresented: $showSetImportanceSheet) {
+                if let noteId = lastAcceptedNoteId, let shareRequest = noteShareVM.incomingRequests.first(where: { $0.noteId == noteId }) {
+                    SetSharedNoteImportanceView(shareRequest: shareRequest) {
+                        showSetImportanceSheet = false
+                        lastAcceptedNoteId = nil
+                    }
+                }
             }
         }
         .onAppear {
@@ -351,7 +391,7 @@ struct QuickQuizPopup: View {
                     .textFieldStyle(.roundedBorder)
                     .padding(.horizontal)
                     .autocapitalization(.sentences)
-                if let wrong = wrongAnswer {
+                if wrongAnswer != nil {
                     Text("❌ Wrong. Correct answer:")
                         .foregroundColor(.red)
                     Text(note.text)

@@ -21,7 +21,7 @@ struct SendNoteToFriendView: View {
                         Text(friend.username ?? "No username").tag(Optional(friend))
                     }
                 }
-                .pickerStyle(.wheel)
+                .pickerStyle(.automatic)
                 .frame(height: 100)
                 .glassEffect()
                 TextField("Add a message (optional)", text: $message)
@@ -41,6 +41,11 @@ struct SendNoteToFriendView: View {
                 .disabled(selectedFriend == nil || isSending)
                 Spacer()
             }
+            .onAppear(perform: {
+                Task {
+                    try await friendsVM.load()
+                }
+            })
             .padding()
             .navigationTitle("Send Note")
             .toolbar { ToolbarItem(placement: .navigationBarLeading) { Button("Cancel", action: { dismiss() }) } }

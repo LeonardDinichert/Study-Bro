@@ -42,12 +42,12 @@
         }
       }
     },
-    "%lld / %lld" : {
+    "%@ %@" : {
       "localizations" : {
         "en" : {
           "stringUnit" : {
             "state" : "new",
-            "value" : "%1$lld / %2$lld"
+            "value" : "%1$@ %2$@"
           }
         }
       }
@@ -81,6 +81,9 @@
       }
     },
     "%lld pairs ready" : {
+
+    },
+    "•" : {
 
     },
     "• Once 7 days have data out of your last 7 days, your graph will appear here." : {
@@ -179,6 +182,12 @@
         }
       }
     },
+    "📅 Daily Study Log" : {
+
+    },
+    "📈 Study Streak & Session History" : {
+
+    },
     "🔥 %lld" : {
 
     },
@@ -252,6 +261,9 @@
           }
         }
       }
+    },
+    "Accept the Study Note" : {
+
     },
     "Accepted" : {
 
@@ -408,9 +420,6 @@
         }
       }
     },
-    "Add Item" : {
-
-    },
     "Add New Info" : {
       "localizations" : {
         "de" : {
@@ -445,7 +454,16 @@
     "Add some notes to get started learning!" : {
 
     },
+    "Again" : {
+
+    },
     "All AI features unlocked." : {
+
+    },
+    "All done" : {
+
+    },
+    "All Study Sessions" : {
 
     },
     "Already have an account?" : {
@@ -668,9 +686,6 @@
     "Cancel subscription?" : {
 
     },
-    "Cards" : {
-
-    },
     "Category" : {
       "localizations" : {
         "de" : {
@@ -869,6 +884,9 @@
         }
       }
     },
+    "Create session" : {
+
+    },
     "Create the Shortcut first" : {
 
     },
@@ -962,9 +980,6 @@
         }
       }
     },
-    "Definition" : {
-
-    },
     "Delete" : {
       "localizations" : {
         "de" : {
@@ -1022,6 +1037,12 @@
       }
     },
     "Deleting your account is irreversible. All your data will be permanently removed." : {
+
+    },
+    "Diagram" : {
+
+    },
+    "Diagram labeling" : {
 
     },
     "Dismiss" : {
@@ -1083,7 +1104,16 @@
         }
       }
     },
+    "Done for now" : {
+
+    },
     "Double Pomodoro (50/10)" : {
+
+    },
+    "Each bar represents the total minutes you worked on that day. Scroll for more days." : {
+
+    },
+    "Easy" : {
 
     },
     "Edit Profile" : {
@@ -1123,7 +1153,7 @@
     "Enable Work Focus now" : {
 
     },
-    "Enjoy unlimited tutoring, summaries, OCR, and smart revision." : {
+    "Enjoy smart revision." : {
 
     },
     "Enter username" : {
@@ -1190,6 +1220,16 @@
     },
     "Failed to load image" : {
 
+    },
+    "Final score: %lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Final score: %1$lld/%2$lld"
+          }
+        }
+      }
     },
     "Find Friends" : {
       "localizations" : {
@@ -1281,6 +1321,9 @@
     "Finish session?" : {
 
     },
+    "First Review" : {
+
+    },
     "Flashcards" : {
 
     },
@@ -1356,6 +1399,12 @@
 
     },
     "Go to next unanswered question" : {
+
+    },
+    "Good" : {
+
+    },
+    "Hard" : {
 
     },
     "Hi %@, let's work !" : {
@@ -1592,10 +1641,10 @@
     "If you want to become premium click on this button." : {
 
     },
-    "Ignore" : {
+    "Ignored" : {
 
     },
-    "Ignored" : {
+    "Import" : {
 
     },
     "Import PDF" : {
@@ -1673,7 +1722,7 @@
     "iOS won’t let apps toggle Focus or mute other apps. This method uses your Shortcut + app-only controls." : {
 
     },
-    "Items" : {
+    "Join session" : {
 
     },
     "Joint Scan" : {
@@ -1742,6 +1791,9 @@
         }
       }
     },
+    "Learn (adaptive)" : {
+
+    },
     "Legal" : {
       "localizations" : {
         "de" : {
@@ -1769,6 +1821,9 @@
           }
         }
       }
+    },
+    "Live" : {
+
     },
     "Load more" : {
       "localizations" : {
@@ -1802,6 +1857,9 @@
 
     },
     "Loading questions..." : {
+
+    },
+    "Loading work sessions..." : {
 
     },
     "Loading..." : {
@@ -1981,6 +2039,9 @@
     "Manage your privacy settings and account information." : {
 
     },
+    "Match" : {
+
+    },
     "Me déconnecter" : {
       "localizations" : {
         "de" : {
@@ -2130,9 +2191,6 @@
         }
       }
     },
-    "New Set" : {
-
-    },
     "Next" : {
       "localizations" : {
         "de" : {
@@ -2194,9 +2252,6 @@
           }
         }
       }
-    },
-    "No cards" : {
-
     },
     "No cards available" : {
 
@@ -2273,6 +2328,12 @@
 
     },
     "No trophies yet" : {
+
+    },
+    "No valid work sessions found." : {
+
+    },
+    "No work sessions found." : {
 
     },
     "Non" : {
@@ -2443,6 +2504,9 @@
         }
       }
     },
+    "Parse" : {
+
+    },
     "Password reset" : {
       "localizations" : {
         "de" : {
@@ -2470,6 +2534,9 @@
           }
         }
       }
+    },
+    "Paste CSV/TSV/CSV" : {
+
     },
     "Plan" : {
 
@@ -2706,6 +2773,9 @@
     "Quit without saving or adding new values" : {
 
     },
+    "Quizlet-like Live" : {
+
+    },
     "Reset" : {
       "localizations" : {
         "de" : {
@@ -2818,9 +2888,6 @@
         }
       }
     },
-    "Restart" : {
-
-    },
     "Review Progress" : {
 
     },
@@ -2881,6 +2948,9 @@
         }
       }
     },
+    "Save & Continue" : {
+
+    },
     "Save Changes" : {
 
     },
@@ -2915,8 +2985,15 @@
     "Scan Document" : {
 
     },
-    "Score: %lld" : {
-
+    "Score: %lld/%lld" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Score: %1$lld/%2$lld"
+          }
+        }
+      }
     },
     "Security and privacy" : {
       "localizations" : {
@@ -2945,6 +3022,12 @@
           }
         }
       }
+    },
+    "See all my work time" : {
+
+    },
+    "See all your study sessions as a graph" : {
+
     },
     "See past sessions" : {
       "localizations" : {
@@ -2975,6 +3058,9 @@
       }
     },
     "Select category" : {
+
+    },
+    "Select Importance" : {
 
     },
     "Send" : {
@@ -3051,6 +3137,22 @@
         }
       }
     },
+    "Session: %@ • %@" : {
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "Session: %1$@ • %2$@"
+          }
+        }
+      }
+    },
+    "Set First Review Date" : {
+
+    },
+    "Set Note Details" : {
+
+    },
     "Settings" : {
       "localizations" : {
         "de" : {
@@ -3113,7 +3215,7 @@
         }
       }
     },
-    "Shuffle" : {
+    "Show answer" : {
 
     },
     "Sign in / Create an account" : {
@@ -3228,7 +3330,10 @@
         }
       }
     },
-    "Spell the word you hear" : {
+    "Start a study session to see your progress, or check that your session times are correct!" : {
+
+    },
+    "Start a study session to see your progress!" : {
 
     },
     "Start Monthly" : {
@@ -3265,6 +3370,9 @@
         }
       }
     },
+    "Streak & History" : {
+
+    },
     "Streak: %lld" : {
       "localizations" : {
         "de" : {
@@ -3292,6 +3400,9 @@
           }
         }
       }
+    },
+    "Streak: %lld days" : {
+
     },
     "Study" : {
       "localizations" : {
@@ -3476,7 +3587,7 @@
         }
       }
     },
-    "Term" : {
+    "Test" : {
 
     },
     "Thank you for using Study Bro!" : {
@@ -3510,10 +3621,14 @@
         }
       }
     },
+    "This graph shows every day you've worked. Each bar represents your total study time for that day, even if you did multiple sessions. Below, you can see a list of all the days you've studied and exactly how much time you spent." : {
+
+    },
     "This is a placeholder for the joint scan of this learning note. Replace with actual scan functionality." : {
 
     },
     "Title" : {
+      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -3572,7 +3687,10 @@
     "Traditional Pomodoro (25/5)" : {
 
     },
-    "Type here" : {
+    "Trophies:" : {
+
+    },
+    "Type answer" : {
 
     },
     "Type your answer here" : {
@@ -3611,6 +3729,9 @@
           }
         }
       }
+    },
+    "View details for %@" : {
+
     },
     "We'll send you an email with instructions on how to reset it." : {
       "localizations" : {
@@ -3842,10 +3963,10 @@
         }
       }
     },
-    "Write a maximum of questions about what you worked on and the answers to it." : {
+    "Write" : {
 
     },
-    "Write here" : {
+    "Write a maximum of questions about what you worked on and the answers to it." : {
 
     },
     "Yearly" : {
@@ -4112,6 +4233,9 @@
           }
         }
       }
+    },
+    "Your Study Sessions Over Time" : {
+
     },
     "Your trophies : " : {
 

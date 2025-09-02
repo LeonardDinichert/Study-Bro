@@ -42,7 +42,7 @@ struct SubscribeView: View {
             }
         }
         .toolbar {
-            ToolbarItem(placement: .navigationBarTrailing) {
+            ToolbarItem(placement: .topBarTrailing) {
                 Button(action: { dismiss() }) {
                     Image(systemName: "xmark")
                 }
@@ -54,7 +54,12 @@ struct SubscribeView: View {
             Task { try await userViewModel.loadCurrentUser() }
         }
         .alert("Subscription", isPresented: $showAlert, presenting: viewModel.statusMessage) { _ in } message: { Text($0) }
-        .onChange(of: viewModel.statusMessage) { _, newMessage in showAlert = newMessage != nil }
+        .onChange(of: viewModel.statusMessage) {
+            _, newMessage in showAlert = newMessage != nil
+            if viewModel.statusMessage == "Subscription successful." {
+                dismiss()
+            }
+        }
         .sheet(isPresented: $viewModel.isPaymentSheetPresented) {
             if let sheet = viewModel.paymentSheet {
                 PaymentSheetHost(paymentSheet: sheet) { result in
@@ -181,7 +186,7 @@ struct SubscribeView: View {
     @ViewBuilder private func premiumActions(user: DBUser) -> some View {
         VStack(spacing: 14) {
             Text("All AI features unlocked.").font(.headline)
-            Text("Enjoy unlimited tutoring, summaries, OCR, and smart revision.")
+            Text("Enjoy smart revision.")
                 .font(.subheadline).foregroundStyle(.secondary)
             if let subId = user.stripeSubscriptionId {
                 Button("Manage Subscription") { viewModel.showManage = true }

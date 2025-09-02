@@ -105,11 +105,9 @@ struct SignUpView: View {
                     .padding(.horizontal)
                     
                     // Sign Up with Apple
-                    Button {
+                    SignInWithAppleButtonViewRepresentable(type: .signUp, style: .black, onTap: {
                         Task { await signUpWithApple() }
-                    } label: {
-                        SignInWithAppleButtonViewRepresentable(type: .signUp, style: .black)
-                    }
+                    })
                     .frame(height: 50)
                     .padding(.horizontal)
                     .onChange(of: appleVM.didSignInWithApple) { _, newValue in
@@ -167,7 +165,7 @@ struct SignUpView: View {
     
     func signUpWithApple() async {
         
-        appleVM.signUpWithApple()
+        await appleVM.signUpWithApple()
         signUpSuccessful = true
         
     }

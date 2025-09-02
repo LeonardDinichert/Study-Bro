@@ -50,14 +50,23 @@ class NoteSharingManager: ObservableObject {
     }
     /// Marks a request as accepted (updates both sender and recipient doc)
     func acceptNoteShare(request: NoteShareRequest) async throws {
-        try await updateShareRequestStatus(request: request, accepted: true)
+        try await updateShareRequestStatusAccepted(request: request)
     }
     /// Marks a request as ignored (updates both sender and recipient doc)
     func ignoreNoteShare(request: NoteShareRequest) async throws {
-        try await updateShareRequestStatus(request: request, accepted: false)
+        try await updateShareRequestStatusRejected(request: request)
     }
-    private func updateShareRequestStatus(request: NoteShareRequest, accepted: Bool) async throws {
-        let update: [String: Any] = ["accepted": accepted]
+    
+    private func updateShareRequestStatusAccepted(request: NoteShareRequest) async throws {
+        let update: [String: Any] = ["accepted": true]
+        // Update sender document first, then recipient document to ensure consistent update order for data integrity
+        try await requestsCollection(senderId: request.senderId).document(request.requestId).updateData(update)
+        try await incomingCollection(userId: request.recipientId).document(request.requestId).updateData(update)
+
+    }
+    
+    private func updateShareRequestStatusRejected(request: NoteShareRequest) async throws {
+        let update: [String: Bool] = ["accepted": false]
         try await requestsCollection(senderId: request.senderId).document(request.requestId).updateData(update)
         try await incomingCollection(userId: request.recipientId).document(request.requestId).updateData(update)
     }

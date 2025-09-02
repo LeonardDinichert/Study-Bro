@@ -9,14 +9,16 @@ import SwiftUI
 import Charts
 
 struct HomeTab: View {
-
+    
     @StateObject private var viewModel = userManagerViewModel()
     @StateObject private var notesViewModel = NotesViewModel()
     @StateObject private var statsModel = StatsViewModel()
-
+    
     @Binding var selectedTab: Tab
     @AppStorage("showSignInView") private var showSignInView: Bool = true
-
+    
+    
+    
     
     var body: some View {
         NavigationStack {
@@ -60,7 +62,7 @@ struct HomeTab: View {
                 
                 
             }
-
+            
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItemGroup(placement: .navigationBarTrailing) {
@@ -76,9 +78,9 @@ struct HomeTab: View {
         .onAppear {
             Task {
                 try await viewModel.loadCurrentUser()
-
+                
                 await statsModel.load()
-
+                
                 await viewModel.loadLeaderboard()
                 scheduleReminder()
             }
@@ -105,8 +107,8 @@ struct HomeTabSubView: View {
     
     @StateObject private var statsModel = StatsViewModel()
     @StateObject private var trophiesVm = TrophiesViewModel()
-
-
+    
+    
     let user: DBUser
     
     private let dateFormatter: DateFormatter = {
@@ -176,6 +178,8 @@ struct HomeTabSubView: View {
             }
             
             VStack(spacing: 8) {
+                // Tap chart to see all days ever worked
+                
                 Chart {
                     ForEach(Array(lastSevenDays.enumerated()), id: \.offset) { index, day in
                         BarMark(
@@ -191,6 +195,9 @@ struct HomeTabSubView: View {
                 .chartYAxisLabel("Minutes")
                 .frame(height: 200)
                 .padding(.horizontal, 16)
+                .accessibilityLabel("See all your study sessions as a graph")
+                .contentShape(Rectangle())
+                
             }
             .padding(.vertical, 16)
             .background {
@@ -198,6 +205,7 @@ struct HomeTabSubView: View {
                     .fill(.ultraThinMaterial)
             }
             .overlay(
+                
                 RoundedRectangle(cornerRadius: 20, style: .continuous)
                     .fill(
                         LinearGradient(
@@ -212,6 +220,22 @@ struct HomeTabSubView: View {
             )
             .padding(.horizontal, 16)
             .animation(.spring(), value: statsModel.streak)
+            
+            NavigationLink {
+                WorkSessionsGraphDetailView(userId: user.id)
+            } label: {
+                ZStack {
+                    
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(.ultraThinMaterial)
+                    
+                    Text("See all my work time")
+                        .foregroundStyle(.orange)
+                        .font(.title3.weight(.bold))
+                }
+                .padding()
+            }
+
             
             if !hasData {
                 VStack(alignment: .leading, spacing: 8) {
@@ -242,7 +266,7 @@ struct HomeTabSubView: View {
                             .imageScale(.medium)
                             .padding(6)
                             .contentShape(Rectangle())
-                    Spacer()
+                        Spacer()
                     }
                     .buttonStyle(.plain)
                     .accessibilityLabel("Add a new friend")
@@ -261,7 +285,7 @@ struct HomeTabSubView: View {
             .padding(.horizontal, 16)
             
             
-         Spacer()
+            Spacer()
             
         }
         .onAppear {
@@ -277,3 +301,4 @@ struct HomeTabSubView: View {
 #Preview {
     HomeTabSubView(user: DBUser(userId: "preview", username: "PreviewUser"))
 }
+

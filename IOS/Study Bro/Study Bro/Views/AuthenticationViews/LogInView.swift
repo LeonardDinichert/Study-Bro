@@ -90,15 +90,19 @@ struct LogInView: View {
                     }
                     .padding(.horizontal)
                     
-                    Button {
+                    SignInWithAppleButtonViewRepresentable(type: .signIn, style: .black, onTap: {
                         Task { await signUpWithApple() }
-                    } label: {
-                        SignInWithAppleButtonViewRepresentable(type: .signIn, style: .black)
-                    }
+                    })
                     .frame(height: 50)
                     .padding(.horizontal)
+                    // Only close the sign-in view when Firebase user is authenticated
                     .onChange(of: appleVM.didSignInWithApple) { _, newValue in
-                        if newValue { showSignInView = false }
+                        if newValue {
+                            // Double-check Firebase authentication before closing
+                            if Auth.auth().currentUser != nil {
+                                showSignInView = false
+                            }
+                        }
                     }
                     
                     // Navigation Links for Sign Up and Reset Password
@@ -149,9 +153,8 @@ struct LogInView: View {
     }
     
     func signUpWithApple() async {
-            appleVM.signUpWithApple()
-            self.showSignInView = false
-        
+        await appleVM.signUpWithApple()
+        // Removed showSignInView = false here to only close after confirmed authentication
     }
 }
 

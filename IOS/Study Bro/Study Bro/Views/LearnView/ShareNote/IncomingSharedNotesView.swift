@@ -1,8 +1,14 @@
 import SwiftUI
+import FirebaseAuth
 
 struct IncomingSharedNotesView: View {
     @ObservedObject var viewModel: NoteSharingViewModel
     @Environment(\.dismiss) private var dismiss
+    
+    @Binding var lastAcceptedNoteId: String?
+    @Binding var showIncomingShares: Bool
+    @Binding var showSetImportanceSheet: Bool
+
     
     var body: some View {
         NavigationStack {
@@ -31,19 +37,36 @@ struct IncomingSharedNotesView: View {
                                 .foregroundColor(.secondary)
                         }
                         .padding(.vertical, 4)
-                        HStack {
-                            if req.accepted == nil {
+                        if req.accepted == nil {
+                            HStack {
+                                
                                 Button(role: .none) {
-                                    Task { await viewModel.accept(req) }
-                                } label: { Label("Accept", systemImage: "checkmark") }
-                                Button(role: .destructive) {
-                                    Task { await viewModel.ignore(req) }
-                                } label: { Label("Ignore", systemImage: "slash.circle") }
-                            } else if req.accepted == true {
-                                Label("Accepted", systemImage: "hand.thumbsup.fill").foregroundColor(.green)
-                            } else {
-                                Label("Ignored", systemImage: "hand.thumbsdown").foregroundColor(.red)
+                                    Task {
+                                        await viewModel.accept(req)
+                                        showIncomingShares = false
+                                        lastAcceptedNoteId = req.noteId
+                                        showSetImportanceSheet = true
+                                    }
+                                } label: {
+                                    Text("Accept the Study Note")
+                                }
+                                
+//                                Button(role: .destructive) {
+//                                    Task {
+//                                        await viewModel.ignore(req)
+//                                        showIncomingShares = false
+//                                        print("clik r")
+//                                        
+//                                    }
+//                                } label: {
+//                                    Text("Ignore it")
+//                                    
+//                                }
                             }
+                        } else if req.accepted == true {
+                            Label("Accepted", systemImage: "hand.thumbsup.fill").foregroundColor(.green)
+                        } else {
+                            Label("Ignored", systemImage: "hand.thumbsdown").foregroundColor(.red)
                         }
                     }
                 }
@@ -56,3 +79,4 @@ struct IncomingSharedNotesView: View {
         }
     }
 }
+
