@@ -41,6 +41,8 @@ struct SubscribeView: View {
                 }
             }
         }
+        .presentationDetents([.large])
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button(action: { dismiss() }) {

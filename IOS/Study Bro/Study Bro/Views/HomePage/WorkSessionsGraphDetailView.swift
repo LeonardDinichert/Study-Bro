@@ -42,16 +42,7 @@ struct WorkSessionsGraphDetailView: View {
     
     // Helper function to print all sessions for diagnostics
     private func debugPrintSessions(_ sessions: [StudySession]) {
-        print("DEBUG: Printing all fetched sessions:")
-        for (index, session) in sessions.enumerated() {
-            let start = session.session_start
-            let end = session.session_end
-            let durationMinutes = (end.timeIntervalSince(start))/60
-            print("  Session[\(index)]: start=\(start), end=\(end), durationMinutes=\(durationMinutes), subject=\(session.studied_subject)")
-            if durationMinutes < 0 {
-                print("    WARNING: Negative duration detected!")
-            }
-        }
+        // Removed debug print statements
     }
     
     private func groupSessionsByDay(_ sessions: [StudySession]) -> [(day: Date, totalMinutes: Double)] {
@@ -63,9 +54,6 @@ struct WorkSessionsGraphDetailView: View {
             let validStart = calendar.isDate($0.session_start, equalTo: $0.session_start, toGranularity: .day)
             // Exclude zero/negative/near-zero durations (< 60 seconds)
             let isDurationValid = duration >= 60 && duration.isFinite // only sessions >=1 minute count for the graph
-            if !validStart || !isDurationValid {
-                print("DEBUG: Filtering out invalid session: start=\($0.session_start), end=\($0.session_end), duration=\(duration)")
-            }
             return validStart && isDurationValid
         }
         
@@ -75,9 +63,6 @@ struct WorkSessionsGraphDetailView: View {
             let total = sessions.reduce(0) { $0 + $1.duration/60 }
             // totalMinutes might be NaN or negative if data is bad, clamp to zero
             let totalMinutes = total.isFinite && total >= 0 ? total : 0
-            if total != totalMinutes {
-                print("DEBUG: Adjusted invalid totalMinutes for day \(day): from \(total) to \(totalMinutes)")
-            }
             return (day: day, totalMinutes: totalMinutes)
         }
         let sorted = mapped.sorted { a, b in a.day < b.day }
@@ -89,9 +74,6 @@ struct WorkSessionsGraphDetailView: View {
         // Filter out invalid daily totals before rendering chart
         let dailyTotals = dailyTotalsRaw.filter { entry in
             let valid = entry.totalMinutes.isFinite && entry.totalMinutes >= 0
-            if !valid {
-                print("DEBUG: Skipping invalid daily total for day \(entry.day), totalMinutes = \(entry.totalMinutes)")
-            }
             return valid
         }
         // Only entries with totalMinutes >= 1 should be shown on the chart,
@@ -184,49 +166,32 @@ struct WorkSessionsGraphDetailView: View {
     }
     
     private func loadSessions() {
-        print("[DEBUG] loadSessions: ENTRY (userId: '\(userId)')")
         assert(!userId.isEmpty, "userId should not be empty")
         
         isLoading = true
         errorMessage = nil
-        print("[DEBUG] loadSessions: Set isLoading = true, errorMessage = nil")
         
         let startTime = Date()
         Task {
             do {
-                print("[DEBUG] loadSessions: About to fetch sessions for userId: \(userId)")
                 let fetched = try await UserManager.shared.fetchStudySessions(userId: userId)
-                let fetchDuration = Date().timeIntervalSince(startTime)
-                print("[DEBUG] loadSessions: Fetch completed after \(fetchDuration)s, fetched.count = \(fetched.count)")
-
-                // Diagnostic printout of fetched sessions
-                debugPrintSessions(fetched)
 
                 await MainActor.run {
                     assert(Thread.isMainThread, "UI state updates must be on the main thread")
 
-                    print("[DEBUG] loadSessions: Updating state on MainActor")
                     self.sessions = fetched
                     self.isLoading = false
 
-                    print("[DEBUG] loadSessions: State updated, sessions count = \(self.sessions.count), isLoading = false")
-
                     if fetched.isEmpty {
-                        print("[DEBUG] loadSessions: No sessions found for userId \(userId)")
+                        // No sessions found
                     }
-                    print("[DEBUG] loadSessions: EXIT success path")
                 }
             } catch {
-                let fetchDuration = Date().timeIntervalSince(startTime)
-                print("[ERROR] loadSessions: Fetch failed after \(fetchDuration)s, error = \(error)")
                 await MainActor.run {
                     assert(Thread.isMainThread, "UI state updates must be on the main thread")
 
                     self.errorMessage = "Failed to load sessions: \(error.localizedDescription)"
                     self.isLoading = false
-
-                    print("[ERROR] loadSessions: Set errorMessage = \(self.errorMessage ?? "nil"), isLoading = false")
-                    print("[DEBUG] loadSessions: EXIT error path")
                 }
             }
         }
@@ -243,5 +208,4 @@ struct WorkSessionsGraphDetailView: View {
     return WorkSessionsGraphDetailView(userId: "preview", previewSessions: sampleSessions)
 }
 #endif
-
 

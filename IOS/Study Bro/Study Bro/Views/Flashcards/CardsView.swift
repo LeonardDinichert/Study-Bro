@@ -139,30 +139,58 @@ struct ImportService {
 // MARK: - Engines
 
 final class FlashcardsVM: ObservableObject {
-    @Published var idx = 0
     @Published var flipped = false
     @Published var deck: Deck
-    private var srs: [String: SRSState] = [:] // cardID → state
+    @Published var sessionDone = false
+
+    // immediate session queue of card indices
+    @Published private(set) var queue: [Int] = []
+    // per-card SRS states (in-memory here; persist to Firestore if needed)
+    private var srs: [String: SRSState] = [:]
+
     #if canImport(UIKit)
     let h = UIImpactFeedbackGenerator(style: .medium)
     #endif
 
     init(deck: Deck) {
         self.deck = deck
+        self.queue = Array(deck.cards.indices)
         self.srs = Dictionary(uniqueKeysWithValues: deck.cards.map { ($0.id, SRSState()) })
     }
 
+    var currentCard: Card? {
+        guard let i = queue.first else { return nil }
+        return deck.cards[i]
+    }
+
     func mark(_ r: ReviewResult) {
+        guard let i = queue.first else { sessionDone = true; return }
         #if canImport(UIKit)
         h.impactOccurred()
         #endif
-        guard deck.cards.indices.contains(idx) else { return }
-        let id = deck.cards[idx].id
+
+        // update SRS
+        let id = deck.cards[i].id
         if let prev = srs[id] { srs[id] = scheduleNext(from: prev, grade: r) }
+
+        // requeue policy
+        _ = queue.removeFirst()
+        switch r {
+        case .again:
+            let pos = min(2, queue.count)
+            queue.insert(i, at: pos)         // come back very soon
+        case .hard:
+            let pos = min(5, queue.count)
+            queue.insert(i, at: pos)         // later in the session
+        case .good, .easy:
+            break                             // learned for this session
+        }
+
         flipped = false
-        if idx < deck.cards.count - 1 { idx += 1 }
+        if queue.isEmpty { sessionDone = true }
     }
 }
+
 
 enum LearnStep { case preview, recall, feedback }
 
@@ -260,12 +288,18 @@ private struct CardFace: View {
 struct FlashcardStackView: View {
     @StateObject var vm: FlashcardsVM
     init(deck: Deck) { _vm = StateObject(wrappedValue: FlashcardsVM(deck: deck)) }
+
     @GestureState private var drag: CGSize = .zero
 
     var body: some View {
         Group {
-            if vm.deck.cards.indices.contains(vm.idx) {
-                let card = vm.deck.cards[vm.idx]
+            if vm.sessionDone || vm.currentCard == nil {
+                VStack(spacing: 12) {
+                    Image(systemName: "checkmark.circle.fill").font(.system(size: 48))
+                    Text("Session complete")
+                }
+                .padding()
+            } else if let card = vm.currentCard {
                 ZStack {
                     CardFace(text: vm.flipped ? card.back : card.front)
                         .rotation3DEffect(.degrees(vm.flipped ? 180 : 0), axis: (x: 0, y: 1, z: 0))
@@ -277,24 +311,27 @@ struct FlashcardStackView: View {
                     DragGesture()
                         .updating($drag) { v, s, _ in s = v.translation }
                         .onEnded { v in
-                            if v.translation.width < -80 { vm.mark(.again) }
-                            else if v.translation.width > 80 { vm.mark(.good) }
+                            withAnimation(.spring()) {
+                                if v.translation.width < -80 { vm.mark(.again) }   // swipe left = Again
+                                else if v.translation.width > 80 { vm.mark(.good) } // swipe right = Good
+                            }
                         }
                 )
                 .onTapGesture { withAnimation(.spring()) { vm.flipped.toggle() } }
                 .toolbar {
                     ToolbarItemGroup(placement: .bottomBar) {
-                        Button("Again") { vm.mark(.again) }
+                        Button("Again") { withAnimation(.spring()) { vm.mark(.again) } }
                         Spacer()
-                        Button("Hard") { vm.mark(.hard) }
-                        Button("Good") { vm.mark(.good) }
-                        Button("Easy") { vm.mark(.easy) }
+                        Button("Hard")  { withAnimation(.spring()) { vm.mark(.hard)  } }
+                        Button("Good")  { withAnimation(.spring()) { vm.mark(.good)  } }
+                        Button("Easy")  { withAnimation(.spring()) { vm.mark(.easy)  } }
                     }
                 }
-            } else { Text("No cards available").padding() }
+            }
         }
     }
 }
+
 
 // Learn (adaptive)
 struct LearnModeView: View {
@@ -569,4 +606,173 @@ enum Demo {
 
 // Preview
 #Preview { ContentView() }
+
+
+import SwiftUI
+import PhotosUI
+import UIKit
+
+/// One page that links to all study modes and exercises utilities (TTS, recorder, OCR, import).
+struct AllFunctionsHubView: View {
+    @State private var deck = Deck(
+        id: "demo",
+        title: "Sample Deck",
+        cards: [
+            Card(id: "1", front: "Capital of France", back: "Paris"),
+            Card(id: "2", front: "2 + 2", back: "4"),
+            Card(id: "3", front: "Hello in Spanish", back: "Hola"),
+            Card(id: "4", front: "H2O is", back: "Water")
+        ]
+    )
+
+    @StateObject private var recorder = AudioRecorder()
+    @State private var showImport = false
+    @State private var showNewSet = false
+    @State private var ocrLines: [String] = []
+    @State private var pickedItem: PhotosPickerItem?
+
+    var body: some View {
+        NavigationStack {
+            List {
+                Section("Study modes") {
+                    NavigationLink("Flashcards") { FlashcardStackView(deck: deck) }
+                    NavigationLink("Learn (adaptive)") { LearnModeView(deck: deck) }
+                    NavigationLink("Write") { WriteModeView(deck: deck) }
+                    NavigationLink("Test") { TestModeView(deck: deck) }
+                    NavigationLink("Match") { MatchGameView(deck: deck) }
+                    NavigationLink("Diagram labeling") { DiagramLabelingView(image: Image(systemName: "photo"), pins: []) }
+                    NavigationLink("Live") { LiveLobbyView() }
+                }
+
+                Section("Create & Import") {
+                    Button("Create new set") { showNewSet = true }
+                    Button("Paste CSV/TSV and import") { showImport = true }
+                }
+
+                Section("Audio") {
+                    HStack {
+                        Button("Speak front") { Speaker.shared.say(deck.cards.first?.front ?? "") }
+                        Button("Speak back")  { Speaker.shared.say(deck.cards.first?.back  ?? "") }
+                    }
+                    HStack {
+                        Button(recorder.isRecording ? "Recording…" : "Start record") {
+                            do { try recorder.start() } catch { }
+                        }.disabled(recorder.isRecording)
+                        Button("Stop") { recorder.stop() }.disabled(!recorder.isRecording)
+                    }
+                }
+
+                Section("OCR") {
+                    PhotosPicker(selection: $pickedItem, matching: .images) {
+                        Label("Pick image for OCR", systemImage: "doc.text.viewfinder")
+                    }
+                    if !ocrLines.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("OCR result").font(.subheadline).foregroundStyle(.secondary)
+                            ForEach(ocrLines, id: \.self) { Text("• \($0)") }
+                        }
+                    }
+                }
+            }
+            .navigationTitle(deck.title)
+        }
+        .sheet(isPresented: $showImport) { ImportSheet(deck: $deck) }
+        .sheet(isPresented: $showNewSet) {
+            NewSetSheet { newDeck in deck = newDeck }
+        }
+        .onChange(of: pickedItem) { _, item in
+            guard let item else { return }
+            Task {
+                if let data = try? await item.loadTransferable(type: Data.self),
+                   let ui = UIImage(data: data),
+                   let cg = ui.cgImage {
+                    recognizeText(from: cg) { lines in
+                        DispatchQueue.main.async { ocrLines = lines }
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+// MARK: - Import sheet
+
+private struct ImportSheet: View {
+    @Binding var deck: Deck
+    @Environment(\.dismiss) private var dismiss
+    @State private var src = ""
+
+    var body: some View {
+        NavigationStack {
+            VStack(spacing: 12) {
+                Text("Paste CSV/TSV (front;back)").font(.headline)
+                TextEditor(text: $src).frame(minHeight: 200).border(.secondary)
+                Button("Parse and replace deck") {
+                    if let cards = try? ImportService.parse(text: src), !cards.isEmpty {
+                        deck = Deck(id: UUID().uuidString, title: "Imported", cards: cards)
+                        dismiss()
+                    }
+                }
+            }
+            .padding()
+            .navigationTitle("Import")
+            .toolbar { ToolbarItem(placement: .cancellationAction) { Button("Close") { dismiss() } } }
+        }
+    }
+}
+
+private struct NewSetSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    @State private var title: String = ""
+    @State private var rows: [EditableCard] = [EditableCard(), EditableCard()]
+    let onSave: (Deck) -> Void
+
+    var body: some View {
+        NavigationStack {
+            Form {
+                Section("Title") {
+                    TextField("Set title", text: $title)
+                }
+                Section("Cards") {
+                    ForEach($rows) { $row in
+                        VStack(spacing: 8) {
+                            TextField("Front", text: $row.front)
+                            TextField("Back",  text: $row.back)
+                            Divider()
+                        }
+                    }
+                    Button {
+                        rows.append(EditableCard())
+                    } label: {
+                        Label("Add card", systemImage: "plus.circle")
+                    }
+                }
+            }
+            .navigationTitle("New set")
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Cancel") { dismiss() }
+                }
+                ToolbarItem(placement: .confirmationAction) {
+                    Button("Save") {
+                        let cards = rows
+                            .filter { !$0.front.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty &&
+                                      !$0.back.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty }
+                            .map { Card(id: UUID().uuidString, front: $0.front, back: $0.back) }
+                        guard !title.isEmpty, !cards.isEmpty else { return }
+                        onSave(Deck(id: UUID().uuidString, title: title, cards: cards))
+                        dismiss()
+                    }
+                }
+            }
+        }
+    }
+}
+
+private struct EditableCard: Identifiable {
+    let id = UUID()
+    var front: String = ""
+    var back: String = ""
+}
 

@@ -177,63 +177,52 @@ struct HomeTabSubView: View {
                     .padding(.horizontal, 16)
             }
             
-            VStack(spacing: 8) {
-                // Tap chart to see all days ever worked
-                
-                Chart {
-                    ForEach(Array(lastSevenDays.enumerated()), id: \.offset) { index, day in
-                        BarMark(
-                            x: .value("Day", dateFormatter.string(from: day)),
-                            y: .value("Minutes", chartData[index])
-                        )
-                        .foregroundStyle(.orange)
-                    }
-                }
-                .chartXScale(domain: lastSevenDays.map { dateFormatter.string(from: $0) })
-                .chartYScale(domain: 0...maxY)
-                .chartXAxisLabel("Day")
-                .chartYAxisLabel("Minutes")
-                .frame(height: 200)
-                .padding(.horizontal, 16)
-                .accessibilityLabel("See all your study sessions as a graph")
-                .contentShape(Rectangle())
-                
-            }
-            .padding(.vertical, 16)
-            .background {
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(.ultraThinMaterial)
-            }
-            .overlay(
-                
-                RoundedRectangle(cornerRadius: 20, style: .continuous)
-                    .fill(
-                        LinearGradient(
-                            colors: [
-                                Color.orange.opacity(0.12),
-                                Color.orange.opacity(0.08)
-                            ],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-            )
-            .padding(.horizontal, 16)
-            .animation(.spring(), value: statsModel.streak)
-            
             NavigationLink {
                 WorkSessionsGraphDetailView(userId: user.id)
             } label: {
-                ZStack {
+                VStack(spacing: 8) {
+                    // Tap chart to see all days ever worked
                     
+                    Chart {
+                        ForEach(Array(lastSevenDays.enumerated()), id: \.offset) { index, day in
+                            BarMark(
+                                x: .value("Day", dateFormatter.string(from: day)),
+                                y: .value("Minutes", chartData[index])
+                            )
+                            .foregroundStyle(.orange)
+                        }
+                    }
+                    .chartXScale(domain: lastSevenDays.map { dateFormatter.string(from: $0) })
+                    .chartYScale(domain: 0...maxY)
+                    .chartXAxisLabel("Day")
+                    .chartYAxisLabel("Minutes")
+                    .frame(height: 200)
+                    .padding(.horizontal, 16)
+                    .accessibilityLabel("See all your study sessions as a graph")
+                    .contentShape(Rectangle())
+                    
+                }
+                .padding(.vertical, 16)
+                .background {
                     RoundedRectangle(cornerRadius: 20, style: .continuous)
                         .fill(.ultraThinMaterial)
-                    
-                    Text("See all my work time")
-                        .foregroundStyle(.orange)
-                        .font(.title3.weight(.bold))
                 }
-                .padding()
+                .overlay(
+                    
+                    RoundedRectangle(cornerRadius: 20, style: .continuous)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.orange.opacity(0.12),
+                                    Color.orange.opacity(0.08)
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                )
+                .padding(.horizontal, 16)
+                .animation(.spring(), value: statsModel.streak)
             }
 
             

@@ -275,6 +275,11 @@ struct PomodoroTimerView: View {
                                     showReset = true
                                 }
                             }
+                            Button("Finish session") { showQuit = true }
+                                .font(.callout)
+                                .foregroundColor(.red)
+                                .padding()
+                                .glassEffect()
                         }
                         .frame(width: geo.size.width * 0.45)
                         
@@ -405,21 +410,27 @@ struct PomodoroTimerView: View {
         
         if phase == .work {
             workCount += 1
-            Task {
-                do {
-                    try await UserManager
-                      .shared
-                      .addStudySessionRegisteredToUser(
-                        userId: userId,
-                        studiedSubject: userWillStudy,
-                        start: startTime ?? end,
-                        end: end,
-                        noteId: noteId
-                      )
-                    await fetchSessions(initial: true)
-                } catch {
-                    print("Error adding study session: \(error)")
+            let studyStart = startTime ?? end
+            let duration = end.timeIntervalSince(studyStart)
+            if duration >= 1500 { // Only save if session lasted at least 25 minutes
+                Task {
+                    do {
+                        try await UserManager
+                          .shared
+                          .addStudySessionRegisteredToUser(
+                            userId: userId,
+                            studiedSubject: userWillStudy,
+                            start: studyStart,
+                            end: end,
+                            noteId: noteId
+                          )
+                        await fetchSessions(initial: true)
+                    } catch {
+                        print("Error adding study session: \(error)")
+                    }
                 }
+            } else {
+                print("Pomodoro session NOT saved: duration \(duration) seconds < 25 minutes.")
             }
         }
         

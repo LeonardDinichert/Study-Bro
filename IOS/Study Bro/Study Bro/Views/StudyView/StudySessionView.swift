@@ -61,7 +61,7 @@ struct StudySessionView: View {
             .sheet(isPresented: $openMeditationView) {
                 MeditationPreWorkView(openMeditationView: $openMeditationView)
             }
-            .sheet(isPresented: $startSession) {
+            .fullScreenCover(isPresented: $startSession) {
                 PomodoroTimerView(startSession: $startSession, userWillStudy: $userWillStudy, userId: $userId, noteId: .constant(""))
             }
             .task {

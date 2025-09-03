@@ -86,6 +86,9 @@
     "•" : {
 
     },
+    "• %@" : {
+
+    },
     "• Once 7 days have data out of your last 7 days, your graph will appear here." : {
       "localizations" : {
         "de" : {
@@ -392,6 +395,9 @@
     "Add a question" : {
 
     },
+    "Add card" : {
+
+    },
     "Add friend" : {
       "localizations" : {
         "de" : {
@@ -559,6 +565,12 @@
     "Attach Document" : {
 
     },
+    "Audio" : {
+
+    },
+    "Back" : {
+
+    },
     "Begin the pomodoro timer" : {
       "localizations" : {
         "de" : {
@@ -684,6 +696,9 @@
 
     },
     "Cancel subscription?" : {
+
+    },
+    "Cards" : {
 
     },
     "Category" : {
@@ -828,6 +843,9 @@
     "Correct!" : {
 
     },
+    "Create & Import" : {
+
+    },
     "Create an Account" : {
       "localizations" : {
         "de" : {
@@ -883,6 +901,9 @@
           }
         }
       }
+    },
+    "Create new set" : {
+
     },
     "Create session" : {
 
@@ -1390,6 +1411,9 @@
       }
     },
     "From: %@" : {
+
+    },
+    "Front" : {
 
     },
     "Go premium" : {
@@ -2191,6 +2215,9 @@
         }
       }
     },
+    "New set" : {
+
+    },
     "Next" : {
       "localizations" : {
         "de" : {
@@ -2252,9 +2279,6 @@
           }
         }
       }
-    },
-    "No cards available" : {
-
     },
     "No joint documents" : {
 
@@ -2405,6 +2429,12 @@
     "Notifications" : {
 
     },
+    "OCR" : {
+
+    },
+    "OCR result" : {
+
+    },
     "OK" : {
       "localizations" : {
         "de" : {
@@ -2507,6 +2537,9 @@
     "Parse" : {
 
     },
+    "Parse and replace deck" : {
+
+    },
     "Password reset" : {
       "localizations" : {
         "de" : {
@@ -2535,7 +2568,16 @@
         }
       }
     },
+    "Paste CSV/TSV (front;back)" : {
+
+    },
+    "Paste CSV/TSV and import" : {
+
+    },
     "Paste CSV/TSV/CSV" : {
+
+    },
+    "Pick image for OCR" : {
 
     },
     "Plan" : {
@@ -2774,6 +2816,9 @@
 
     },
     "Quizlet-like Live" : {
+
+    },
+    "Recording…" : {
 
     },
     "Reset" : {
@@ -3023,9 +3068,6 @@
         }
       }
     },
-    "See all my work time" : {
-
-    },
     "See all your study sessions as a graph" : {
 
     },
@@ -3109,6 +3151,9 @@
         }
       }
     },
+    "Session complete" : {
+
+    },
     "Session History" : {
       "localizations" : {
         "de" : {
@@ -3151,6 +3196,9 @@
 
     },
     "Set Note Details" : {
+
+    },
+    "Set title" : {
 
     },
     "Settings" : {
@@ -3330,6 +3378,12 @@
         }
       }
     },
+    "Speak back" : {
+
+    },
+    "Speak front" : {
+
+    },
     "Start a study session to see your progress, or check that your session times are correct!" : {
 
     },
@@ -3337,6 +3391,9 @@
 
     },
     "Start Monthly" : {
+
+    },
+    "Start record" : {
 
     },
     "Start Yearly" : {
@@ -3369,6 +3426,9 @@
           }
         }
       }
+    },
+    "Stop" : {
+
     },
     "Streak & History" : {
 
@@ -3459,6 +3519,9 @@
           }
         }
       }
+    },
+    "Study modes" : {
+
     },
     "Study Session" : {
       "localizations" : {
@@ -3628,7 +3691,6 @@
 
     },
     "Title" : {
-      "extractionState" : "stale",
       "localizations" : {
         "de" : {
           "stringUnit" : {

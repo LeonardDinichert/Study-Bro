@@ -2,16 +2,16 @@ import SwiftUI
 import PhotosUI
 
 struct EditProfileView: View {
-    var user: DBUser
+    @State var user: DBUser
     @State private var username: String = ""
     @State private var selectedItem: PhotosPickerItem?
     @State private var selectedImageData: Data?
     @StateObject private var viewModel = userManagerViewModel()
     
     init(user: DBUser) {
-        self.user = user
+        _user = State(initialValue: user)
         _viewModel = StateObject(wrappedValue: userManagerViewModel())
-      }
+    }
 
     var body: some View {
         ZStack {
@@ -109,10 +109,28 @@ struct EditProfileView: View {
 
     func save() async {
         if let data = selectedImageData {
-            try? await viewModel.saveProfileImage(data: data, userId: user.userId)
+            guard let img = UIImage(data: data), let jpegData = img.jpegData(compressionQuality: 0.9) else {
+                print("Failed to convert selected image data to JPEG.")
+                return
+            }
+            do {
+                try await viewModel.saveProfileImage(data: jpegData, userId: user.userId)
+            } catch {
+                print("Failed to upload image: \(error)")
+            }
         }
         if username != user.username {
-            try? await UserManager.shared.updateUsername(userId: user.userId, username: username)
+            do {
+                try await UserManager.shared.updateUsername(userId: user.userId, username: username)
+            } catch {
+                print("Failed to update username: \(error)")
+            }
+        }
+        do {
+            let updatedUser = try await UserManager.shared.getUser(userId: user.userId)
+            await MainActor.run { self.user = updatedUser }
+        } catch {
+            print("Failed to reload user: \(error)")
         }
     }
 }

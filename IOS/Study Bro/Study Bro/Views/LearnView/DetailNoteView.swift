@@ -57,6 +57,8 @@ struct DetailNoteView: View {
         }
     }
     
+    
+    
     var body: some View {
         ZStack {
 
@@ -323,7 +325,8 @@ struct DetailNoteView: View {
                         startSession: $showPomodoro,
                         userWillStudy: .constant(note.text),
                         userId: $pomodoroUserId, noteId: .constant(note.id ?? "none")
-                    ).onDisappear {
+                    )
+                    .onDisappear {
                         promptAutoTest = true
                         
                     }
@@ -350,6 +353,7 @@ struct DetailNoteView: View {
                     }
                 }
             }
+            
             .onAppear(perform: {
                 // Compute how many reminders are true, in order
                 let count = reminders.prefix { $0 }.count

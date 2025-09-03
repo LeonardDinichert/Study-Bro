@@ -36,6 +36,17 @@ struct LearnedSomethingView: View {
     @State private var lastAcceptedNoteId: String? = nil
     @State private var showSetImportanceSheet: Bool = false
 
+    private let deck = Deck(
+            id: "demo",
+            title: "Sample Deck",
+            cards: [
+                Card(id: "1", front: "Capital of France", back: "Paris"),
+                Card(id: "2", front: "2 + 2", back: "4"),
+                Card(id: "3", front: "Hello in Spanish", back: "Hola"),
+                Card(id: "4", front: "H2O is", back: "Water")
+            ]
+        )
+
 
 
     
@@ -208,6 +219,8 @@ struct LearnedSomethingView: View {
                     }
                     .accessibilityLabel("Incoming Shared Notes")
                 }
+                
+                
 //                ToolbarItem(placement: .navigationBarTrailing) {
 //                    if let deck = flashcardDeck {
 //                        NavigationLink {
@@ -221,15 +234,24 @@ struct LearnedSomethingView: View {
 //                    }
 //                }
             }
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    NavigationLink {
+                        AllFunctionsHubView()
+                    } label: {
+                        Image(systemName: "paperplane")
+                    }
+                }
+            }
             // DetailNoteView sheet for selected note
             .sheet(item: $selectedNote) { note in
                 DetailNoteView(note: note)
                     .background(.regularMaterial)
             }
-            .sheet(isPresented: $showQuickQuizPopup) {
+            .fullScreenCover(isPresented: $showQuickQuizPopup) {
                 QuickQuizPopup(note: selectedNote, isPresented: $showQuickQuizPopup, wrongAnswer: $quizWrongAnswer, answeredCorrectly: $quizAnsweredCorrectly, dismissAfterWrong: $quizDismissAfterWrong, answerText: $quizAnswerText, onWrongAnswer: { note in
                     // Schedule notification for next day
-                    if let note = note, let noteId = note.id, let userId = Auth.auth().currentUser?.uid {
+                    if let note = note, let noteId = note.id, Auth.auth().currentUser?.uid != nil {
                         let content = UNMutableNotificationContent()
                         content.title = "Study Bro"
                         content.body = note.text
@@ -443,4 +465,3 @@ struct QuickQuizPopup: View {
 #Preview {
     LearnedSomethingView(deepLinkNoteID: nil, reminderNumber: 0)
 }
-
